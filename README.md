@@ -1,10 +1,10 @@
-# xmtp-trendingmints-bot
+# XMTP Trending Mints Bot
 
 This is a PoC for an XMTP bot sending Base trending mints alert to subscribed users
 
-# How does it work
+## How does it work
 
-## Subscribing
+### Subscribing
 
 1. A user can message the trendingmints.eth bot from any XMTP client.
 2. The bot will respond with a pre-defined message (e.g. "Welcome to the trendingmints bot where you get instant alerts when mints start trending.")
@@ -12,17 +12,17 @@ This is a PoC for an XMTP bot sending Base trending mints alert to subscribed us
 4. Once the users replies with their choice, they are subscribed to trendingmints.eth bot (their preference is stored on a Redis DB)
 5. The bot will send back to the user a message to confirm the successfull subscription.
 
-## Distribution
+### Distribution
 
 - Every hour, every two hours and every day at 6pm UTC, a cronjob is running to check the latest trending mints and notify the users accordingly to theri preference
 - The bot send the current top 2 trending mints, ensuring they have not been sent already in a previous message
 - For each trending mint we include a link to a Frame supporting XMTP that shows the NFT image, the name of the collection and the number of total mints. In addition, the frame will have a button that redirects to Zora for minting purposes.
 
-## Unsubscribing
+### Unsubscribing
 
 If the user sends "stop" or "unsubscribe", they are removed from the list and will no more receive any mint.
 
-# Getting started
+## Getting started
 
 To install dependencies:
 
@@ -44,7 +44,7 @@ yarn build:watch
 yarn start:watch
 ```
 
-## Environment
+### Environment
 
 ```bash
 cp .env.example .env
