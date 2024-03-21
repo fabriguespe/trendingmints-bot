@@ -1,5 +1,5 @@
-import createClient from "./client";
-import HandlerContext from "./handler-context";
+import createClient from "./client.js";
+import HandlerContext from "./handler-context.js";
 
 type Handler = (message: HandlerContext) => Promise<void>;
 
@@ -10,10 +10,10 @@ export default async function run(handler: Handler) {
 
   for await (const message of await client.conversations.streamAllMessages(
     () => {
-      console.log("connection lost");
+      console.log("Connection lost");
     }
   )) {
-    console.log(`Got a message`, message);
+    if (process.env.DEBUG === "true") console.log(`Got a message`, message);
 
     try {
       if (message.senderAddress == client.address) {

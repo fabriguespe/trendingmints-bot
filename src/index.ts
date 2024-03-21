@@ -1,15 +1,18 @@
 import "dotenv/config";
 import { privateKeyToAccount } from "viem/accounts";
 import HandlerContext from "./handler-context";
-import run from "./runner";
-import { getRedisClient } from "./redis";
-import { Preference } from "./types";
+import run from "./runner.js";
+import { getRedisClient } from "./redis.js";
+import { Preference } from "./types.js";
+import { Cron } from "croner";
+import { TimeFrame } from "./lib/airstack-types.js";
+import { fetchAndSendTrendingMints } from "./cron.js";
 
 const inMemoryCache = new Map<string, number>();
 
 run(async (context: HandlerContext) => {
   const { message } = context;
-  const wallet = privateKeyToAccount(process.env.PRIVATE_KEY as `0x${string}`);
+  const wallet = privateKeyToAccount(process.env.KEY as `0x${string}`);
 
   const { content, senderAddress } = message;
 
@@ -39,7 +42,7 @@ run(async (context: HandlerContext) => {
     );
     // send the second message
     await context.reply(
-      "How often would you like me to send you new mints?\n\n1. Right away - let me know once it starts trending;\n2. Every few hours - keep me updated;\n3.Once a day - send me the top 5 of the day."
+      "How often would you like me to send you new mints?\n\n1️⃣ Right away - let me know once it starts trending;\n2️⃣ Every few hours - keep me updated;\n3️⃣ Once a day - send me the top 5 of the day.\n\n✍️ (reply with 1, 2 or 3)"
     );
 
     inMemoryCache.set(senderAddress, 1);
@@ -67,3 +70,17 @@ run(async (context: HandlerContext) => {
     );
   }
 });
+
+if ((process.env.DEBUG = "true")) {
+  // Run the cron job every 5 seconds
+  Cron("*/5 * * * * *", fetchAndSendTrendingMints(TimeFrame.OneHour) as any);
+}
+
+// Run the cron job every hour
+Cron("0 0 * * * *", fetchAndSendTrendingMints(TimeFrame.OneHour) as any);
+
+// Run the cron job every 2 hours
+Cron("0 0 */2 * * *", fetchAndSendTrendingMints(TimeFrame.TwoHours) as any);
+
+// Run the cron job every day
+Cron("0 0 18 * * *", fetchAndSendTrendingMints(TimeFrame.OneDay) as any);

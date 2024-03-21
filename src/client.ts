@@ -1,6 +1,6 @@
 import { Client } from "@xmtp/xmtp-js";
 import { Wallet } from "ethers";
-import { getRedisClient } from "./redis";
+import { getRedisClient } from "./redis.js";
 
 export default async function createClient(): Promise<Client> {
   const key = process.env.KEY;

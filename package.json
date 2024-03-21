@@ -1,10 +1,11 @@
 {
-  "name": "brian-xmtp-bot",
-  "module": "src/index.ts",
+  "name": "xmtp-trendingmints-bot",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc -w",
-    "start": "node dist/index.js",
+    "start:watch": "nodemon dist/src/index.js",
+    "start": "node dist/src/index.js",
     "generate": "npx graphql-codegen",
     "prestart": "yarn generate",
     "predev": "yarn generate"
@@ -14,7 +15,9 @@
     "@graphql-codegen/typescript": "^4.0.6",
     "@graphql-codegen/typescript-operations": "^4.2.0",
     "@parcel/watcher": "^2.4.1",
-    "bun-types": "latest"
+    "@types/node-cron": "^3",
+    "bun-types": "latest",
+    "nodemon": "^3.1.0"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
@@ -29,5 +32,6 @@
     "ethers": "^5.7.2",
     "typescript": "^5.4.3",
     "viem": "^2.8.16"
-  }
+  },
+  "packageManager": "yarn@4.1.1"
 }

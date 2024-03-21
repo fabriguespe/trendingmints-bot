@@ -1,40 +1,70 @@
-import { fetchTrendingMints } from "./lib";
-import createClient from "./client";
+import { fetchTrendingMints } from "./lib/airstack.js";
+import createClient from "./client.js";
 
-import { Cron } from "croner";
-import { TimeFrame, TrendingMintsCriteria } from "./lib/airstack-types";
-import { getRedisClient } from "./redis";
-import { Preference } from "./types";
+import { TimeFrame, TrendingMintsCriteria } from "./lib/airstack-types.js";
+import { getRedisClient } from "./redis.js";
+import { Preference } from "./types.js";
 
-// run every 1 hr
-Cron("*/5 * * * * *", async () => {
+const mapTimeFrameToPreference = (timeFrame: TimeFrame) => {
+  switch (timeFrame) {
+    case TimeFrame.OneDay:
+      return Preference.ONCE_A_DAY;
+    case TimeFrame.TwoHours:
+      return Preference.EVERY_FEW_HOURS;
+    case TimeFrame.OneHour:
+      return Preference.RIGHT_AWAY;
+  }
+};
+
+export const fetchAndSendTrendingMints = async (timeFrame: TimeFrame) => {
+  // Instantiate clients
   const xmtpClient = await createClient();
   const redisClient = await getRedisClient();
 
+  // Fetch trending mints from Airstack
   const trendingMints = await fetchTrendingMints(
-    TimeFrame.OneHour,
+    timeFrame,
     TrendingMintsCriteria.TotalMints
   );
 
+  // If no trending mints are found, log and return
   if (!trendingMints || trendingMints.length === 0) {
     console.log("No trending mints found");
     return;
   }
 
+  // Fetch open conversations aka all the addresses that have interacted with the bot
   const conversations = await xmtpClient.conversations.list();
 
+  // Iterate over each conversation
   for await (const conversation of conversations) {
+    // Fetch user preference from Redis
     const userPreference = await redisClient.get(
       `pref-${conversation.peerAddress}`
     );
 
-    if (!userPreference || userPreference !== Preference.RIGHT_AWAY) {
+    // If user preference is not set or does not match the current timeframe, skip
+    if (
+      !userPreference ||
+      userPreference !== mapTimeFrameToPreference(timeFrame)
+    ) {
       continue;
     }
 
+    // Send trending mints to user
     await conversation.send("🚀 New mints are trending! Check them out now.");
     await conversation.send(
-      trendingMints.map((mint: any) => mint.token?.name).join("\n")
+      trendingMints
+        .filter(Boolean)
+        .slice(0, 5)
+        .map((mint) =>
+          [
+            mint.token!.name,
+            mint.token?.tokenNfts![0].contentValue?.image?.medium,
+            mint.criteriaCount,
+          ].join(" - ")
+        )
+        .join("\n")
     );
   }
-});
+};

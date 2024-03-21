@@ -1,1 +1,1 @@
-export * from "./airstack";
+export * from "./airstack.js";
