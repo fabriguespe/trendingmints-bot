@@ -1,0 +1,24 @@
+import { Client } from "@xmtp/xmtp-js";
+import { Wallet } from "ethers";
+
+export default async function createClient(): Promise<Client> {
+  const key = process.env.PRIVATE_KEY;
+
+  if (!key) {
+    throw new Error("PRIVATE_KEY not set");
+  }
+
+  const wallet = new Wallet(key);
+
+  if (process.env.XMTP_ENV !== "production" && process.env.XMTP_ENV !== "dev") {
+    throw new Error("XMTP_ENV must be set to 'production' or 'dev'");
+  }
+
+  const client = await Client.create(wallet, {
+    env: process.env.XMTP_ENV as any,
+  });
+
+  await client.publishUserContact();
+
+  return client;
+}

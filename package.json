@@ -1,0 +1,17 @@
+{
+  "name": "brian-xmtp-bot",
+  "module": "src/index.ts",
+  "type": "module",
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@airstack/node": "^0.0.5",
+    "@xmtp/xmtp-js": "^11.2.1",
+    "ethers": "^5.7.2",
+    "viem": "^2.8.16"
+  }
+}
