@@ -34,12 +34,10 @@ run(async (context: HandlerContext) => {
     );
     // send the second message
     await context.reply(
-      "How often would you like me to send you new mints?\n\n1. Right away - let me know once it starts trending;\n\n2. Every few hours - keep me updated;\n\n3.Once a day;\n\n4. Send me the top 5 of the day."
+      "How often would you like me to send you new mints?\n\n1. Right away - let me know once it starts trending;\n2. Every few hours - keep me updated;\n3.Once a day - send me the top 5 of the day."
     );
 
     inMemoryCache.set(senderAddress, 1);
-
-    // TODO: subscribe the user to the Redis DB
   } else if (step === 1) {
     if (
       content !== "1" &&
@@ -52,7 +50,15 @@ run(async (context: HandlerContext) => {
       );
       return;
     }
-  }
 
-  // TODO: set the user preference in the Redis DB
+    // TODO: set the user preference in the Redis DB
+
+    await context.reply("Great. You're all set.");
+    await context.reply(
+      "Since you're just getting caught up, I'll grab you the top 5 trending today, and send them your way. Give me a few minutes."
+    );
+    await context.reply(
+      "Also, if you'd like to unsubscribe, you can do so at any time by saying 'stop' or 'unsubscribe'."
+    );
+  }
 });
