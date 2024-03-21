@@ -1,8 +1,19 @@
 {
   "name": "brian-xmtp-bot",
   "module": "src/index.ts",
-  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc -w",
+    "start": "node dist/index.js",
+    "generate": "npx graphql-codegen",
+    "prestart": "yarn generate",
+    "predev": "yarn generate"
+  },
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/typescript": "^4.0.6",
+    "@graphql-codegen/typescript-operations": "^4.2.0",
+    "@parcel/watcher": "^2.4.1",
     "bun-types": "latest"
   },
   "peerDependencies": {
@@ -10,8 +21,13 @@
   },
   "dependencies": {
     "@airstack/node": "^0.0.5",
+    "@redis/client": "^1.5.14",
+    "@xmtp/redis-persistence": "^0.0.4",
     "@xmtp/xmtp-js": "^11.2.1",
+    "croner": "^8.0.1",
+    "dotenv": "^16.4.5",
     "ethers": "^5.7.2",
+    "typescript": "^5.4.3",
     "viem": "^2.8.16"
   }
 }

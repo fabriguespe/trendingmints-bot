@@ -8,7 +8,11 @@ export default async function run(handler: Handler) {
 
   console.log(`Listening on ${client.address}`);
 
-  for await (const message of await client.conversations.streamAllMessages()) {
+  for await (const message of await client.conversations.streamAllMessages(
+    () => {
+      console.log("connection lost");
+    }
+  )) {
     console.log(`Got a message`, message);
 
     try {

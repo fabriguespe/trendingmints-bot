@@ -1,5 +1,6 @@
 import { Client } from "@xmtp/xmtp-js";
 import { Wallet } from "ethers";
+import { getRedisClient } from "./redis";
 
 export default async function createClient(): Promise<Client> {
   const key = process.env.KEY;
@@ -14,11 +15,18 @@ export default async function createClient(): Promise<Client> {
     throw new Error("XMTP_ENV must be set to 'production' or 'dev'");
   }
 
+  const redisClient = await getRedisClient();
+  const redisPersistence = await import("@xmtp/redis-persistence");
   const client = await Client.create(wallet, {
+    basePersistence: new redisPersistence.RedisPersistence(
+      // @ts-ignore
+      redisClient,
+      "xmtp:"
+    ),
     env: process.env.XMTP_ENV as any,
   });
 
-  await client.publishUserContact();
+  // await client.publishUserContact();
 
   return client;
 }

@@ -1,23 +1,40 @@
-import { fetchQuery } from "@airstack/node";
-import { TRENDING_MINTS_QUERY_BASE } from "./lib";
+import { fetchTrendingMints } from "./lib";
 import createClient from "./client";
 
-const execute = async () => {
-  const { data, error } = await fetchQuery(TRENDING_MINTS_QUERY_BASE, {
-    timeFrame: "one_hour",
-    criteria: "unique_wallets",
-  });
+import { Cron } from "croner";
+import { TimeFrame, TrendingMintsCriteria } from "./lib/airstack-types";
+import { getRedisClient } from "./redis";
+import { Preference } from "./types";
 
-  if (error) {
-    console.error(error);
-    process.exit(1);
+// run every 1 hr
+Cron("*/5 * * * * *", async () => {
+  const xmtpClient = await createClient();
+  const redisClient = await getRedisClient();
+
+  const trendingMints = await fetchTrendingMints(
+    TimeFrame.OneHour,
+    TrendingMintsCriteria.TotalMints
+  );
+
+  if (!trendingMints || trendingMints.length === 0) {
+    console.log("No trending mints found");
+    return;
   }
 
-  const xmtpClient = await createClient();
+  const conversations = await xmtpClient.conversations.list();
 
-  // TODO: retrieve users from the database and send them a message
-  // if it's the first delivery to the user, send the top 5 trending
-  // if it's not the first delivery to the user, send the new trending only if it matches their preference
-};
+  for await (const conversation of conversations) {
+    const userPreference = await redisClient.get(
+      `pref-${conversation.peerAddress}`
+    );
 
-execute();
+    if (!userPreference || userPreference !== Preference.RIGHT_AWAY) {
+      continue;
+    }
+
+    await conversation.send("🚀 New mints are trending! Check them out now.");
+    await conversation.send(
+      trendingMints.map((mint: any) => mint.token?.name).join("\n")
+    );
+  }
+});

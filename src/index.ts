@@ -1,6 +1,9 @@
+import "dotenv/config";
 import { privateKeyToAccount } from "viem/accounts";
 import HandlerContext from "./handler-context";
 import run from "./runner";
+import { getRedisClient } from "./redis";
+import { Preference } from "./types";
 
 const inMemoryCache = new Map<string, number>();
 
@@ -15,6 +18,8 @@ run(async (context: HandlerContext) => {
     return;
   }
 
+  const redisClient = await getRedisClient();
+
   // get the current step we're in
   const step = inMemoryCache.get(senderAddress);
 
@@ -24,7 +29,7 @@ run(async (context: HandlerContext) => {
     content.toLowerCase() === "unsubscribe"
   ) {
     // unsubscribe the user
-    // TODO: unsubscribe the user from Redis DB
+    await redisClient.del(senderAddress);
   }
 
   if (!step) {
@@ -40,18 +45,18 @@ run(async (context: HandlerContext) => {
     inMemoryCache.set(senderAddress, 1);
   } else if (step === 1) {
     if (
-      content !== "1" &&
-      content !== "2" &&
-      content !== "3" &&
-      content !== "4"
+      content !== Preference.RIGHT_AWAY &&
+      content !== Preference.EVERY_FEW_HOURS &&
+      content !== Preference.ONCE_A_DAY
     ) {
       await context.reply(
-        "Invalid option selected. Please enter a valid option (1, 2, 3, 4)"
+        "Invalid option selected. Please enter a valid option (1, 2 or 3)"
       );
       return;
     }
 
-    // TODO: set the user preference in the Redis DB
+    // store the user's preference
+    await redisClient.set(`pref-${senderAddress}`, content);
 
     await context.reply("Great. You're all set.");
     await context.reply(
