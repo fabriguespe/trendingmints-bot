@@ -53,8 +53,15 @@ export const fetchAndSendTrendingMints = async (timeFrame: TimeFrame) => {
 
     // Send trending mints to user
     await conversation.send("🚀 New mints are trending! Check them out now.");
+
+    // TODO:
+    // instead of sending the message in text format, for each trending mint send a message with a custom frame link
+    // https://mint.builders.garden/<chain>/<contractAddress> ---> we need to create this frame
+    // the frame should have the mint's image, name, and number of trending mints
+    // a single button that redirects to https://zora.co/collect/<chain>:<contractAddress>
     await conversation.send(
       trendingMints
+        // TODO: filter out trending mints that where already sent in previous messages
         .filter(Boolean)
         .slice(0, 5)
         .map((mint) =>
