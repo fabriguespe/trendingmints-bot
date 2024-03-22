@@ -71,9 +71,10 @@ run(async (context: HandlerContext) => {
   }
 });
 
-if ((process.env.DEBUG = "true")) {
+if (process.env.DEBUG === "true") {
+  console.log("Running in debug mode");
   // Run the cron job every 5 seconds
-  Cron("*/5 * * * * *", fetchAndSendTrendingMints(TimeFrame.OneHour) as any);
+  Cron("*/10 * * * * *", fetchAndSendTrendingMints(TimeFrame.OneHour) as any);
 }
 
 // Run the cron job every hour
