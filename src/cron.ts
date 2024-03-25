@@ -105,7 +105,7 @@ export const fetchAndSendTrendingMints = async (timeFrame: TimeFrame) => {
     await Promise.all(
       mintsToSendSlice.map((mint) =>
         conversation.send(
-          `https://mint.builders.garden/api/base?a=${mint.address}&c=${mint.criteriaCount}`
+          `https://mint.builders.garden/frame/base?a=${mint.address}&c=${mint.criteriaCount}`
         )
       )
     );
