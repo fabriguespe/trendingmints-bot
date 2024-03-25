@@ -68,6 +68,8 @@ run(async (context: HandlerContext) => {
     await context.reply(
       "Also, if you'd like to unsubscribe, you can do so at any time by saying 'stop' or 'unsubscribe'."
     );
+
+    await fetchAndSendTrendingMints(TimeFrame.OneHour);
   }
 });
 
