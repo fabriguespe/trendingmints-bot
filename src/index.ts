@@ -68,12 +68,15 @@ run(async (context: HandlerContext) => {
     await context.reply(
       "Also, if you'd like to unsubscribe, you can do so at any time by saying 'stop' or 'unsubscribe'."
     );
+
+    await fetchAndSendTrendingMints(TimeFrame.OneHour);
   }
 });
 
-if ((process.env.DEBUG = "true")) {
+if (process.env.DEBUG === "true") {
+  console.log("Running in debug mode");
   // Run the cron job every 5 seconds
-  Cron("*/5 * * * * *", fetchAndSendTrendingMints(TimeFrame.OneHour) as any);
+  Cron("*/10 * * * * *", fetchAndSendTrendingMints(TimeFrame.OneHour) as any);
 }
 
 // Run the cron job every hour
