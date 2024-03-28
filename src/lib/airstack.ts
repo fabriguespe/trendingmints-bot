@@ -5,7 +5,7 @@ import {
   TrendingMintsCriteria,
   TrendingsMintsQuery,
 } from "./airstack-types";
-import { getRedisClient } from "src/redis";
+import { getRedisClient } from "./redis";
 
 init(process.env.AIRSTACK_API_KEY as string);
 

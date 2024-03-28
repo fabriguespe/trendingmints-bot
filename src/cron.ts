@@ -2,7 +2,7 @@ import { cacheNft, fetchTrendingMints } from "./lib/airstack.js";
 import createClient from "./client.js";
 
 import { TimeFrame, TrendingMintsCriteria } from "./lib/airstack-types.js";
-import { getRedisClient } from "./redis.js";
+import { getRedisClient } from "./lib/redis.js";
 import { Preference } from "./types.js";
 
 const mapTimeFrameToPreference = (timeFrame: TimeFrame) => {

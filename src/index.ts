@@ -2,7 +2,7 @@ import "dotenv/config";
 import { privateKeyToAccount } from "viem/accounts";
 import HandlerContext from "./handler-context";
 import run from "./runner.js";
-import { getRedisClient } from "./redis.js";
+import { getRedisClient } from "./lib/redis.js";
 import { Preference } from "./types.js";
 import { Cron } from "croner";
 import { TimeFrame } from "./lib/airstack-types.js";
