@@ -1,8 +1,8 @@
-import { fetchTrendingMints } from "./lib/airstack.js";
+import { cacheNft, fetchTrendingMints } from "./lib/airstack.js";
 import createClient from "./client.js";
 
 import { TimeFrame, TrendingMintsCriteria } from "./lib/airstack-types.js";
-import { getRedisClient } from "./redis.js";
+import { getRedisClient } from "./lib/redis.js";
 import { Preference } from "./types.js";
 
 const mapTimeFrameToPreference = (timeFrame: TimeFrame) => {
@@ -32,6 +32,13 @@ export const fetchAndSendTrendingMints = async (timeFrame: TimeFrame) => {
     console.log("No trending mints found");
     return;
   }
+
+  // Cache the trending mints
+  await Promise.all(
+    trendingMints
+      .filter((mint) => mint.address)
+      .map(async (mint) => await cacheNft(mint.address!))
+  );
 
   // Fetch open conversations aka all the addresses that have interacted with the bot
   const conversations = await xmtpClient.conversations.list();

@@ -13,6 +13,7 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   Address: { input: any; output: any; }
+  Any: { input: any; output: any; }
   DateRange: { input: any; output: any; }
   Identity: { input: any; output: any; }
   IntString: { input: any; output: any; }
@@ -452,6 +453,25 @@ export type FarcasterChannelsOutput = {
   pageInfo: Maybe<PageInfo>;
 };
 
+export type FarcasterFrameMessageInput = {
+  filter: FarcasterFrameMessageInputFilter;
+};
+
+export type FarcasterFrameMessageInputFilter = {
+  messageBytes: InputMaybe<Scalars['String']['input']>;
+};
+
+export type FarcasterFrameMessageOutput = {
+  castedBy: Maybe<Social>;
+  castedByFid: Maybe<Scalars['Int']['output']>;
+  interactedBy: Maybe<Social>;
+  interactedByFid: Maybe<Scalars['Int']['output']>;
+  isValid: Maybe<Scalars['Boolean']['output']>;
+  message: Maybe<FrameMessage>;
+  messageByte: Maybe<Scalars['String']['output']>;
+  messageRaw: Maybe<Scalars['Map']['output']>;
+};
+
 export type Float_Comparator_Exp = {
   _eq: InputMaybe<Scalars['Float']['input']>;
   _gt: InputMaybe<Scalars['Float']['input']>;
@@ -461,6 +481,42 @@ export type Float_Comparator_Exp = {
   _lte: InputMaybe<Scalars['Float']['input']>;
   _ne: InputMaybe<Scalars['Float']['input']>;
   _nin: InputMaybe<Array<Scalars['Float']['input']>>;
+};
+
+export type FrameMessage = {
+  data: Maybe<FrameMessageData>;
+  hash: Maybe<Scalars['String']['output']>;
+  hashScheme: Maybe<Scalars['String']['output']>;
+  signature: Maybe<Scalars['String']['output']>;
+  signatureScheme: Maybe<Scalars['String']['output']>;
+  signer: Maybe<Scalars['String']['output']>;
+};
+
+export type FrameMessageActionBody = {
+  address: Maybe<Scalars['String']['output']>;
+  buttonIndex: Maybe<Scalars['Int']['output']>;
+  castId: Maybe<FrameMessageCastId>;
+  inputText: Maybe<Scalars['String']['output']>;
+  inputTextDecoded: Maybe<Scalars['String']['output']>;
+  state: Maybe<Scalars['String']['output']>;
+  stateDecoded: Maybe<Scalars['Any']['output']>;
+  transactionHash: Maybe<Scalars['String']['output']>;
+  transactionId: Maybe<Scalars['String']['output']>;
+  url: Maybe<Scalars['String']['output']>;
+  urlDecoded: Maybe<Scalars['String']['output']>;
+};
+
+export type FrameMessageCastId = {
+  fid: Maybe<Scalars['Int']['output']>;
+  hash: Maybe<Scalars['String']['output']>;
+};
+
+export type FrameMessageData = {
+  fid: Maybe<Scalars['Int']['output']>;
+  frameActionBody: Maybe<FrameMessageActionBody>;
+  network: Maybe<Scalars['String']['output']>;
+  time: Maybe<Scalars['Time']['output']>;
+  type: Maybe<Scalars['String']['output']>;
 };
 
 export type Identity_Comparator_Exp = {
@@ -814,6 +870,7 @@ export type Query = {
   Domains: Maybe<DomainsOutput>;
   FarcasterChannelParticipants: Maybe<FarcasterChannelParticipantsOutput>;
   FarcasterChannels: Maybe<FarcasterChannelsOutput>;
+  FarcasterValidateFrameMessage: Maybe<FarcasterFrameMessageOutput>;
   PoapEvents: Maybe<PoapEventsOutput>;
   Poaps: Maybe<PoapsOutput>;
   Snapshots: Maybe<SnapshotsOutput>;
@@ -848,6 +905,11 @@ export type QueryFarcasterChannelParticipantsArgs = {
 
 export type QueryFarcasterChannelsArgs = {
   input: FarcasterChannelsInput;
+};
+
+
+export type QueryFarcasterValidateFrameMessageArgs = {
+  input: FarcasterFrameMessageInput;
 };
 
 
@@ -1015,6 +1077,7 @@ export type Social = {
   /** Blockchain address, ENS domain name, social identity such as Farcaster (for Farcaster use 'fc_fid:' prefix followed by the Farcaster user ID like fc_fid:5650, or use 'fc_fname:' prefix followed by the Farcaster user ID like 'fc_fname:vbuterin') or Lens (e.g. 'stani.lens) */
   identity: Maybe<Scalars['Identity']['output']>;
   isDefault: Maybe<Scalars['Boolean']['output']>;
+  isFarcasterPowerUser: Maybe<Scalars['Boolean']['output']>;
   location: Maybe<Scalars['String']['output']>;
   metadataURI: Maybe<Scalars['String']['output']>;
   profileBio: Maybe<Scalars['String']['output']>;
@@ -1834,3 +1897,10 @@ export type TrendingsMintsQueryVariables = Exact<{
 
 
 export type TrendingsMintsQuery = { TrendingMints: { TrendingMint: Array<{ address: string | null, erc1155TokenID: string | null, criteriaCount: number | null, timeFrom: any | null, timeTo: any | null, token: { name: string | null, symbol: string | null, type: TokenType | null, tokenNfts: Array<{ contentValue: { image: { original: string | null, medium: string | null, large: string | null, extraSmall: string | null, small: string | null } | null } | null }> | null } | null }> | null } | null };
+
+export type NftDetailQueryVariables = Exact<{
+  address: Scalars['Address']['input'];
+}>;
+
+
+export type NftDetailQuery = { TokenNfts: { TokenNft: Array<{ tokenURI: string | null, contentValue: { image: { small: string | null, medium: string | null } | null } | null, metaData: { name: string | null, description: string | null } | null }> | null } | null };
