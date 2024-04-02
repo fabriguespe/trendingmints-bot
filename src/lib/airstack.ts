@@ -111,7 +111,7 @@ export const cacheNft = async (address: string) => {
   }
 
   if (!data || !data.TokenNfts || data.TokenNfts.TokenNft?.length === 0) {
-    console.error("No NFT found");
+    console.error("No NFT found", address);
     return null;
   }
 
