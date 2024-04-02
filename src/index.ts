@@ -16,7 +16,7 @@ run(async (context: HandlerContext) => {
 
   const { content, senderAddress } = message;
 
-  if (senderAddress.toLowerCase() === wallet.address.toLowerCase()) {
+  if (senderAddress?.toLowerCase() === wallet.address?.toLowerCase()) {
     // safely ignore this message
     return;
   }
@@ -28,8 +28,8 @@ run(async (context: HandlerContext) => {
 
   // check if the message is an unsubscribe message
   if (
-    content.toLowerCase() === "stop" ||
-    content.toLowerCase() === "unsubscribe"
+    content?.toLowerCase() === "stop" ||
+    content?.toLowerCase() === "unsubscribe"
   ) {
     // unsubscribe the user
     await redisClient.del(senderAddress);

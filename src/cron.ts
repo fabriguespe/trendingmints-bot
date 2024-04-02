@@ -96,12 +96,6 @@ export const fetchAndSendTrendingMints = async (timeFrame: TimeFrame) => {
         Array.from(new Set([...mintsToSendAddresses, ...parsedLastMints]))
       )
     );
-    // TODO:
-    // instead of sending the message in text format, for each trending mint send a message with a custom frame link
-    // https://mint.builders.garden/<chain>/<contractAddress> ---> we need to create this frame
-    // the frame should have the mint's image, name, and number of trending mints
-    // a single button that redirects to https://zora.co/collect/<chain>:<contractAddress>
-
     await Promise.all(
       mintsToSendSlice.map((mint) =>
         conversation.send(
