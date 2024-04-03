@@ -4,9 +4,12 @@ import HandlerContext from "./handler-context";
 import run from "./runner.js";
 import { getRedisClient } from "./lib/redis.js";
 import { Preference } from "./types.js";
-import { Cron } from "croner";
 import { TimeFrame } from "./lib/airstack-types.js";
-import { fetchAndSendTrendingMints, fetchAndSendTrendingMintsInContext } from "./cron.js";
+import {
+  fetchAndSendTrendingMints,
+  fetchAndSendTrendingMintsInContext,
+} from "./cron.js";
+import cron from "node-cron";
 
 const inMemoryCache = new Map<string, number>();
 
@@ -69,21 +72,50 @@ run(async (context: HandlerContext) => {
       "Also, if you'd like to unsubscribe, you can do so at any time by saying 'stop' or 'unsubscribe'."
     );
 
-    await fetchAndSendTrendingMintsInContext(TimeFrame.OneHour, context, redisClient);
+    await fetchAndSendTrendingMintsInContext(
+      TimeFrame.OneHour,
+      context,
+      redisClient
+    );
   }
 });
 
 if (process.env.DEBUG === "true") {
   console.log("Running in debug mode");
   // Run the cron job every 5 seconds
-  Cron("*/10 * * * * *", fetchAndSendTrendingMints(TimeFrame.OneHour) as any);
+  // Run the cron job every hour
+  cron.schedule(
+    "*/10 * * * * *",
+    fetchAndSendTrendingMints(TimeFrame.OneHour) as any,
+    {
+      runOnInit: false,
+    }
+  );
 }
 
 // Run the cron job every hour
-Cron("0 0 * * * *", fetchAndSendTrendingMints(TimeFrame.OneHour) as any);
+cron.schedule(
+  "0 * * * *",
+  fetchAndSendTrendingMints(TimeFrame.OneHour) as any,
+  {
+    runOnInit: false,
+  }
+);
 
 // Run the cron job every 2 hours
-Cron("0 0 */2 * * *", fetchAndSendTrendingMints(TimeFrame.TwoHours) as any);
+cron.schedule(
+  "0 */2 * * *",
+  fetchAndSendTrendingMints(TimeFrame.OneHour) as any,
+  {
+    runOnInit: false,
+  }
+);
 
 // Run the cron job every day
-Cron("0 0 18 * * *", fetchAndSendTrendingMints(TimeFrame.OneDay) as any);
+cron.schedule(
+  "0 12 * * *",
+  fetchAndSendTrendingMints(TimeFrame.OneHour) as any,
+  {
+    runOnInit: false,
+  }
+);
