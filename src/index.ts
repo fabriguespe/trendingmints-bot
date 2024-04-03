@@ -6,7 +6,7 @@ import { getRedisClient } from "./lib/redis.js";
 import { Preference } from "./types.js";
 import { Cron } from "croner";
 import { TimeFrame } from "./lib/airstack-types.js";
-import { fetchAndSendTrendingMints } from "./cron.js";
+import { fetchAndSendTrendingMints, fetchAndSendTrendingMintsInContext } from "./cron.js";
 
 const inMemoryCache = new Map<string, number>();
 
@@ -69,7 +69,7 @@ run(async (context: HandlerContext) => {
       "Also, if you'd like to unsubscribe, you can do so at any time by saying 'stop' or 'unsubscribe'."
     );
 
-    await fetchAndSendTrendingMints(TimeFrame.OneHour);
+    await fetchAndSendTrendingMintsInContext(TimeFrame.OneHour, context, redisClient);
   }
 });
 

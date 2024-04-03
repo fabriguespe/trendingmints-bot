@@ -4,6 +4,14 @@ import createClient from "./client.js";
 import { TimeFrame, TrendingMintsCriteria } from "./lib/airstack-types.js";
 import { getRedisClient } from "./lib/redis.js";
 import { Preference } from "./types.js";
+import { Client } from "@xmtp/xmtp-js";
+import HandlerContext from "./handler-context.js";
+import {
+  RedisClientType,
+  RedisFunctions,
+  RedisModules,
+  RedisScripts,
+} from "@redis/client";
 
 const mapTimeFrameToPreference = (timeFrame: TimeFrame) => {
   switch (timeFrame) {
@@ -14,6 +22,53 @@ const mapTimeFrameToPreference = (timeFrame: TimeFrame) => {
     case TimeFrame.OneHour:
       return Preference.RIGHT_AWAY;
   }
+};
+
+export const fetchAndSendTrendingMintsInContext = async (
+  timeFrame: TimeFrame,
+  context: HandlerContext,
+  redisClient: RedisClientType<RedisModules, RedisFunctions, RedisScripts>
+) => {
+  // Fetch trending mints from Airstack
+  const trendingMints = await fetchTrendingMints(
+    timeFrame,
+    TrendingMintsCriteria.TotalMints
+  );
+
+  // If no trending mints are found, log and return
+  if (!trendingMints || trendingMints.length === 0) {
+    console.log("No trending mints found");
+    return;
+  }
+
+  // Cache the trending mints
+  await Promise.all(
+    trendingMints
+      .filter((mint) => mint.address)
+      .map(async (mint) => await cacheNft(mint.address!))
+  );
+
+  // Filter the mints to send to the user
+  const mintsToSend = trendingMints.slice(0, 2);
+
+  // Store the last mints for the user
+  const mintsToSendAddresses = mintsToSend.map((mint) => mint.address!);
+  await redisClient.set(
+    `last-mints-${context.message.conversation.peerAddress}`,
+    JSON.stringify(Array.from(new Set([...mintsToSendAddresses])))
+  );
+
+  await context.reply(
+    "🚀 Here some trending mints to give you a taste of what I can do! Check them out now."
+  );
+
+  await Promise.all(
+    mintsToSend.map((mint) =>
+      context.reply(
+        `https://mint.builders.garden/frame/base?a=${mint.address}&c=${mint.criteriaCount}`
+      )
+    )
+  );
 };
 
 export const fetchAndSendTrendingMints = async (timeFrame: TimeFrame) => {
