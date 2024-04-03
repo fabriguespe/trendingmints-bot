@@ -25,6 +25,7 @@
   "dependencies": {
     "@airstack/node": "^0.0.5",
     "@redis/client": "^1.5.14",
+    "@xmtp/grpc-api-client": "^0.2.4",
     "@xmtp/redis-persistence": "^0.0.4",
     "@xmtp/xmtp-js": "^11.2.1",
     "croner": "^8.0.1",
