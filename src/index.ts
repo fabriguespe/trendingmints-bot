@@ -113,9 +113,10 @@ cron.schedule(
 
 // Run the cron job every day
 cron.schedule(
-  "0 12 * * *",
+  "0 18 * * *",
   fetchAndSendTrendingMints(TimeFrame.OneHour) as any,
   {
     runOnInit: false,
+    timezone: "Europe/Rome",
   }
 );
