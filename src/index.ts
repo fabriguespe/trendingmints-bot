@@ -86,7 +86,7 @@ if (process.env.DEBUG === "true") {
   // Run the cron job every hour
   cron.schedule(
     "*/10 * * * * *",
-    fetchAndSendTrendingMints(TimeFrame.OneHour) as any,
+    () => fetchAndSendTrendingMints(TimeFrame.OneHour),
     {
       runOnInit: false,
     }
@@ -94,18 +94,14 @@ if (process.env.DEBUG === "true") {
 }
 
 // Run the cron job every hour
-cron.schedule(
-  "0 * * * *",
-  fetchAndSendTrendingMints(TimeFrame.OneHour) as any,
-  {
-    runOnInit: false,
-  }
-);
+cron.schedule("0 * * * *", () => fetchAndSendTrendingMints(TimeFrame.OneHour), {
+  runOnInit: false,
+});
 
 // Run the cron job every 2 hours
 cron.schedule(
   "0 */2 * * *",
-  fetchAndSendTrendingMints(TimeFrame.OneHour) as any,
+  () => fetchAndSendTrendingMints(TimeFrame.OneHour),
   {
     runOnInit: false,
   }
@@ -114,7 +110,7 @@ cron.schedule(
 // Run the cron job every day
 cron.schedule(
   "0 18 * * *",
-  fetchAndSendTrendingMints(TimeFrame.OneHour) as any,
+  () => fetchAndSendTrendingMints(TimeFrame.OneHour),
   {
     runOnInit: false,
     timezone: "Europe/Rome",
