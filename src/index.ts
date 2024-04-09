@@ -36,6 +36,7 @@ run(async (context: HandlerContext) => {
   ) {
     // unsubscribe the user
     await redisClient.del(senderAddress);
+    return;
   }
 
   if (!step) {
