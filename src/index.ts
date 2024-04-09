@@ -34,6 +34,9 @@ run(async (context: HandlerContext) => {
     content?.toLowerCase() === "stop" ||
     content?.toLowerCase() === "unsubscribe"
   ) {
+    await context.reply(
+      "You unsubscribed successfully. You can always subscribe again by sending a message."
+    );
     // unsubscribe the user
     await redisClient.del(senderAddress);
     return;
