@@ -1,10 +1,8 @@
 import { cacheNft, fetchTrendingMints } from "./lib/airstack.js";
 import createClient from "./client.js";
-
 import { TimeFrame, TrendingMintsCriteria } from "./lib/airstack-types.js";
 import { getRedisClient } from "./lib/redis.js";
 import { Preference } from "./types.js";
-import { Client } from "@xmtp/xmtp-js";
 import HandlerContext from "./handler-context.js";
 import {
   RedisClientType,
@@ -65,7 +63,7 @@ export const fetchAndSendTrendingMintsInContext = async (
   await Promise.all(
     mintsToSend.map((mint) =>
       context.reply(
-        `https://mint.builders.garden?chain=base&a=${mint.address}&c=${mint.criteriaCount}`
+        `${process.env.FRAME_URL}?chain=base&a=${mint.address}&c=${mint.criteriaCount}`
       )
     )
   );
@@ -161,7 +159,7 @@ export const fetchAndSendTrendingMints = async (timeFrame: TimeFrame) => {
     await Promise.all(
       mintsToSendSlice.map((mint) =>
         conversation.send(
-          `https://mint.builders.garden?chain=base&a=${mint.address}&c=${mint.criteriaCount}`
+          `${process.env.FRAME_URL}?chain=base&a=${mint.address}&c=${mint.criteriaCount}`
         )
       )
     );
