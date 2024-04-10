@@ -70,7 +70,7 @@ run(async (context: HandlerContext) => {
 
     await context.reply("Great. You're all set.");
     await context.reply(
-      "Since you're just getting caught up, I'll grab you the top 5 trending today, and send them your way. Give me a few minutes."
+      "Since you're just getting caught up, I'll grab you the top 2 trending today, and send them your way. Give me a few minutes."
     );
     await context.reply(
       "Also, if you'd like to unsubscribe, you can do so at any time by saying 'stop' or 'unsubscribe'."

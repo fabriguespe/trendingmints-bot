@@ -32,7 +32,7 @@ export const fetchAndSendTrendingMintsInContext = async (
   // Fetch trending mints from Airstack
   const trendingMints = await fetchTrendingMints(
     timeFrame,
-    TrendingMintsCriteria.TotalMints
+    TrendingMintsCriteria.UniqueWallets
   );
 
   // If no trending mints are found, log and return
@@ -47,10 +47,11 @@ export const fetchAndSendTrendingMintsInContext = async (
       .filter((mint) => mint.address)
       .map(async (mint) => await cacheNft(mint.address!))
   );
-
-  // Filter the mints to send to the user
-  const mintsToSend = trendingMints.slice(0, 2);
-
+  // New code to select 2 random mints from the entire list
+  const mintsToSend = trendingMints
+    .filter((mint) => mint.address) // Ensure we only consider mints with an address
+    .sort(() => 0.5 - Math.random()) // Shuffle the array
+    .slice(0, 2); // Take the first 2 items from the shuffled array
   // Store the last mints for the user
   const mintsToSendAddresses = mintsToSend.map((mint) => mint.address!);
   await redisClient.set(
@@ -65,7 +66,7 @@ export const fetchAndSendTrendingMintsInContext = async (
   await Promise.all(
     mintsToSend.map((mint) =>
       context.reply(
-        `https://mint.builders.garden?chain=base&a=${mint.address}&c=${mint.criteriaCount}`
+        `${process.env.PUBLIC_FRAME_URL}?chain=base&a=${mint.address}&c=${mint.criteriaCount}`
       )
     )
   );
@@ -79,7 +80,7 @@ export const fetchAndSendTrendingMints = async (timeFrame: TimeFrame) => {
   // Fetch trending mints from Airstack
   const trendingMints = await fetchTrendingMints(
     timeFrame,
-    TrendingMintsCriteria.TotalMints
+    TrendingMintsCriteria.UniqueWallets
   );
 
   // If no trending mints are found, log and return
@@ -161,7 +162,7 @@ export const fetchAndSendTrendingMints = async (timeFrame: TimeFrame) => {
     await Promise.all(
       mintsToSendSlice.map((mint) =>
         conversation.send(
-          `https://mint.builders.garden?chain=base&a=${mint.address}&c=${mint.criteriaCount}`
+          `${process.env.PUBLIC_FRAME_URL}?chain=base&a=${mint.address}&c=${mint.criteriaCount}`
         )
       )
     );
