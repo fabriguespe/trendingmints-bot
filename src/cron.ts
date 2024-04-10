@@ -1,10 +1,8 @@
 import { cacheNft, fetchTrendingMints } from "./lib/airstack.js";
 import createClient from "./client.js";
-
 import { TimeFrame, TrendingMintsCriteria } from "./lib/airstack-types.js";
 import { getRedisClient } from "./lib/redis.js";
 import { Preference } from "./types.js";
-import { Client } from "@xmtp/xmtp-js";
 import HandlerContext from "./handler-context.js";
 import {
   RedisClientType,
