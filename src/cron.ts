@@ -63,7 +63,7 @@ export const fetchAndSendTrendingMintsInContext = async (
   await Promise.all(
     mintsToSend.map((mint) =>
       context.reply(
-        `${process.env.FRAME_URL}?chain=base&a=${mint.address}&c=${mint.criteriaCount}`
+        `${process.env.PUBLIC_FRAME_URL}?chain=base&a=${mint.address}&c=${mint.criteriaCount}`
       )
     )
   );
@@ -159,7 +159,7 @@ export const fetchAndSendTrendingMints = async (timeFrame: TimeFrame) => {
     await Promise.all(
       mintsToSendSlice.map((mint) =>
         conversation.send(
-          `${process.env.FRAME_URL}?chain=base&a=${mint.address}&c=${mint.criteriaCount}`
+          `${process.env.PUBLIC_FRAME_URL}?chain=base&a=${mint.address}&c=${mint.criteriaCount}`
         )
       )
     );

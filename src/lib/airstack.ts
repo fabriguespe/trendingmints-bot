@@ -97,7 +97,7 @@ export const cacheNft = async (address: string) => {
   if (cachedNft) {
     return JSON.parse(cachedNft);
   }
-
+  console.log(address);
   const { data, error }: NFTQueryResponse = await fetchQuery(
     NFT_DETAIL_QUERY_BASE,
     {
