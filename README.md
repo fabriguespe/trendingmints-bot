@@ -51,3 +51,11 @@ cp .env.example .env
 ```
 
 then populate the environment variables accordingly
+
+```bash
+AIRSTACK_API_KEY= # your Airstack API key
+KEY= # the private key of the bot
+XMTP_ENV=production #the xmtp network / or dev
+REDIS_CONNECTION_STRING= # redis connection string for caching
+PUBLIC_FRAME_URL= # deployed vercel frame url
+```
