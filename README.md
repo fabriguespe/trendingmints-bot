@@ -20,9 +20,11 @@ This is a PoC for an XMTP bot sending Base trending mints alert to subscribed us
 
 ### Unsubscribing
 
-If the user sends "stop" or "unsubscribe", they are removed from the list and will no more receive any mint.
+If the user sends "stop", they are removed from the list and will no more receive any mint.
 
 ## Getting started
+
+> ⚠️ Ensure you're using `Yarn 4` for dependency management. Check with `yarn --version`.
 
 To install dependencies:
 

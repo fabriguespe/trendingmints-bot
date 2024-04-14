@@ -30,10 +30,7 @@ run(async (context: HandlerContext) => {
   const step = inMemoryCache.get(senderAddress);
 
   // check if the message is an unsubscribe message
-  if (
-    content?.toLowerCase() === "stop" ||
-    content?.toLowerCase() === "unsubscribe"
-  ) {
+  if (content?.toLowerCase() === "stop") {
     await context.reply(
       "You unsubscribed successfully. You can always subscribe again by sending a message."
     );
@@ -73,7 +70,7 @@ run(async (context: HandlerContext) => {
       "Since you're just getting caught up, I'll grab you the top 2 trending today, and send them your way. Give me a few minutes."
     );
     await context.reply(
-      "Also, if you'd like to unsubscribe, you can do so at any time by saying 'stop' or 'unsubscribe'."
+      "Also, if you'd like to unsubscribe, you can do so at any time by saying 'stop'."
     );
 
     await fetchAndSendTrendingMintsInContext(
