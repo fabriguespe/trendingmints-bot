@@ -35,7 +35,7 @@ run(async (context: HandlerContext) => {
       "You unsubscribed successfully. You can always subscribe again by sending a message."
     );
     // unsubscribe the user
-    await redisClient.del(senderAddress);
+    await redisClient.del("pref-" + senderAddress);
     return;
   }
 
