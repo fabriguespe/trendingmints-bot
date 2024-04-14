@@ -31,11 +31,18 @@ run(async (context: HandlerContext) => {
 
   // check if the message is an unsubscribe message
   if (content?.toLowerCase() === "stop") {
-    await context.reply(
-      "You unsubscribed successfully. You can always subscribe again by sending a message."
-    );
     // unsubscribe the user
-    await redisClient.del("pref-" + senderAddress);
+    const deleteResult = await redisClient.del("pref-" + senderAddress);
+    if (deleteResult) {
+      await context.reply(
+        "You unsubscribed successfully. You can always subscribe again by sending a message."
+      );
+    } else {
+      await context.reply(
+        "You are not subscribed to the bot. You can subscribe by sending a message."
+      );
+    }
+
     return;
   }
 
