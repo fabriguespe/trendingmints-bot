@@ -62,14 +62,14 @@ run(async (context: HandlerContext) => {
       return;
     }
 
-    // store the user's preference
-    await redisClient.set(`pref-${senderAddress}`, content);
     if (content === Preference.RIGHT_AWAY) {
       await context.reply("Great. You're all set.");
       await context.reply(
         "I'll grab you the top 2 trending today, and send them your way. Give me a few minutes."
       );
     } else if (content === Preference.ONCE_A_DAY) {
+      // store the user's preference
+      await redisClient.set(`pref-${senderAddress}`, content);
       await context.reply("Great. You're all set.");
       await context.reply(
         "Since you're just getting caught up, I'll grab you the top 2 trending today, and send them your way. Give me a few minutes."
