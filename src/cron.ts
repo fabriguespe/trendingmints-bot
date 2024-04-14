@@ -1,9 +1,9 @@
-import { cacheNft, fetchTrendingMints } from "./lib/airstack.js";
-import createClient from "./client.js";
-import { TimeFrame, TrendingMintsCriteria } from "./lib/airstack-types.js";
+import { cacheNft, fetchTrendingMints } from "./airstack/airstack.js";
+import createClient from "./lib/client.js";
+import { TimeFrame, TrendingMintsCriteria } from "./airstack/airstack-types.js";
 import { getRedisClient } from "./lib/redis.js";
 import { Preference } from "./types.js";
-import HandlerContext from "./handler-context.js";
+import HandlerContext from "./lib/handler-context.js";
 import {
   RedisClientType,
   RedisFunctions,
@@ -119,8 +119,8 @@ export const fetchAndSendTrendingMints = async (timeFrame: TimeFrame) => {
     const firstSend = await redisClient.get(
       `first-send-${conversation.peerAddress}`
     );
-    // If use has not received the first send, send 5 mints, else send 2
-    const amount = !firstSend ? 5 : 2;
+    // If use has not received the first send, send 2 mints, else send 2
+    const amount = 2;
 
     if (!firstSend) {
       // Toggle the first send for the user

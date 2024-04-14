@@ -13,18 +13,13 @@ export default async function run(handler: Handler) {
       console.log("Connection lost");
     }
   )) {
-    if (process.env.DEBUG === "true") console.log(`Got a message`, message);
-
     try {
-      if (message.senderAddress == client.address) {
-        continue;
-      }
+      if (message.senderAddress == client.address) continue;
 
       const context = new HandlerContext(message);
-
       await handler(context);
     } catch (e) {
-      console.log(`error`, e, message);
+      console.log(`error`, e);
     }
   }
 }
