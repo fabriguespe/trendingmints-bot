@@ -97,7 +97,6 @@ export const cacheNft = async (address: string) => {
   if (cachedNft) {
     return JSON.parse(cachedNft);
   }
-  console.log(address);
   const { data, error }: NFTQueryResponse = await fetchQuery(
     NFT_DETAIL_QUERY_BASE,
     {
@@ -111,7 +110,7 @@ export const cacheNft = async (address: string) => {
   }
 
   if (!data || !data.TokenNfts || data.TokenNfts.TokenNft?.length === 0) {
-    console.error("No NFT found", address);
+    if (process.env.DEBUG == "true") console.error("No NFT found", address);
     return null;
   }
 

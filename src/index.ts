@@ -46,18 +46,18 @@ run(async (context: HandlerContext) => {
     );
     // send the second message
     await context.reply(
-      "How often would you like me to send you new mints?\n\n1️⃣ Right away - let me know once it starts trending;\n2️⃣ Every few hours - keep me updated;\n3️⃣ Once a day - send me the top 5 of the day.\n\n✍️ (reply with 1, 2 or 3)"
+      "How often would you like me to send you new mints?\n\n1️⃣ Right away - let me know once it starts trending;\n2️⃣ Once a day - send me the top 2 of the day.\n\n✍️ (reply with 1 or 2)"
     );
 
     inMemoryCache.set(senderAddress, 1);
   } else if (step === 1) {
     if (
       content !== Preference.RIGHT_AWAY &&
-      content !== Preference.EVERY_FEW_HOURS &&
+      /*content !== Preference.EVERY_FEW_HOURS &&*/
       content !== Preference.ONCE_A_DAY
     ) {
       await context.reply(
-        "Invalid option selected. Please enter a valid option (1, 2 or 3)"
+        "Invalid option selected. Please enter a valid option (1 or 2)"
       );
       return;
     }
@@ -65,13 +65,19 @@ run(async (context: HandlerContext) => {
     // store the user's preference
     await redisClient.set(`pref-${senderAddress}`, content);
 
-    await context.reply("Great. You're all set.");
-    await context.reply(
-      "Since you're just getting caught up, I'll grab you the top 2 trending today, and send them your way. Give me a few minutes."
-    );
-    await context.reply(
-      "Also, if you'd like to unsubscribe, you can do so at any time by saying 'stop'."
-    );
+    if (content === Preference.ONCE_A_DAY) {
+      await context.reply("Great. You're all set.");
+      await context.reply(
+        "Since you're just getting caught up, I'll grab you the top 2 trending today, and send them your way. Give me a few minutes."
+      );
+      await context.reply(
+        "Also, if you'd like to unsubscribe, you can do so at any time by saying 'stop'."
+      );
+    } else {
+      await context.reply(
+        "Cool! I'll grab you the top 2 trending today, and send them your way. Give me a few minutes."
+      );
+    }
 
     await fetchAndSendTrendingMintsInContext(
       TimeFrame.OneHour,

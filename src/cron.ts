@@ -121,8 +121,8 @@ export const fetchAndSendTrendingMints = async (timeFrame: TimeFrame) => {
     const firstSend = await redisClient.get(
       `first-send-${conversation.peerAddress}`
     );
-    // If use has not received the first send, send 5 mints, else send 2
-    const amount = !firstSend ? 5 : 2;
+    // If use has not received the first send 2
+    const amount = 2;
 
     if (!firstSend) {
       // Toggle the first send for the user

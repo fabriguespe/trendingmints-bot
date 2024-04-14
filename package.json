@@ -17,9 +17,7 @@
     "@parcel/watcher": "^2.4.1",
     "@types/node-cron": "^3",
     "bun-types": "latest",
-    "nodemon": "^3.1.0"
-  },
-  "peerDependencies": {
+    "nodemon": "^3.1.0",
     "typescript": "^5.0.0"
   },
   "dependencies": {
@@ -31,8 +29,6 @@
     "croner": "^8.0.1",
     "dotenv": "^16.4.5",
     "ethers": "^5.7.2",
-    "node-cron": "^3.0.3",
-    "typescript": "^5.4.3",
     "viem": "^2.8.16"
   },
   "packageManager": "yarn@4.1.1"

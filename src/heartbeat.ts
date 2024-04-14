@@ -69,7 +69,6 @@ export const sendHeartbeat = async (key: string) => {
     console.log("Error sending heartbeat:", error);
   }
 };
-
 if (process.env.HEARTBEAT_BOT_KEY) {
   console.log("Heartbeat interval set to", round(INTERVAL / 60000), "minutes");
   setInterval(async () => {
