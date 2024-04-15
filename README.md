@@ -59,3 +59,7 @@ XMTP_ENV=production #the xmtp network / or dev
 REDIS_CONNECTION_STRING= # redis connection string for caching
 PUBLIC_FRAME_URL= # deployed vercel frame url
 ```
+
+---
+
+Powered by [Airstack](https://www.airstack.xyz/trending-mints)
