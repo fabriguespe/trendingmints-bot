@@ -39,7 +39,7 @@ run(async (context: HandlerContext) => {
       );
     } else {
       await context.reply(
-        "You are not subscribed to the bot. You can subscribe by sending a message."
+        "You are not subscribed to the bot yet. You can subscribe by sending a message and selecting the correct option."
       );
     }
 
@@ -64,7 +64,7 @@ run(async (context: HandlerContext) => {
       content !== Preference.ONCE_A_DAY
     ) {
       await context.reply(
-        "Invalid option selected. Please enter a valid option (1 or 2)"
+        "Invalid option selected. Please enter a valid option (1 or 2)\n\nIf you'd like to restart the bot,, you can do so at any time by saying 'stop'."
       );
       return;
     }
