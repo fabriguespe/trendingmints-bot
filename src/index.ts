@@ -11,7 +11,10 @@ import {
 } from "./cron.js";
 import cron from "node-cron";
 
-const inMemoryCache = new Map<string, number>();
+const inMemoryCache = new Map<
+  string,
+  { step: number; lastInteraction: number }
+>();
 
 run(async (context: HandlerContext) => {
   const { message } = context;
@@ -26,11 +29,13 @@ run(async (context: HandlerContext) => {
 
   const redisClient = await getRedisClient();
 
-  // get the current step we're in
-  const step = inMemoryCache.get(senderAddress);
-
-  // check if the message is an unsubscribe message
-  if (content?.toLowerCase() === "stop") {
+  const oneHour = 3600000; // Milliseconds in one hour.
+  const now = Date.now(); // Current timestamp.
+  const cacheEntry = inMemoryCache.get(senderAddress); // Retrieve the current cache entry for the sender.
+  let reset = false; // Flag to indicate if the interaction step has been reset.
+  const defaultStopWords = ["stop", "unsubscribe", "cancel"];
+  if (defaultStopWords.some((word) => content.toLowerCase().includes(word))) {
+    // If its a stop word
     // unsubscribe the user
     const deleteResult = await redisClient.del("pref-" + senderAddress);
     if (deleteResult) {
@@ -39,13 +44,28 @@ run(async (context: HandlerContext) => {
       );
     } else {
       await context.reply(
-        "You are not subscribed to the bot yet. You can subscribe by sending a message and selecting the correct option."
+        "You are now subscribed to the bot yet. You can subscribe by sending a message and selecting the correct option."
       );
     }
 
-    return;
+    reset = true;
   }
+  if (!cacheEntry || now - cacheEntry.lastInteraction > oneHour) {
+    // If there's no cache entry or the last interaction was more than an hour ago, reset the step.
+    // reset = true;
+  }
+  inMemoryCache.delete(senderAddress);
+  // Update the cache entry with either reset step or existing step, and the current timestamp.
+  inMemoryCache.set(senderAddress, {
+    step: reset ? 0 : cacheEntry?.step ?? 0,
+    lastInteraction: now,
+  });
+  console.log("reset", true);
 
+  const step = inMemoryCache.get(senderAddress)?.step;
+  console.log("step", step);
+
+  if (reset) return;
   if (!step) {
     // send the first message
     await context.reply(
@@ -56,7 +76,7 @@ run(async (context: HandlerContext) => {
       "How often would you like me to send you new mints?\n\n1️⃣ Right away - let me know once it starts trending;\n2️⃣ Once a day - send me the top 2 of the day.\n\n✍️ (reply with 1 or 2)"
     );
 
-    inMemoryCache.set(senderAddress, 1);
+    inMemoryCache.set(senderAddress, { step: 1, lastInteraction: now });
   } else if (step === 1) {
     if (
       content !== Preference.RIGHT_AWAY &&
@@ -64,7 +84,7 @@ run(async (context: HandlerContext) => {
       content !== Preference.ONCE_A_DAY
     ) {
       await context.reply(
-        "Invalid option selected. Please enter a valid option (1 or 2)\n\nIf you'd like to restart the bot,, you can do so at any time by saying 'stop'."
+        "Invalid option selected. Please enter a valid option (1 or 2)\n\nIf you'd like to restart the bot,  you can do so at any time by saying 'stop'."
       );
       return;
     }
@@ -74,6 +94,10 @@ run(async (context: HandlerContext) => {
       await context.reply(
         "I'll grab you the top 2 trending today, and send them your way. Give me a few minutes."
       );
+      inMemoryCache.set(senderAddress, {
+        step: 0,
+        lastInteraction: Date.now(),
+      });
     } else if (content === Preference.ONCE_A_DAY) {
       // store the user's preference
       await redisClient.set(`pref-${senderAddress}`, content);
@@ -84,6 +108,10 @@ run(async (context: HandlerContext) => {
       await context.reply(
         "Also, if you'd like to unsubscribe, you can do so at any time by saying 'stop'."
       );
+      inMemoryCache.set(senderAddress, {
+        step: 0,
+        lastInteraction: Date.now(),
+      });
     }
 
     await fetchAndSendTrendingMintsInContext(
