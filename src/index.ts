@@ -60,17 +60,24 @@ run(async (context: HandlerContext) => {
     step: reset ? 0 : cacheEntry?.step ?? 0,
     lastInteraction: now,
   });
-  console.log("reset", true);
 
   const step = inMemoryCache.get(senderAddress)?.step;
-  console.log("step", step);
 
   if (reset) return;
   if (!step) {
     // send the first message
-    await context.reply(
-      "Welcome to the trendingmints bot where you get instant alerts when mints start trending."
-    );
+
+    const existingSubscription = await redisClient.get(`pref-${senderAddress}`);
+
+    if (existingSubscription) {
+      await context.reply(
+        "You are already subscribed. If you wish to stop receiving updates, you can unsubscribe at any time by sending 'stop' or update your options."
+      );
+    } else {
+      await context.reply(
+        "Welcome to the trendingmints bot where you get instant alerts when mints start trending."
+      );
+    }
     // send the second message
     await context.reply(
       "How often would you like me to send you new mints?\n\n1️⃣ Right away - let me know once it starts trending;\n2️⃣ Once a day - send me the top 2 of the day.\n\n✍️ (reply with 1 or 2)"
