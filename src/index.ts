@@ -18,14 +18,7 @@ const inMemoryCache = new Map<
 
 run(async (context: HandlerContext) => {
   const { message } = context;
-  const wallet = privateKeyToAccount(process.env.KEY as `0x${string}`);
-
   const { content, senderAddress } = message;
-
-  if (senderAddress?.toLowerCase() === wallet.address?.toLowerCase()) {
-    // safely ignore this message
-    return;
-  }
 
   const redisClient = await getRedisClient();
 

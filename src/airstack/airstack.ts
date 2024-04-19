@@ -124,6 +124,39 @@ export const fetchTrendingMints = async (
   timeFrame: TimeFrame,
   criteria: TrendingMintsCriteria
 ) => {
+  // Temporary fake data
+  const fakeData = [
+    {
+      address: "0x8609fc45c17cfaed5710e998a98cfe634cee05aa",
+      criteriaCount: 56,
+    },
+    {
+      address: "0x9b500ee2c31d3db8e5f08b3bbf3113e7803644de",
+      criteriaCount: 49,
+    },
+    {
+      address: "0x7d6f123a49868fa178ddf8284a5d53ab52189fb3",
+      criteriaCount: 46,
+    },
+    {
+      address: "0xd2c2d1ac51ba7d1ec74da90b07b0fc3fb55294ec",
+      criteriaCount: 367,
+    },
+    {
+      address: "0x61102227bcdf642725f91d37f43ca441abc33c86",
+      criteriaCount: 104,
+    },
+    {
+      address: "0x64c396a02e4fd67aeacf05d7e7d1d179ce63a8a3",
+      criteriaCount: 41,
+    },
+    {
+      address: "0xf9eb4885b3ebda09b28ac4e9630db13adb0ef59e",
+      criteriaCount: 85,
+    },
+  ];
+  return fakeData;
+  /*
   const { data, error }: QueryResponse = await fetchQuery(
     TRENDING_MINTS_QUERY_BASE,
     {
@@ -146,5 +179,5 @@ export const fetchTrendingMints = async (
     return [];
   }
 
-  return data.TrendingMints.TrendingMint;
+  return data.TrendingMints.TrendingMint;*/
 };
