@@ -1,5 +1,4 @@
 import "dotenv/config";
-import { privateKeyToAccount } from "viem/accounts";
 import HandlerContext from "./lib/handler-context";
 import run from "./lib/runner.js";
 import { getRedisClient } from "./lib/redis.js";
@@ -9,7 +8,10 @@ import {
   fetchAndSendTrendingMints,
   fetchAndSendTrendingMintsInContext,
 } from "./cron.js";
+
 import cron from "node-cron";
+import Mixpanel from "mixpanel";
+const mixpanel = Mixpanel.init(process.env.MIX_PANEL as string);
 
 const inMemoryCache = new Map<
   string,
@@ -20,6 +22,9 @@ run(async (context: HandlerContext) => {
   const { message } = context;
   const { content, senderAddress } = message;
 
+  mixpanel.track("Page Viewed", {
+    distinct_id: senderAddress,
+  });
   const redisClient = await getRedisClient();
 
   const oneHour = 3600000; // Milliseconds in one hour.
@@ -108,6 +113,11 @@ run(async (context: HandlerContext) => {
       await context.reply(
         "Also, if you'd like to unsubscribe, you can do so at any time by saying 'stop'."
       );
+
+      mixpanel.track("Subscribed", {
+        distinct_id: senderAddress,
+        preference: content,
+      });
       inMemoryCache.set(senderAddress, {
         step: 0,
         lastInteraction: Date.now(),
