@@ -1,6 +1,5 @@
 import { fetchQuery, init } from "@airstack/node";
 import {
-  NftDetailQuery,
   TimeFrame,
   TrendingMintsCriteria,
   TrendingsMintsQuery,
@@ -35,14 +34,19 @@ export const TRENDING_MINTS_QUERY_BASE =
             symbol
             type
             tokenNfts {
+              tokenURI
               contentValue {
                 image {
                   original
-                  medium
-                  large
                   extraSmall
                   small
+                  medium
+                  large
                 }
+              }
+              metaData {
+                name
+                description
               }
             }
           }
@@ -60,70 +64,11 @@ interface Error {
   message: string;
 }
 
-const NFT_DETAIL_QUERY_BASE =
-  /* GraphQL */
-  `
-    query NFTDetail($address: Address!) {
-      TokenNfts(
-        input: { filter: { address: { _eq: $address } }, blockchain: base }
-      ) {
-        TokenNft {
-          tokenURI
-          contentValue {
-            image {
-              small
-              medium
-            }
-          }
-          metaData {
-            name
-            description
-          }
-        }
-      }
-    }
-  `;
-
-interface NFTQueryResponse {
-  data: NftDetailQuery | null;
-  error: Error | null;
-}
-
-export const cacheNft = async (address: string) => {
-  const redis = await getRedisClient();
-
-  const cachedNft = await redis.get(address);
-
-  if (cachedNft) {
-    return JSON.parse(cachedNft);
-  }
-  const { data, error }: NFTQueryResponse = await fetchQuery(
-    NFT_DETAIL_QUERY_BASE,
-    {
-      address,
-    }
-  );
-
-  if (error) {
-    console.error(error);
-    process.exit(1);
-  }
-
-  if (!data || !data.TokenNfts || data.TokenNfts.TokenNft?.length === 0) {
-    if (process.env.DEBUG) console.error("No NFT found", address);
-    return null;
-  }
-
-  const nft = data.TokenNfts.TokenNft![0];
-
-  const thirtyDaysInSeconds = 60 * 60 * 24 * 30;
-  await redis.setEx(address, thirtyDaysInSeconds, JSON.stringify(nft));
-};
-
 export const fetchTrendingMints = async (
   timeFrame: TimeFrame,
   criteria: TrendingMintsCriteria
 ) => {
+  /*
   // Temporary fake data
   // Extended fake data
   const fakeData = [
@@ -190,11 +135,22 @@ export const fetchTrendingMints = async (
   ];
 
   return fakeData;
-  /*
+  */
+  const redis = await getRedisClient();
+  const REDIS_KEY_TRENDING_MINTS = "last-trending-mints";
+
+  const cachedTrendingMints = await redis.get(REDIS_KEY_TRENDING_MINTS);
+
+  if (cachedTrendingMints) {
+    return JSON.parse(cachedTrendingMints);
+  }
+
+  const timeFrameOneDay = TimeFrame.OneDay;
+
   const { data, error }: QueryResponse = await fetchQuery(
     TRENDING_MINTS_QUERY_BASE,
     {
-      timeFrame,
+      timeFrameOneDay, //timeFrame,
       criteria,
     }
   );
@@ -213,5 +169,14 @@ export const fetchTrendingMints = async (
     return [];
   }
 
-  return data.TrendingMints.TrendingMint;*/
+  const trendingMints = data.TrendingMints.TrendingMint;
+  const expireInOneDayInSeconds = 60 * 60 * 24;
+
+  await redis.setEx(
+    REDIS_KEY_TRENDING_MINTS,
+    expireInOneDayInSeconds,
+    JSON.stringify(trendingMints)
+  );
+
+  return data.TrendingMints.TrendingMint;
 };
