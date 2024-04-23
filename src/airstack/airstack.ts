@@ -145,12 +145,10 @@ export const fetchTrendingMints = async (
     return JSON.parse(cachedTrendingMints);
   }
 
-  const timeFrameOneDay = TimeFrame.OneDay;
-
   const { data, error }: QueryResponse = await fetchQuery(
     TRENDING_MINTS_QUERY_BASE,
     {
-      timeFrameOneDay, //timeFrame,
+      timeFrame,
       criteria,
     }
   );
@@ -169,7 +167,34 @@ export const fetchTrendingMints = async (
     return [];
   }
 
-  const trendingMints = data.TrendingMints.TrendingMint;
+  const trendingMints = data.TrendingMints!.TrendingMint!;
+
+  // Cache the data of the first NFT for each mint
+  await Promise.all(
+    trendingMints
+      .filter((mint) => mint.address)
+      .map(async (mint) => {
+        const nft = mint.token?.tokenNfts?.[0];
+        if (!nft) {
+          console.error("No nft found for mint:", mint.address);
+          return;
+        }
+
+        const cachedNft = await redis.get(mint.address!);
+        if (cachedNft) {
+          return;
+        }
+
+        const expireInThirtyDaysInSeconds = 60 * 60 * 24 * 30;
+        await redis.setEx(
+          mint.address!,
+          expireInThirtyDaysInSeconds,
+          JSON.stringify(nft)
+        );
+        return;
+      })
+  );
+
   const expireInOneDayInSeconds = 60 * 60 * 24;
 
   await redis.setEx(
