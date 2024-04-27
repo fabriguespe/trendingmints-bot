@@ -1,39 +1,26 @@
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
-export type MakeEmpty<
-  T extends { [key: string]: unknown },
-  K extends keyof T
-> = { [_ in K]?: never };
-export type Incremental<T> =
-  | T
-  | {
-      [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
-    };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string };
-  String: { input: string; output: string };
-  Boolean: { input: boolean; output: boolean };
-  Int: { input: number; output: number };
-  Float: { input: number; output: number };
-  Address: { input: any; output: any };
-  Any: { input: any; output: any };
-  DateRange: { input: any; output: any };
-  Identity: { input: any; output: any };
-  IntString: { input: any; output: any };
-  Map: { input: any; output: any };
-  Range: { input: any; output: any };
-  Time: { input: any; output: any };
-  TimeRange: { input: any; output: any };
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  Address: { input: any; output: any; }
+  Any: { input: any; output: any; }
+  DateRange: { input: any; output: any; }
+  Identity: { input: any; output: any; }
+  IntString: { input: any; output: any; }
+  Map: { input: any; output: any; }
+  Range: { input: any; output: any; }
+  Time: { input: any; output: any; }
+  TimeRange: { input: any; output: any; }
 };
 
 /** Represents on-chain smart contract account */
@@ -43,39 +30,36 @@ export type Account = {
   /** Blockchain where account is created */
   blockchain: Maybe<TokenBlockchain>;
   /** Block number of the account creation transaction */
-  createdAtBlockNumber: Maybe<Scalars["Int"]["output"]>;
+  createdAtBlockNumber: Maybe<Scalars['Int']['output']>;
   /** Block timestamp of the account creation transaction */
-  createdAtBlockTimestamp: Maybe<Scalars["Time"]["output"]>;
+  createdAtBlockTimestamp: Maybe<Scalars['Time']['output']>;
   /** Transaction Hash of the account creation transaction */
-  creationTransactionHash: Maybe<Scalars["String"]["output"]>;
+  creationTransactionHash: Maybe<Scalars['String']['output']>;
   /** Address of deployer */
-  deployer: Maybe<Scalars["String"]["output"]>;
+  deployer: Maybe<Scalars['String']['output']>;
   /** Airstack unique identifier for the account */
-  id: Scalars["ID"]["output"];
+  id: Scalars['ID']['output'];
   /** ERC6551 standard : Implementation address of on chain smart contract account */
-  implementation: Maybe<Scalars["String"]["output"]>;
+  implementation: Maybe<Scalars['String']['output']>;
   /** Token NFT associated with erc-6551 */
   nft: Maybe<TokenNft>;
   /** ERC6551 standard : Registry used to deploy smart contract wallet */
-  registry: Maybe<Scalars["Address"]["output"]>;
+  registry: Maybe<Scalars['Address']['output']>;
   /** ERC6551 standard salt for account creation */
-  salt: Maybe<Scalars["String"]["output"]>;
+  salt: Maybe<Scalars['String']['output']>;
   /** Standard of account-  ERC6551, Safe etc */
   standard: AccountStandard;
   /** ERC6551 standard: Address of ERC721 token */
-  tokenAddress: Maybe<Scalars["Address"]["output"]>;
+  tokenAddress: Maybe<Scalars['Address']['output']>;
   /** ERC6551 standard: tokenId of ERC721 token */
-  tokenId: Maybe<Scalars["String"]["output"]>;
+  tokenId: Maybe<Scalars['String']['output']>;
   /** Block number of the account updation transaction */
-  updatedAtBlockNumber: Maybe<Scalars["Int"]["output"]>;
+  updatedAtBlockNumber: Maybe<Scalars['Int']['output']>;
   /** Block timestamp of the account updation transaction */
-  updatedAtBlockTimestamp: Maybe<Scalars["Time"]["output"]>;
+  updatedAtBlockTimestamp: Maybe<Scalars['Time']['output']>;
 };
 
 export type AccountFilter = {
-  _and: InputMaybe<Array<AccountFilter>>;
-  _nor: InputMaybe<Array<AccountFilter>>;
-  _or: InputMaybe<Array<AccountFilter>>;
   address: InputMaybe<Identity_Comparator_Exp>;
   createdAtBlockTimestamp: InputMaybe<Time_Comparator_Exp>;
   implementation: InputMaybe<Address_Comparator_Exp>;
@@ -91,7 +75,7 @@ export type AccountOrderBy = {
 };
 
 export enum AccountStandard {
-  Erc6551 = "ERC6551",
+  Erc6551 = 'ERC6551'
 }
 
 export type AccountStandard_Comparator_Exp = {
@@ -101,18 +85,18 @@ export type AccountStandard_Comparator_Exp = {
 
 export type AccountsInput = {
   blockchain: TokenBlockchain;
-  cursor: InputMaybe<Scalars["String"]["input"]>;
+  cursor: InputMaybe<Scalars['String']['input']>;
   filter: InputMaybe<AccountFilter>;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   order: InputMaybe<Array<AccountOrderBy>>;
 };
 
 export type AccountsNestedInput = {
   blockchain: InputMaybe<TokenBlockchain>;
   filter: InputMaybe<AccountFilter>;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   order: InputMaybe<Array<InputMaybe<AccountOrderBy>>>;
-  showOptimisticAddress: InputMaybe<Scalars["Boolean"]["input"]>;
+  showOptimisticAddress: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type AccountsOutput = {
@@ -121,147 +105,148 @@ export type AccountsOutput = {
 };
 
 export type Address_Comparator_Exp = {
-  _eq: InputMaybe<Scalars["Address"]["input"]>;
-  _in: InputMaybe<Array<Scalars["Address"]["input"]>>;
-  _ne: InputMaybe<Scalars["Address"]["input"]>;
-  _nin: InputMaybe<Array<Scalars["Address"]["input"]>>;
+  _eq: InputMaybe<Scalars['Address']['input']>;
+  _in: InputMaybe<Array<Scalars['Address']['input']>>;
+  _ne: InputMaybe<Scalars['Address']['input']>;
+  _nin: InputMaybe<Array<Scalars['Address']['input']>>;
 };
 
 export type AnimationUrlVariants = {
-  original: Maybe<Scalars["String"]["output"]>;
+  original: Maybe<Scalars['String']['output']>;
 };
 
 export enum Audience {
-  All = "all",
-  Farcaster = "farcaster",
+  All = 'all',
+  Farcaster = 'farcaster'
 }
 
 export type AudioVariants = {
-  original: Maybe<Scalars["String"]["output"]>;
+  original: Maybe<Scalars['String']['output']>;
 };
 
 export enum Blockchain {
-  Ethereum = "ethereum",
+  Ethereum = 'ethereum'
 }
 
 export type Boolean_Comparator_Exp = {
-  _eq: InputMaybe<Scalars["Boolean"]["input"]>;
+  _eq: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type ConnectedAddress = {
-  address: Maybe<Scalars["Address"]["output"]>;
-  blockchain: Maybe<Scalars["String"]["output"]>;
-  chainId: Maybe<Scalars["String"]["output"]>;
-  timestamp: Maybe<Scalars["Time"]["output"]>;
+  address: Maybe<Scalars['Address']['output']>;
+  blockchain: Maybe<Scalars['String']['output']>;
+  chainId: Maybe<Scalars['String']['output']>;
+  timestamp: Maybe<Scalars['Time']['output']>;
 };
 
 export type ContractMetadata = {
   /** Description of the token, mirrored from the smart contract */
-  description: Maybe<Scalars["String"]["output"]>;
-  externalLink: Maybe<Scalars["String"]["output"]>;
+  description: Maybe<Scalars['String']['output']>;
+  externalLink: Maybe<Scalars['String']['output']>;
   /** Royalties recipient address, mirrored from the smart contract */
-  feeRecipient: Maybe<Scalars["String"]["output"]>;
-  image: Maybe<Scalars["String"]["output"]>;
+  feeRecipient: Maybe<Scalars['String']['output']>;
+  image: Maybe<Scalars['String']['output']>;
   /** Name of the token, mirrored from the smart contract */
-  name: Maybe<Scalars["String"]["output"]>;
-  sellerFeeBasisPoints: Maybe<Scalars["Int"]["output"]>;
+  name: Maybe<Scalars['String']['output']>;
+  sellerFeeBasisPoints: Maybe<Scalars['Int']['output']>;
 };
 
 export type Date_Range_Comparator_Exp = {
-  _eq: InputMaybe<Scalars["String"]["input"]>;
+  _eq: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Domain = {
   /** Avatar of the domain */
-  avatar: Maybe<Scalars["String"]["output"]>;
+  avatar: Maybe<Scalars['String']['output']>;
   /** Blockchain where the NFT sale took place */
   blockchain: Blockchain;
   /** Unique identifier for the blockchain */
-  chainId: Maybe<Scalars["String"]["output"]>;
+  chainId: Maybe<Scalars['String']['output']>;
   /** Block number when the domain was created */
-  createdAtBlockNumber: Maybe<Scalars["Int"]["output"]>;
+  createdAtBlockNumber: Maybe<Scalars['Int']['output']>;
   /** Timestamp when the domain was created */
-  createdAtBlockTimestamp: Maybe<Scalars["Time"]["output"]>;
+  createdAtBlockTimestamp: Maybe<Scalars['Time']['output']>;
   /** DApp name associated with the domain (e.g. ENS) */
   dappName: Maybe<DomainDappName>;
   /** DApp slug (contract version) associated with the domain */
   dappSlug: Maybe<DomainDappSlug>;
   /** Timestamp when the domain registration expires */
-  expiryTimestamp: Maybe<Scalars["Time"]["output"]>;
+  expiryTimestamp: Maybe<Scalars['Time']['output']>;
   /** Domain registration cost in decimals */
-  formattedRegistrationCost: Maybe<Scalars["Float"]["output"]>;
+  formattedRegistrationCost: Maybe<Scalars['Float']['output']>;
   /** Domain registration cost in native blockchain token in decimals */
-  formattedRegistrationCostInNativeToken: Maybe<Scalars["Float"]["output"]>;
+  formattedRegistrationCostInNativeToken: Maybe<Scalars['Float']['output']>;
   /** Domain registration cost in USDC in decimals */
-  formattedRegistrationCostInUSDC: Maybe<Scalars["Float"]["output"]>;
+  formattedRegistrationCostInUSDC: Maybe<Scalars['Float']['output']>;
   /** Airstack unique identifier for the data point */
-  id: Maybe<Scalars["ID"]["output"]>;
+  id: Maybe<Scalars['ID']['output']>;
   /** Domain is name wrapped or not */
-  isNameWrapped: Maybe<Scalars["Boolean"]["output"]>;
+  isNameWrapped: Maybe<Scalars['Boolean']['output']>;
   /** Indicates if the domain is set to be primary - true or false */
-  isPrimary: Maybe<Scalars["Boolean"]["output"]>;
+  isPrimary: Maybe<Scalars['Boolean']['output']>;
   /** Airstack unique domain hash */
-  labelHash: Maybe<Scalars["String"]["output"]>;
+  labelHash: Maybe<Scalars['String']['output']>;
   /** Domain name without the domain ending, e.g. vitalik instead of vitalik.eth */
-  labelName: Maybe<Scalars["String"]["output"]>;
+  labelName: Maybe<Scalars['String']['output']>;
   /** Block number when the domain was last updated */
-  lastUpdatedBlockNumber: Maybe<Scalars["Int"]["output"]>;
+  lastUpdatedBlockNumber: Maybe<Scalars['Int']['output']>;
   /** Timestamp when the domain was last updated */
-  lastUpdatedBlockTimestamp: Maybe<Scalars["Time"]["output"]>;
+  lastUpdatedBlockTimestamp: Maybe<Scalars['Time']['output']>;
   /** Manager of Domain */
-  manager: Scalars["Address"]["output"];
+  manager: Scalars['Address']['output'];
   /** Manager wallet related information, including address, domains, social profile, other token balances, and transfer history */
   managerDetails: Maybe<Wallet>;
   /** Multichain associated with the domain */
   multiChainAddresses: Maybe<Array<DomainMultiChainAddress>>;
   /** Full domain name, e.g. vitalik.eth */
-  name: Maybe<Scalars["String"]["output"]>;
+  name: Maybe<Scalars['String']['output']>;
   /** Owner of token associated with the domain */
-  owner: Scalars["Address"]["output"];
+  owner: Scalars['Address']['output'];
   /** Owner wallet related information, including address, domains, social profile, other token balances, and transfer history */
   ownerDetails: Maybe<Wallet>;
   /** Parent domain name, if the entity is a subdomain */
-  parent: Maybe<Scalars["String"]["output"]>;
+  parent: Maybe<Scalars['String']['output']>;
   /** Nested query - can retrieve payment token data (name, symbol, etc.) */
   paymentToken: Maybe<Token>;
   /** payment amount in blockchain native token for the domain */
-  paymentTokenCostInNativeToken: Maybe<Scalars["Float"]["output"]>;
+  paymentTokenCostInNativeToken: Maybe<Scalars['Float']['output']>;
   /** payment amount in USDC for the domain */
-  paymentTokenCostInUSDC: Maybe<Scalars["Float"]["output"]>;
+  paymentTokenCostInUSDC: Maybe<Scalars['Float']['output']>;
   /** Domain registration cost */
-  registrationCost: Maybe<Scalars["String"]["output"]>;
+  registrationCost: Maybe<Scalars['String']['output']>;
   /** Domain registration cost in blockchain native token */
-  registrationCostInNativeToken: Maybe<Scalars["String"]["output"]>;
+  registrationCostInNativeToken: Maybe<Scalars['String']['output']>;
   /** Domain registration cost in USDC */
-  registrationCostInUSDC: Maybe<Scalars["String"]["output"]>;
+  registrationCostInUSDC: Maybe<Scalars['String']['output']>;
   /** Blockchain address to which the domain is resolved */
-  resolvedAddress: Maybe<Scalars["Address"]["output"]>;
+  resolvedAddress: Maybe<Scalars['Address']['output']>;
   /** Nested query - on-chain resolvedAddress wallet related information, including address, domains, social profile, other token balances, and transfer history */
   resolvedAddressDetails: Maybe<Wallet>;
   /** Resolver address associated with Domain */
-  resolverAddress: Maybe<Scalars["Address"]["output"]>;
+  resolverAddress: Maybe<Scalars['Address']['output']>;
   /** Count of subdomains linked to the domain */
-  subDomainCount: Maybe<Scalars["Int"]["output"]>;
+  subDomainCount: Maybe<Scalars['Int']['output']>;
   /** Nested query allowing to retrieve subdomain information associated with the domain */
   subDomains: Maybe<Array<Maybe<Domain>>>;
   /** Texts associated with the domain */
   texts: Maybe<Array<DomainTexts>>;
   /** Token Address associated with the domain, if applicable */
-  tokenAddress: Scalars["Address"]["output"];
+  tokenAddress: Scalars['Address']['output'];
   /** Domain Token ID associated with the domain, if applicable */
-  tokenId: Maybe<Scalars["String"]["output"]>;
+  tokenId: Maybe<Scalars['String']['output']>;
   /** Token nft associated with the domain, if applicable */
   tokenNft: Maybe<TokenNft>;
   /** Time-to-live value for the domain */
-  ttl: Maybe<Scalars["String"]["output"]>;
+  ttl: Maybe<Scalars['String']['output']>;
 };
+
 
 export type DomainSubDomainsArgs = {
   input: InputMaybe<DomainsNestedInput>;
 };
 
 export enum DomainDappName {
-  Ens = "ens",
+  Ens = 'ens'
 }
 
 export type DomainDappName_Comparator_Exp = {
@@ -270,7 +255,7 @@ export type DomainDappName_Comparator_Exp = {
 };
 
 export enum DomainDappSlug {
-  EnsV1 = "ens_v1",
+  EnsV1 = 'ens_v1'
 }
 
 export type DomainDappSlug_Comparator_Exp = {
@@ -279,9 +264,6 @@ export type DomainDappSlug_Comparator_Exp = {
 };
 
 export type DomainFilter = {
-  _and: InputMaybe<Array<DomainFilter>>;
-  _nor: InputMaybe<Array<DomainFilter>>;
-  _or: InputMaybe<Array<DomainFilter>>;
   isPrimary: InputMaybe<Boolean_Comparator_Exp>;
   lastUpdatedBlockTimestamp: InputMaybe<Time_Comparator_Exp>;
   name: InputMaybe<String_Comparator_Exp>;
@@ -291,9 +273,9 @@ export type DomainFilter = {
 
 export type DomainMultiChainAddress = {
   /** address */
-  address: Maybe<Scalars["String"]["output"]>;
+  address: Maybe<Scalars['String']['output']>;
   /** symbol according to SLIP-0044 */
-  symbol: Maybe<Scalars["String"]["output"]>;
+  symbol: Maybe<Scalars['String']['output']>;
 };
 
 export type DomainOrderBy = {
@@ -304,23 +286,23 @@ export type DomainOrderBy = {
 
 export type DomainTexts = {
   /** key of the text */
-  key: Maybe<Scalars["String"]["output"]>;
+  key: Maybe<Scalars['String']['output']>;
   /** value of the text */
-  value: Maybe<Scalars["String"]["output"]>;
+  value: Maybe<Scalars['String']['output']>;
 };
 
 export type DomainsInput = {
   blockchain: Blockchain;
-  cursor: InputMaybe<Scalars["String"]["input"]>;
+  cursor: InputMaybe<Scalars['String']['input']>;
   filter: DomainFilter;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   order: InputMaybe<Array<DomainOrderBy>>;
 };
 
 export type DomainsNestedInput = {
   blockchain: InputMaybe<Blockchain>;
   filter: InputMaybe<DomainFilter>;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   order: InputMaybe<Array<InputMaybe<DomainOrderBy>>>;
 };
 
@@ -330,36 +312,96 @@ export type DomainsOutput = {
 };
 
 export enum EveryBlockchain {
-  All = "ALL",
+  All = 'ALL'
 }
 
-export type FarcasterChannel = {
-  channelId: Scalars["String"]["output"];
-  createdAtTimestamp: Scalars["Time"]["output"];
-  dappName: Scalars["String"]["output"];
-  dappSlug: Scalars["String"]["output"];
-  description: Scalars["String"]["output"];
-  /** Airstack unique identifier for the data point */
-  id: Scalars["ID"]["output"];
-  imageUrl: Scalars["String"]["output"];
-  leadIds: Maybe<Array<Scalars["String"]["output"]>>;
-  leadProfiles: Maybe<Array<Social>>;
-  name: Scalars["String"]["output"];
-  participants: Maybe<Array<FarcasterChannelParticipant>>;
-  url: Scalars["String"]["output"];
+export type FarcasterCast = {
+  castedAtTimestamp: Maybe<Scalars['Time']['output']>;
+  castedBy: Maybe<Social>;
+  channel: Maybe<FarcasterChannel>;
+  embeds: Maybe<Array<Maybe<Scalars['Map']['output']>>>;
+  fid: Maybe<Scalars['String']['output']>;
+  frame: Maybe<FarcasterFrame>;
+  hash: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  mentions: Maybe<Array<Mentions>>;
+  numberOfLikes: Maybe<Scalars['Int']['output']>;
+  numberOfRecasts: Maybe<Scalars['Int']['output']>;
+  numberOfReplies: Maybe<Scalars['Int']['output']>;
+  parentCast: Maybe<FarcasterCast>;
+  parentFid: Maybe<Scalars['String']['output']>;
+  parentHash: Maybe<Scalars['String']['output']>;
+  parentUrl: Maybe<Scalars['String']['output']>;
+  rawText: Maybe<Scalars['String']['output']>;
+  rootParentHash: Maybe<Scalars['String']['output']>;
+  rootParentUrl: Maybe<Scalars['String']['output']>;
+  socialCapitalValue: Maybe<SocialCapitalValue>;
+  text: Maybe<Scalars['String']['output']>;
+  url: Maybe<Scalars['String']['output']>;
 };
+
+export type FarcasterCastFilter = {
+  castedAtTimestamp: InputMaybe<Time_Comparator_Exp>;
+  castedBy: InputMaybe<Identity_Comparator_Exp>;
+  frameUrl: InputMaybe<Simple_String_Comparator_Exp>;
+  hasEmbeds: InputMaybe<Boolean_Comparator_Exp>;
+  hasFrames: InputMaybe<Boolean_Comparator_Exp>;
+  hasMentions: InputMaybe<Boolean_Comparator_Exp>;
+  hash: InputMaybe<Simple_String_Comparator_Exp>;
+  parentHash: InputMaybe<Simple_String_Comparator_Exp>;
+  url: InputMaybe<Simple_String_Comparator_Exp>;
+};
+
+export type FarcasterCastInput = {
+  blockchain: EveryBlockchain;
+  cursor: InputMaybe<Scalars['String']['input']>;
+  filter: FarcasterCastFilter;
+  limit: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type FarcasterCastOutput = {
+  Cast: Maybe<Array<FarcasterCast>>;
+  pageInfo: Maybe<PageInfo>;
+};
+
+export type FarcasterChannel = {
+  channelId: Scalars['String']['output'];
+  createdAtTimestamp: Scalars['Time']['output'];
+  dappName: Scalars['String']['output'];
+  dappSlug: Scalars['String']['output'];
+  description: Scalars['String']['output'];
+  followerCount: Maybe<Scalars['Int']['output']>;
+  hostIds: Maybe<Array<Scalars['String']['output']>>;
+  hostProfiles: Maybe<Array<Social>>;
+  /** Airstack unique identifier for the data point */
+  id: Scalars['ID']['output'];
+  imageUrl: Scalars['String']['output'];
+  leadIds: Maybe<Array<Scalars['String']['output']>>;
+  leadProfiles: Maybe<Array<Social>>;
+  name: Scalars['String']['output'];
+  participants: Maybe<Array<FarcasterChannelParticipant>>;
+  url: Scalars['String']['output'];
+};
+
+
+export type FarcasterChannelHostProfilesArgs = {
+  input: InputMaybe<SocialsNestedInput>;
+};
+
 
 export type FarcasterChannelLeadProfilesArgs = {
   input: InputMaybe<SocialsNestedInput>;
 };
+
 
 export type FarcasterChannelParticipantsArgs = {
   input: InputMaybe<FarcasterChannelParticipantNestedInput>;
 };
 
 export enum FarcasterChannelActionType {
-  Cast = "cast",
-  Reply = "reply",
+  Cast = 'cast',
+  Follow = 'follow',
+  Reply = 'reply'
 }
 
 export type FarcasterChannelActionType_Comparator_Exp = {
@@ -368,11 +410,10 @@ export type FarcasterChannelActionType_Comparator_Exp = {
 };
 
 export type FarcasterChannelFilter = {
-  _and: InputMaybe<Array<FarcasterChannelFilter>>;
-  _nor: InputMaybe<Array<FarcasterChannelFilter>>;
-  _or: InputMaybe<Array<FarcasterChannelFilter>>;
   channelId: InputMaybe<String_Comparator_Exp>;
   createdAtTimestamp: InputMaybe<Time_Comparator_Exp>;
+  hostIdentity: InputMaybe<Identity_Comparator_Exp>;
+  hostIds: InputMaybe<String_Comparator_Exp>;
   leadId: InputMaybe<String_Comparator_Exp>;
   leadIdentity: InputMaybe<Identity_Comparator_Exp>;
   name: InputMaybe<Regex_String_Comparator_Exp>;
@@ -381,42 +422,43 @@ export type FarcasterChannelFilter = {
 export type FarcasterChannelNestedInput = {
   blockchain: InputMaybe<EveryBlockchain>;
   filter: InputMaybe<FarcasterChannelFilter>;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   order: InputMaybe<Array<InputMaybe<FarcasterChannelOrderBy>>>;
 };
 
 export type FarcasterChannelOrderBy = {
   createdAtTimestamp: InputMaybe<OrderBy>;
+  followerCount: InputMaybe<OrderBy>;
 };
 
 export type FarcasterChannelParticipant = {
   channel: FarcasterChannel;
   channelActions: Maybe<Array<FarcasterChannelActionType>>;
-  channelId: Scalars["String"]["output"];
-  channelName: Scalars["String"]["output"];
-  dappName: Scalars["String"]["output"];
-  dappSlug: Scalars["String"]["output"];
+  channelId: Scalars['String']['output'];
+  channelName: Scalars['String']['output'];
+  dappName: Scalars['String']['output'];
+  dappSlug: Scalars['String']['output'];
   /** Airstack unique identifier for the data point */
-  id: Maybe<Scalars["ID"]["output"]>;
-  lastActionTimestamp: Scalars["Time"]["output"];
-  lastCastedTimestamp: Maybe<Scalars["Time"]["output"]>;
-  lastRepliedTimestamp: Maybe<Scalars["Time"]["output"]>;
+  id: Maybe<Scalars['ID']['output']>;
+  lastActionTimestamp: Scalars['Time']['output'];
+  lastCastedTimestamp: Maybe<Scalars['Time']['output']>;
+  lastFollowedTimestamp: Maybe<Scalars['Time']['output']>;
+  lastRepliedTimestamp: Maybe<Scalars['Time']['output']>;
   participant: Maybe<Social>;
-  participantId: Scalars["String"]["output"];
+  participantId: Scalars['String']['output'];
 };
+
 
 export type FarcasterChannelParticipantChannelArgs = {
   input: InputMaybe<FarcasterChannelNestedInput>;
 };
+
 
 export type FarcasterChannelParticipantParticipantArgs = {
   input: InputMaybe<SocialsNestedInput>;
 };
 
 export type FarcasterChannelParticipantFilter = {
-  _and: InputMaybe<Array<FarcasterChannelParticipantFilter>>;
-  _nor: InputMaybe<Array<FarcasterChannelParticipantFilter>>;
-  _or: InputMaybe<Array<FarcasterChannelParticipantFilter>>;
   channelActions: InputMaybe<FarcasterChannelActionType_Comparator_Exp>;
   channelId: InputMaybe<String_Comparator_Exp>;
   channelName: InputMaybe<Regex_String_Comparator_Exp>;
@@ -427,7 +469,7 @@ export type FarcasterChannelParticipantFilter = {
 export type FarcasterChannelParticipantNestedInput = {
   blockchain: InputMaybe<EveryBlockchain>;
   filter: InputMaybe<FarcasterChannelParticipantFilter>;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   order: InputMaybe<Array<InputMaybe<FarcasterChannelParticipantOrderBy>>>;
 };
 
@@ -437,9 +479,9 @@ export type FarcasterChannelParticipantOrderBy = {
 
 export type FarcasterChannelParticipantsInput = {
   blockchain: EveryBlockchain;
-  cursor: InputMaybe<Scalars["String"]["input"]>;
+  cursor: InputMaybe<Scalars['String']['input']>;
   filter: FarcasterChannelParticipantFilter;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   order: InputMaybe<Array<FarcasterChannelParticipantOrderBy>>;
 };
 
@@ -450,9 +492,9 @@ export type FarcasterChannelParticipantsOutput = {
 
 export type FarcasterChannelsInput = {
   blockchain: EveryBlockchain;
-  cursor: InputMaybe<Scalars["String"]["input"]>;
+  cursor: InputMaybe<Scalars['String']['input']>;
   filter: InputMaybe<FarcasterChannelFilter>;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   order: InputMaybe<Array<FarcasterChannelOrderBy>>;
 };
 
@@ -461,144 +503,168 @@ export type FarcasterChannelsOutput = {
   pageInfo: Maybe<PageInfo>;
 };
 
+export type FarcasterFrame = {
+  buttons: Maybe<Array<FrameButton>>;
+  castedAtTimestamp: Maybe<Scalars['Time']['output']>;
+  frameHash: Maybe<Scalars['String']['output']>;
+  frameUrl: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  imageAspectRatio: Maybe<Scalars['String']['output']>;
+  imageUrl: Maybe<Scalars['String']['output']>;
+  inputText: Maybe<Scalars['String']['output']>;
+  postUrl: Maybe<Scalars['String']['output']>;
+  state: Maybe<Scalars['String']['output']>;
+};
+
 export type FarcasterFrameMessageInput = {
   filter: FarcasterFrameMessageInputFilter;
 };
 
 export type FarcasterFrameMessageInputFilter = {
-  messageBytes: InputMaybe<Scalars["String"]["input"]>;
+  messageBytes: InputMaybe<Scalars['String']['input']>;
 };
 
 export type FarcasterFrameMessageOutput = {
   castedBy: Maybe<Social>;
-  castedByFid: Maybe<Scalars["Int"]["output"]>;
+  castedByFid: Maybe<Scalars['Int']['output']>;
   interactedBy: Maybe<Social>;
-  interactedByFid: Maybe<Scalars["Int"]["output"]>;
-  isValid: Maybe<Scalars["Boolean"]["output"]>;
+  interactedByFid: Maybe<Scalars['Int']['output']>;
+  isValid: Maybe<Scalars['Boolean']['output']>;
   message: Maybe<FrameMessage>;
-  messageByte: Maybe<Scalars["String"]["output"]>;
-  messageRaw: Maybe<Scalars["Map"]["output"]>;
+  messageByte: Maybe<Scalars['String']['output']>;
+  messageRaw: Maybe<Scalars['Map']['output']>;
 };
 
 export type Float_Comparator_Exp = {
-  _eq: InputMaybe<Scalars["Float"]["input"]>;
-  _gt: InputMaybe<Scalars["Float"]["input"]>;
-  _gte: InputMaybe<Scalars["Float"]["input"]>;
-  _in: InputMaybe<Array<Scalars["Float"]["input"]>>;
-  _lt: InputMaybe<Scalars["Float"]["input"]>;
-  _lte: InputMaybe<Scalars["Float"]["input"]>;
-  _ne: InputMaybe<Scalars["Float"]["input"]>;
-  _nin: InputMaybe<Array<Scalars["Float"]["input"]>>;
+  _eq: InputMaybe<Scalars['Float']['input']>;
+  _gt: InputMaybe<Scalars['Float']['input']>;
+  _gte: InputMaybe<Scalars['Float']['input']>;
+  _in: InputMaybe<Array<Scalars['Float']['input']>>;
+  _lt: InputMaybe<Scalars['Float']['input']>;
+  _lte: InputMaybe<Scalars['Float']['input']>;
+  _ne: InputMaybe<Scalars['Float']['input']>;
+  _nin: InputMaybe<Array<Scalars['Float']['input']>>;
+};
+
+export type FrameButton = {
+  action: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  index: Maybe<Scalars['Int']['output']>;
+  label: Maybe<Scalars['String']['output']>;
+  target: Maybe<Scalars['String']['output']>;
 };
 
 export type FrameMessage = {
   data: Maybe<FrameMessageData>;
-  hash: Maybe<Scalars["String"]["output"]>;
-  hashScheme: Maybe<Scalars["String"]["output"]>;
-  signature: Maybe<Scalars["String"]["output"]>;
-  signatureScheme: Maybe<Scalars["String"]["output"]>;
-  signer: Maybe<Scalars["String"]["output"]>;
+  hash: Maybe<Scalars['String']['output']>;
+  hashScheme: Maybe<Scalars['String']['output']>;
+  signature: Maybe<Scalars['String']['output']>;
+  signatureScheme: Maybe<Scalars['String']['output']>;
+  signer: Maybe<Scalars['String']['output']>;
 };
 
 export type FrameMessageActionBody = {
-  address: Maybe<Scalars["String"]["output"]>;
-  buttonIndex: Maybe<Scalars["Int"]["output"]>;
+  address: Maybe<Scalars['String']['output']>;
+  buttonIndex: Maybe<Scalars['Int']['output']>;
   castId: Maybe<FrameMessageCastId>;
-  inputText: Maybe<Scalars["String"]["output"]>;
-  inputTextDecoded: Maybe<Scalars["String"]["output"]>;
-  state: Maybe<Scalars["String"]["output"]>;
-  stateDecoded: Maybe<Scalars["Any"]["output"]>;
-  transactionHash: Maybe<Scalars["String"]["output"]>;
-  transactionId: Maybe<Scalars["String"]["output"]>;
-  url: Maybe<Scalars["String"]["output"]>;
-  urlDecoded: Maybe<Scalars["String"]["output"]>;
+  inputText: Maybe<Scalars['String']['output']>;
+  inputTextDecoded: Maybe<Scalars['String']['output']>;
+  state: Maybe<Scalars['String']['output']>;
+  stateDecoded: Maybe<Scalars['Any']['output']>;
+  transactionHash: Maybe<Scalars['String']['output']>;
+  transactionId: Maybe<Scalars['String']['output']>;
+  url: Maybe<Scalars['String']['output']>;
+  urlDecoded: Maybe<Scalars['String']['output']>;
 };
 
 export type FrameMessageCastId = {
-  fid: Maybe<Scalars["Int"]["output"]>;
-  hash: Maybe<Scalars["String"]["output"]>;
+  fid: Maybe<Scalars['Int']['output']>;
+  hash: Maybe<Scalars['String']['output']>;
 };
 
 export type FrameMessageData = {
-  fid: Maybe<Scalars["Int"]["output"]>;
+  fid: Maybe<Scalars['Int']['output']>;
   frameActionBody: Maybe<FrameMessageActionBody>;
-  network: Maybe<Scalars["String"]["output"]>;
-  time: Maybe<Scalars["Time"]["output"]>;
-  type: Maybe<Scalars["String"]["output"]>;
+  network: Maybe<Scalars['String']['output']>;
+  time: Maybe<Scalars['Time']['output']>;
+  type: Maybe<Scalars['String']['output']>;
 };
 
 export type Identity_Comparator_Exp = {
-  _eq: InputMaybe<Scalars["Identity"]["input"]>;
-  _in: InputMaybe<Array<Scalars["Identity"]["input"]>>;
+  _eq: InputMaybe<Scalars['Identity']['input']>;
+  _in: InputMaybe<Array<Scalars['Identity']['input']>>;
 };
 
 export type ImageSizes = {
-  extraSmall: Maybe<Scalars["String"]["output"]>;
-  large: Maybe<Scalars["String"]["output"]>;
-  medium: Maybe<Scalars["String"]["output"]>;
-  original: Maybe<Scalars["String"]["output"]>;
-  small: Maybe<Scalars["String"]["output"]>;
+  extraSmall: Maybe<Scalars['String']['output']>;
+  large: Maybe<Scalars['String']['output']>;
+  medium: Maybe<Scalars['String']['output']>;
+  original: Maybe<Scalars['String']['output']>;
+  small: Maybe<Scalars['String']['output']>;
 };
 
 export type Int_Comparator_Exp = {
-  _eq: InputMaybe<Scalars["Int"]["input"]>;
-  _gt: InputMaybe<Scalars["Int"]["input"]>;
-  _gte: InputMaybe<Scalars["Int"]["input"]>;
-  _in: InputMaybe<Array<Scalars["Int"]["input"]>>;
-  _lt: InputMaybe<Scalars["Int"]["input"]>;
-  _lte: InputMaybe<Scalars["Int"]["input"]>;
-  _ne: InputMaybe<Scalars["Int"]["input"]>;
-  _nin: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  _eq: InputMaybe<Scalars['Int']['input']>;
+  _gt: InputMaybe<Scalars['Int']['input']>;
+  _gte: InputMaybe<Scalars['Int']['input']>;
+  _in: InputMaybe<Array<Scalars['Int']['input']>>;
+  _lt: InputMaybe<Scalars['Int']['input']>;
+  _lte: InputMaybe<Scalars['Int']['input']>;
+  _ne: InputMaybe<Scalars['Int']['input']>;
+  _nin: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
 export type Int_String_Comparator_Exp = {
-  _eq: InputMaybe<Scalars["String"]["input"]>;
-  _gt: InputMaybe<Scalars["String"]["input"]>;
-  _gte: InputMaybe<Scalars["String"]["input"]>;
-  _in: InputMaybe<Array<Scalars["String"]["input"]>>;
-  _lt: InputMaybe<Scalars["String"]["input"]>;
-  _lte: InputMaybe<Scalars["String"]["input"]>;
-  _ne: InputMaybe<Scalars["String"]["input"]>;
-  _nin: InputMaybe<Array<Scalars["String"]["input"]>>;
+  _eq: InputMaybe<Scalars['String']['input']>;
+  _gt: InputMaybe<Scalars['String']['input']>;
+  _gte: InputMaybe<Scalars['String']['input']>;
+  _in: InputMaybe<Array<Scalars['String']['input']>>;
+  _lt: InputMaybe<Scalars['String']['input']>;
+  _lte: InputMaybe<Scalars['String']['input']>;
+  _ne: InputMaybe<Scalars['String']['input']>;
+  _nin: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type LogoSizes = {
-  external: Maybe<Scalars["String"]["output"]>;
-  large: Maybe<Scalars["String"]["output"]>;
-  medium: Maybe<Scalars["String"]["output"]>;
-  original: Maybe<Scalars["String"]["output"]>;
-  small: Maybe<Scalars["String"]["output"]>;
+  external: Maybe<Scalars['String']['output']>;
+  large: Maybe<Scalars['String']['output']>;
+  medium: Maybe<Scalars['String']['output']>;
+  original: Maybe<Scalars['String']['output']>;
+  small: Maybe<Scalars['String']['output']>;
 };
 
 export type Media = {
   animation_url: Maybe<AnimationUrlVariants>;
   audio: Maybe<AudioVariants>;
   image: Maybe<ImageSizes>;
-  json: Maybe<Scalars["String"]["output"]>;
+  json: Maybe<Scalars['String']['output']>;
   video: Maybe<VideoVariants>;
 };
 
+export type Mentions = {
+  fid: Maybe<Scalars['String']['output']>;
+  position: Maybe<Scalars['Int']['output']>;
+  profile: Maybe<Social>;
+};
+
 export type NftAttribute = {
-  displayType: Maybe<Scalars["String"]["output"]>;
-  maxValue: Maybe<Scalars["String"]["output"]>;
+  displayType: Maybe<Scalars['String']['output']>;
+  maxValue: Maybe<Scalars['String']['output']>;
   /** NFT attribute type as defined in the smart contract, e.g. background */
-  trait_type: Maybe<Scalars["String"]["output"]>;
+  trait_type: Maybe<Scalars['String']['output']>;
   /** NFT attribute value as defined in the smart contract, e.g. blue */
-  value: Maybe<Scalars["String"]["output"]>;
+  value: Maybe<Scalars['String']['output']>;
 };
 
 export type NftAttributeFilter = {
-  _and: InputMaybe<Array<NftAttributeFilter>>;
-  _nor: InputMaybe<Array<NftAttributeFilter>>;
-  _or: InputMaybe<Array<NftAttributeFilter>>;
   trait_type: InputMaybe<String_Comparator_Exp>;
   value: InputMaybe<String_Comparator_Exp>;
 };
 
 export type NftAttributesInput = {
-  cursor: InputMaybe<Scalars["String"]["input"]>;
+  cursor: InputMaybe<Scalars['String']['input']>;
   filter: NftAttributeFilter;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type NftAttributesOutput = {
@@ -607,24 +673,21 @@ export type NftAttributesOutput = {
 };
 
 export type NftMetadata = {
-  animationUrl: Maybe<Scalars["String"]["output"]>;
+  animationUrl: Maybe<Scalars['String']['output']>;
   attributes: Maybe<Array<NftAttribute>>;
-  backgroundColor: Maybe<Scalars["String"]["output"]>;
+  backgroundColor: Maybe<Scalars['String']['output']>;
   /** Description of the token, mirrored from the smart contract */
-  description: Maybe<Scalars["String"]["output"]>;
-  externalUrl: Maybe<Scalars["String"]["output"]>;
+  description: Maybe<Scalars['String']['output']>;
+  externalUrl: Maybe<Scalars['String']['output']>;
   /** Link to the token image, mirrored from the smart contract */
-  image: Maybe<Scalars["String"]["output"]>;
-  imageData: Maybe<Scalars["String"]["output"]>;
+  image: Maybe<Scalars['String']['output']>;
+  imageData: Maybe<Scalars['String']['output']>;
   /** Name of the token, mirrored from the smart contract */
-  name: Maybe<Scalars["String"]["output"]>;
-  youtubeUrl: Maybe<Scalars["String"]["output"]>;
+  name: Maybe<Scalars['String']['output']>;
+  youtubeUrl: Maybe<Scalars['String']['output']>;
 };
 
 export type NftMetadataFilter = {
-  _and: InputMaybe<Array<NftMetadataFilter>>;
-  _nor: InputMaybe<Array<NftMetadataFilter>>;
-  _or: InputMaybe<Array<NftMetadataFilter>>;
   attributes: InputMaybe<NftAttributeFilter>;
   name: InputMaybe<String_Comparator_Exp>;
 };
@@ -634,9 +697,9 @@ export type NftMetadataOrderBy = {
 };
 
 export type NftMetadatasInput = {
-  cursor: InputMaybe<Scalars["String"]["input"]>;
+  cursor: InputMaybe<Scalars['String']['input']>;
   filter: NftMetadataFilter;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   order: InputMaybe<Array<NftMetadataOrderBy>>;
 };
 
@@ -646,20 +709,20 @@ export type NftMetadatasOutput = {
 };
 
 export enum OrderBy {
-  Asc = "ASC",
-  Desc = "DESC",
+  Asc = 'ASC',
+  Desc = 'DESC'
 }
 
 export enum OrderByAsIntString {
-  Asc = "ASC",
-  Desc = "DESC",
+  Asc = 'ASC',
+  Desc = 'DESC'
 }
 
 export type PageInfo = {
-  hasNextPage: Scalars["Boolean"]["output"];
-  hasPrevPage: Scalars["Boolean"]["output"];
-  nextCursor: Scalars["String"]["output"];
-  prevCursor: Scalars["String"]["output"];
+  hasNextPage: Scalars['Boolean']['output'];
+  hasPrevPage: Scalars['Boolean']['output'];
+  nextCursor: Scalars['String']['output'];
+  prevCursor: Scalars['String']['output'];
 };
 
 export type Poap = {
@@ -667,35 +730,35 @@ export type Poap = {
   /** Blockchain associated with the Poap */
   blockchain: Maybe<EveryBlockchain>;
   /** Unique identifier for the blockchain */
-  chainId: Maybe<Scalars["String"]["output"]>;
+  chainId: Maybe<Scalars['String']['output']>;
   /** Block Number when POAP was created */
-  createdAtBlockNumber: Maybe<Scalars["Int"]["output"]>;
+  createdAtBlockNumber: Maybe<Scalars['Int']['output']>;
   /** Time when POAP was created */
-  createdAtBlockTimestamp: Maybe<Scalars["Time"]["output"]>;
+  createdAtBlockTimestamp: Maybe<Scalars['Time']['output']>;
   /** Poap DApp name */
   dappName: Maybe<PoapDappName>;
   /** Poap DApp slug (contract version) */
   dappSlug: Maybe<PoapDappSlug>;
   /** Airstack unique dapp version number */
-  dappVersion: Maybe<Scalars["String"]["output"]>;
+  dappVersion: Maybe<Scalars['String']['output']>;
   /** Poap event id */
-  eventId: Maybe<Scalars["String"]["output"]>;
+  eventId: Maybe<Scalars['String']['output']>;
   /** Airstack unique identifier for the data point */
-  id: Maybe<Scalars["ID"]["output"]>;
-  mintHash: Maybe<Scalars["String"]["output"]>;
-  mintOrder: Maybe<Scalars["Int"]["output"]>;
+  id: Maybe<Scalars['ID']['output']>;
+  mintHash: Maybe<Scalars['String']['output']>;
+  mintOrder: Maybe<Scalars['Int']['output']>;
   owner: Wallet;
   poapEvent: Maybe<PoapEvent>;
   /** POAP Contract Address */
-  tokenAddress: Maybe<Scalars["String"]["output"]>;
-  tokenId: Maybe<Scalars["String"]["output"]>;
-  tokenUri: Maybe<Scalars["String"]["output"]>;
-  transferCount: Maybe<Scalars["Int"]["output"]>;
+  tokenAddress: Maybe<Scalars['String']['output']>;
+  tokenId: Maybe<Scalars['String']['output']>;
+  tokenUri: Maybe<Scalars['String']['output']>;
+  transferCount: Maybe<Scalars['Int']['output']>;
 };
 
 export type PoapAttendee = {
   owner: Wallet;
-  totalPoapOwned: Maybe<Scalars["Int"]["output"]>;
+  totalPoapOwned: Maybe<Scalars['Int']['output']>;
 };
 
 export type PoapAttendeesOutput = {
@@ -704,7 +767,7 @@ export type PoapAttendeesOutput = {
 };
 
 export enum PoapDappName {
-  Poap = "poap",
+  Poap = 'poap'
 }
 
 export type PoapDappName_Comparator_Exp = {
@@ -713,8 +776,8 @@ export type PoapDappName_Comparator_Exp = {
 };
 
 export enum PoapDappSlug {
-  PoapGnosis = "poap_gnosis",
-  PoapMainnet = "poap_mainnet",
+  PoapGnosis = 'poap_gnosis',
+  PoapMainnet = 'poap_mainnet'
 }
 
 export type PoapDappSlug_Comparator_Exp = {
@@ -726,38 +789,36 @@ export type PoapEvent = {
   /** Blockchain where the marketplace data is calculated from */
   blockchain: Maybe<EveryBlockchain>;
   /** Unique identifier for the blockchain */
-  chainId: Maybe<Scalars["String"]["output"]>;
-  city: Maybe<Scalars["String"]["output"]>;
-  contentType: Maybe<Scalars["String"]["output"]>;
+  chainId: Maybe<Scalars['String']['output']>;
+  city: Maybe<Scalars['String']['output']>;
+  contentType: Maybe<Scalars['String']['output']>;
   contentValue: Maybe<Media>;
-  country: Maybe<Scalars["String"]["output"]>;
+  country: Maybe<Scalars['String']['output']>;
   dappName: Maybe<PoapDappName>;
   dappSlug: PoapDappSlug;
-  dappVersion: Maybe<Scalars["String"]["output"]>;
-  description: Maybe<Scalars["String"]["output"]>;
-  endDate: Maybe<Scalars["Time"]["output"]>;
-  eventId: Maybe<Scalars["String"]["output"]>;
-  eventName: Maybe<Scalars["String"]["output"]>;
+  dappVersion: Maybe<Scalars['String']['output']>;
+  description: Maybe<Scalars['String']['output']>;
+  endDate: Maybe<Scalars['Time']['output']>;
+  eventId: Maybe<Scalars['String']['output']>;
+  eventName: Maybe<Scalars['String']['output']>;
   /** The Event URL */
-  eventURL: Maybe<Scalars["String"]["output"]>;
+  eventURL: Maybe<Scalars['String']['output']>;
   /** Airstack unique identifier for the data point */
-  id: Scalars["ID"]["output"];
+  id: Scalars['ID']['output'];
   /** If Event is Virtual or not */
-  isVirtualEvent: Maybe<Scalars["Boolean"]["output"]>;
-  metadata: Maybe<Scalars["Map"]["output"]>;
+  isVirtualEvent: Maybe<Scalars['Boolean']['output']>;
+  metadata: Maybe<Scalars['Map']['output']>;
   poaps: Maybe<Array<Poap>>;
-  startDate: Maybe<Scalars["Time"]["output"]>;
-  tokenMints: Maybe<Scalars["Int"]["output"]>;
+  startDate: Maybe<Scalars['Time']['output']>;
+  tokenMints: Maybe<Scalars['Int']['output']>;
 };
+
 
 export type PoapEventPoapsArgs = {
   input: InputMaybe<PoapsNestedInput>;
 };
 
 export type PoapEventFilter = {
-  _and: InputMaybe<Array<PoapEventFilter>>;
-  _nor: InputMaybe<Array<PoapEventFilter>>;
-  _or: InputMaybe<Array<PoapEventFilter>>;
   city: InputMaybe<String_Comparator_Exp>;
   country: InputMaybe<String_Comparator_Exp>;
   dappName: InputMaybe<PoapDappName_Comparator_Exp>;
@@ -778,9 +839,9 @@ export type PoapEventOrderBy = {
 
 export type PoapEventsInput = {
   blockchain: EveryBlockchain;
-  cursor: InputMaybe<Scalars["String"]["input"]>;
+  cursor: InputMaybe<Scalars['String']['input']>;
   filter: PoapEventFilter;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   order: InputMaybe<Array<PoapEventOrderBy>>;
 };
 
@@ -790,9 +851,6 @@ export type PoapEventsOutput = {
 };
 
 export type PoapFilter = {
-  _and: InputMaybe<Array<PoapFilter>>;
-  _nor: InputMaybe<Array<PoapFilter>>;
-  _or: InputMaybe<Array<PoapFilter>>;
   createdAtBlockNumber: InputMaybe<Int_Comparator_Exp>;
   dappName: InputMaybe<PoapDappName_Comparator_Exp>;
   dappSlug: InputMaybe<PoapDappSlug_Comparator_Exp>;
@@ -807,16 +865,16 @@ export type PoapOrderBy = {
 
 export type PoapsInput = {
   blockchain: EveryBlockchain;
-  cursor: InputMaybe<Scalars["String"]["input"]>;
+  cursor: InputMaybe<Scalars['String']['input']>;
   filter: PoapFilter;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   order: InputMaybe<Array<PoapOrderBy>>;
 };
 
 export type PoapsNestedInput = {
   blockchain: InputMaybe<EveryBlockchain>;
   filter: InputMaybe<PoapFilter>;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   order: InputMaybe<Array<InputMaybe<PoapOrderBy>>>;
 };
 
@@ -826,34 +884,34 @@ export type PoapsOutput = {
 };
 
 export type PopularDapp = {
-  address: Maybe<Scalars["String"]["output"]>;
-  blockchain: Maybe<Scalars["String"]["output"]>;
-  chainId: Maybe<Scalars["String"]["output"]>;
-  criteria: Maybe<Scalars["String"]["output"]>;
-  criteriaCount: Maybe<Scalars["Int"]["output"]>;
-  description: Maybe<Scalars["String"]["output"]>;
-  lastTransactionBlockNumber: Maybe<Scalars["Int"]["output"]>;
-  lastTransactionHash: Maybe<Scalars["String"]["output"]>;
-  lastTransactionTimestamp: Maybe<Scalars["Time"]["output"]>;
-  name: Maybe<Scalars["String"]["output"]>;
-  timeFrom: Maybe<Scalars["Time"]["output"]>;
-  timeTo: Maybe<Scalars["Time"]["output"]>;
-  userbase: Maybe<Scalars["String"]["output"]>;
-  website: Maybe<Scalars["String"]["output"]>;
+  address: Maybe<Scalars['String']['output']>;
+  blockchain: Maybe<Scalars['String']['output']>;
+  chainId: Maybe<Scalars['String']['output']>;
+  criteria: Maybe<Scalars['String']['output']>;
+  criteriaCount: Maybe<Scalars['Int']['output']>;
+  description: Maybe<Scalars['String']['output']>;
+  lastTransactionBlockNumber: Maybe<Scalars['Int']['output']>;
+  lastTransactionHash: Maybe<Scalars['String']['output']>;
+  lastTransactionTimestamp: Maybe<Scalars['Time']['output']>;
+  name: Maybe<Scalars['String']['output']>;
+  timeFrom: Maybe<Scalars['Time']['output']>;
+  timeTo: Maybe<Scalars['Time']['output']>;
+  userbase: Maybe<Scalars['String']['output']>;
+  website: Maybe<Scalars['String']['output']>;
 };
 
 export enum PopularDappsCriteria {
-  GasSpent = "GAS_SPENT",
-  TotalTransactions = "TOTAL_TRANSACTIONS",
-  UniqueUsers = "UNIQUE_USERS",
+  GasSpent = 'GAS_SPENT',
+  TotalTransactions = 'TOTAL_TRANSACTIONS',
+  UniqueUsers = 'UNIQUE_USERS'
 }
 
 export type PopularDappsInput = {
   blockchain: TrendingBlockchain;
   criteria: PopularDappsCriteria;
-  cursor: InputMaybe<Scalars["String"]["input"]>;
+  cursor: InputMaybe<Scalars['String']['input']>;
   filter: InputMaybe<TrendingFilter>;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   timeFrame: TimeFrame;
   userbase: Audience;
 };
@@ -864,17 +922,18 @@ export type PopularDappsOutput = {
 };
 
 export type ProjectDetails = {
-  collectionName: Maybe<Scalars["String"]["output"]>;
-  description: Maybe<Scalars["String"]["output"]>;
-  discordUrl: Maybe<Scalars["String"]["output"]>;
-  externalUrl: Maybe<Scalars["String"]["output"]>;
-  imageUrl: Maybe<Scalars["String"]["output"]>;
-  twitterUrl: Maybe<Scalars["String"]["output"]>;
+  collectionName: Maybe<Scalars['String']['output']>;
+  description: Maybe<Scalars['String']['output']>;
+  discordUrl: Maybe<Scalars['String']['output']>;
+  externalUrl: Maybe<Scalars['String']['output']>;
+  imageUrl: Maybe<Scalars['String']['output']>;
+  twitterUrl: Maybe<Scalars['String']['output']>;
 };
 
 export type Query = {
   Accounts: Maybe<AccountsOutput>;
   Domains: Maybe<DomainsOutput>;
+  FarcasterCasts: Maybe<FarcasterCastOutput>;
   FarcasterChannelParticipants: Maybe<FarcasterChannelParticipantsOutput>;
   FarcasterChannels: Maybe<FarcasterChannelsOutput>;
   FarcasterValidateFrameMessage: Maybe<FarcasterFrameMessageOutput>;
@@ -888,135 +947,175 @@ export type Query = {
   TokenNfts: Maybe<TokenNftsOutput>;
   TokenTransfers: Maybe<TokenTransfersOutput>;
   Tokens: Maybe<TokensOutput>;
+  TrendingCasts: Maybe<TrendingCastsOutput>;
   TrendingMints: Maybe<TrendingMintsOutput>;
+  TrendingSwaps: Maybe<TrendingSwapsOutput>;
   TrendingTokens: Maybe<TrendingTokensOutput>;
   Wallet: Maybe<Wallet>;
   XMTPs: Maybe<XmtPsOutput>;
 };
 
+
 export type QueryAccountsArgs = {
   input: AccountsInput;
 };
+
 
 export type QueryDomainsArgs = {
   input: DomainsInput;
 };
 
+
+export type QueryFarcasterCastsArgs = {
+  input: FarcasterCastInput;
+};
+
+
 export type QueryFarcasterChannelParticipantsArgs = {
   input: FarcasterChannelParticipantsInput;
 };
+
 
 export type QueryFarcasterChannelsArgs = {
   input: FarcasterChannelsInput;
 };
 
+
 export type QueryFarcasterValidateFrameMessageArgs = {
   input: FarcasterFrameMessageInput;
 };
+
 
 export type QueryPoapEventsArgs = {
   input: PoapEventsInput;
 };
 
+
 export type QueryPoapsArgs = {
   input: PoapsInput;
 };
+
 
 export type QuerySnapshotsArgs = {
   input: SnapshotsInput;
 };
 
+
 export type QuerySocialFollowersArgs = {
   input: SocialFollowerInput;
 };
+
 
 export type QuerySocialFollowingsArgs = {
   input: SocialFollowingInput;
 };
 
+
 export type QuerySocialsArgs = {
   input: SocialsInput;
 };
+
 
 export type QueryTokenBalancesArgs = {
   input: TokenBalancesInput;
 };
 
+
 export type QueryTokenNftsArgs = {
   input: TokenNftsInput;
 };
+
 
 export type QueryTokenTransfersArgs = {
   input: TokenTransfersInput;
 };
 
+
 export type QueryTokensArgs = {
   input: TokensInput;
 };
+
+
+export type QueryTrendingCastsArgs = {
+  input: TrendingCastsInput;
+};
+
 
 export type QueryTrendingMintsArgs = {
   input: TrendingMintsInput;
 };
 
+
+export type QueryTrendingSwapsArgs = {
+  input: TrendingSwapsInput;
+};
+
+
 export type QueryTrendingTokensArgs = {
   input: TrendingTokensInput;
 };
 
+
 export type QueryWalletArgs = {
   input: WalletInput;
 };
+
 
 export type QueryXmtPsArgs = {
   input: XmtPsInput;
 };
 
 export type Range_Comparator_Exp = {
-  _eq: InputMaybe<Scalars["Int"]["input"]>;
+  _eq: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type Regex_String_Comparator_Exp = {
-  _eq: InputMaybe<Scalars["String"]["input"]>;
-  _gt: InputMaybe<Scalars["String"]["input"]>;
-  _gte: InputMaybe<Scalars["String"]["input"]>;
-  _in: InputMaybe<Array<Scalars["String"]["input"]>>;
-  _lt: InputMaybe<Scalars["String"]["input"]>;
-  _lte: InputMaybe<Scalars["String"]["input"]>;
-  _ne: InputMaybe<Scalars["String"]["input"]>;
-  _nin: InputMaybe<Array<Scalars["String"]["input"]>>;
-  _regex: InputMaybe<Scalars["String"]["input"]>;
-  _regex_in: InputMaybe<Array<Scalars["String"]["input"]>>;
+  _eq: InputMaybe<Scalars['String']['input']>;
+  _gt: InputMaybe<Scalars['String']['input']>;
+  _gte: InputMaybe<Scalars['String']['input']>;
+  _in: InputMaybe<Array<Scalars['String']['input']>>;
+  _lt: InputMaybe<Scalars['String']['input']>;
+  _lte: InputMaybe<Scalars['String']['input']>;
+  _ne: InputMaybe<Scalars['String']['input']>;
+  _nin: InputMaybe<Array<Scalars['String']['input']>>;
+  _regex: InputMaybe<Scalars['String']['input']>;
+  _regex_in: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export type Simple_String_Comparator_Exp = {
+  _eq: InputMaybe<Scalars['String']['input']>;
+  _in: InputMaybe<Array<Scalars['String']['input']>>;
+  _ne: InputMaybe<Scalars['String']['input']>;
+  _nin: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type Snapshot = {
-  amount: Maybe<Scalars["String"]["output"]>;
+  amount: Maybe<Scalars['String']['output']>;
   blockchain: Maybe<TokenBlockchain>;
-  chainId: Maybe<Scalars["String"]["output"]>;
-  endBlockNumber: Maybe<Scalars["Int"]["output"]>;
-  endBlockTimestamp: Maybe<Scalars["Time"]["output"]>;
-  formattedAmount: Maybe<Scalars["Float"]["output"]>;
+  chainId: Maybe<Scalars['String']['output']>;
+  endBlockNumber: Maybe<Scalars['Int']['output']>;
+  endBlockTimestamp: Maybe<Scalars['Time']['output']>;
+  formattedAmount: Maybe<Scalars['Float']['output']>;
   /** Airstack unique identifier for the data point */
-  id: Scalars["ID"]["output"];
+  id: Scalars['ID']['output'];
   owner: Wallet;
-  startBlockNumber: Maybe<Scalars["Int"]["output"]>;
-  startBlockTimestamp: Maybe<Scalars["Time"]["output"]>;
+  startBlockNumber: Maybe<Scalars['Int']['output']>;
+  startBlockTimestamp: Maybe<Scalars['Time']['output']>;
   token: Maybe<Token>;
-  tokenAddress: Scalars["Address"]["output"];
-  tokenId: Maybe<Scalars["String"]["output"]>;
+  tokenAddress: Scalars['Address']['output'];
+  tokenId: Maybe<Scalars['String']['output']>;
   tokenNft: Maybe<TokenNft>;
   tokenType: Maybe<TokenType>;
 };
 
 export enum SnapshotBlockchain {
-  Base = "base",
-  Ethereum = "ethereum",
-  Gold = "gold",
-  Zora = "zora",
+  Base = 'base',
+  Ethereum = 'ethereum',
+  Gold = 'gold',
+  Zora = 'zora'
 }
 
 export type SnapshotFilter = {
-  _and: InputMaybe<Array<SnapshotFilter>>;
-  _nor: InputMaybe<Array<SnapshotFilter>>;
-  _or: InputMaybe<Array<SnapshotFilter>>;
   blockNumber: InputMaybe<Range_Comparator_Exp>;
   date: InputMaybe<Date_Range_Comparator_Exp>;
   owner: InputMaybe<Identity_Comparator_Exp>;
@@ -1028,9 +1127,9 @@ export type SnapshotFilter = {
 
 export type SnapshotsInput = {
   blockchain: SnapshotBlockchain;
-  cursor: InputMaybe<Scalars["String"]["input"]>;
+  cursor: InputMaybe<Scalars['String']['input']>;
   filter: SnapshotFilter;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type SnapshotsOutput = {
@@ -1042,78 +1141,84 @@ export type Social = {
   /** Blockchain associated with the social identity */
   blockchain: Maybe<Blockchain>;
   /** Unique identifier for the blockchain */
-  chainId: Maybe<Scalars["String"]["output"]>;
+  chainId: Maybe<Scalars['String']['output']>;
   connectedAddresses: Maybe<Array<ConnectedAddress>>;
   coverImageContentValue: Maybe<Media>;
-  coverImageURI: Maybe<Scalars["String"]["output"]>;
+  coverImageURI: Maybe<Scalars['String']['output']>;
   /** Social DApp name */
   dappName: Maybe<SocialDappName>;
   /** Social DApp slug (contract version) */
   dappSlug: Maybe<SocialDappSlug>;
   /** Airstack unique dapp version number */
-  dappVersion: Maybe<Scalars["String"]["output"]>;
-  fnames: Maybe<Array<Maybe<Scalars["String"]["output"]>>>;
-  followerCount: Maybe<Scalars["Int"]["output"]>;
-  followerTokenAddress: Maybe<Scalars["Address"]["output"]>;
+  dappVersion: Maybe<Scalars['String']['output']>;
+  fnames: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  followerCount: Maybe<Scalars['Int']['output']>;
+  followerTokenAddress: Maybe<Scalars['Address']['output']>;
   followers: Maybe<SocialFollowerOutput>;
-  followingCount: Maybe<Scalars["Int"]["output"]>;
+  followingCount: Maybe<Scalars['Int']['output']>;
   followings: Maybe<SocialFollowingOutput>;
-  handleTokenAddress: Maybe<Scalars["Address"]["output"]>;
-  handleTokenId: Maybe<Scalars["String"]["output"]>;
+  handleTokenAddress: Maybe<Scalars['Address']['output']>;
+  handleTokenId: Maybe<Scalars['String']['output']>;
   /** Airstack unique identifier for the data point */
-  id: Maybe<Scalars["ID"]["output"]>;
+  id: Maybe<Scalars['ID']['output']>;
   /** Blockchain address, ENS domain name, social identity such as Farcaster (for Farcaster use 'fc_fid:' prefix followed by the Farcaster user ID like fc_fid:5650, or use 'fc_fname:' prefix followed by the Farcaster user ID like 'fc_fname:vbuterin') or Lens (e.g. 'stani.lens) */
-  identity: Maybe<Scalars["Identity"]["output"]>;
-  isDefault: Maybe<Scalars["Boolean"]["output"]>;
-  isFarcasterPowerUser: Maybe<Scalars["Boolean"]["output"]>;
-  location: Maybe<Scalars["String"]["output"]>;
-  metadataURI: Maybe<Scalars["String"]["output"]>;
-  profileBio: Maybe<Scalars["String"]["output"]>;
-  profileCreatedAtBlockNumber: Maybe<Scalars["Int"]["output"]>;
-  profileCreatedAtBlockTimestamp: Maybe<Scalars["Time"]["output"]>;
-  profileDisplayName: Maybe<Scalars["String"]["output"]>;
-  profileHandle: Maybe<Scalars["String"]["output"]>;
-  profileHandleNft: Maybe<TokenNft>;
-  profileImage: Maybe<Scalars["String"]["output"]>;
+  identity: Maybe<Scalars['Identity']['output']>;
+  isDefault: Maybe<Scalars['Boolean']['output']>;
+  isFarcasterPowerUser: Maybe<Scalars['Boolean']['output']>;
+  location: Maybe<Scalars['String']['output']>;
+  metadataURI: Maybe<Scalars['String']['output']>;
+  profileBio: Maybe<Scalars['String']['output']>;
+  profileCreatedAtBlockNumber: Maybe<Scalars['Int']['output']>;
+  profileCreatedAtBlockTimestamp: Maybe<Scalars['Time']['output']>;
+  profileDisplayName: Maybe<Scalars['String']['output']>;
+  profileHandle: Maybe<Scalars['String']['output']>;
+  profileImage: Maybe<Scalars['String']['output']>;
   profileImageContentValue: Maybe<Media>;
-  profileLastUpdatedAtBlockNumber: Maybe<Scalars["Int"]["output"]>;
-  profileLastUpdatedAtBlockTimestamp: Maybe<Scalars["Time"]["output"]>;
-  profileMetadata: Maybe<Scalars["Map"]["output"]>;
-  profileName: Maybe<Scalars["String"]["output"]>;
-  profileTokenAddress: Maybe<Scalars["String"]["output"]>;
-  profileTokenId: Maybe<Scalars["String"]["output"]>;
-  profileTokenIdHex: Maybe<Scalars["String"]["output"]>;
-  profileTokenUri: Maybe<Scalars["String"]["output"]>;
-  profileUrl: Maybe<Scalars["String"]["output"]>;
-  tokenNft: Maybe<TokenNft>;
-  twitterUserName: Maybe<Scalars["String"]["output"]>;
-  updatedAt: Maybe<Scalars["Time"]["output"]>;
-  userAddress: Maybe<Scalars["Address"]["output"]>;
+  profileLastUpdatedAtBlockNumber: Maybe<Scalars['Int']['output']>;
+  profileLastUpdatedAtBlockTimestamp: Maybe<Scalars['Time']['output']>;
+  profileMetadata: Maybe<Scalars['Map']['output']>;
+  profileName: Maybe<Scalars['String']['output']>;
+  profileTokenAddress: Maybe<Scalars['String']['output']>;
+  profileTokenId: Maybe<Scalars['String']['output']>;
+  profileTokenIdHex: Maybe<Scalars['String']['output']>;
+  profileTokenUri: Maybe<Scalars['String']['output']>;
+  profileUrl: Maybe<Scalars['String']['output']>;
+  twitterUserName: Maybe<Scalars['String']['output']>;
+  updatedAt: Maybe<Scalars['Time']['output']>;
+  userAddress: Maybe<Scalars['Address']['output']>;
   userAddressDetails: Maybe<Wallet>;
   userAssociatedAddressDetails: Maybe<Array<Wallet>>;
   /** blockchain addresses associated with the social profile */
-  userAssociatedAddresses: Maybe<Array<Scalars["Address"]["output"]>>;
-  userCreatedAtBlockNumber: Maybe<Scalars["Int"]["output"]>;
-  userCreatedAtBlockTimestamp: Maybe<Scalars["Time"]["output"]>;
-  userHomeURL: Maybe<Scalars["String"]["output"]>;
-  userId: Maybe<Scalars["String"]["output"]>;
-  userLastUpdatedAtBlockNumber: Maybe<Scalars["Int"]["output"]>;
-  userLastUpdatedAtBlockTimestamp: Maybe<Scalars["Time"]["output"]>;
-  userRecoveryAddress: Maybe<Scalars["Address"]["output"]>;
-  website: Maybe<Scalars["String"]["output"]>;
+  userAssociatedAddresses: Maybe<Array<Scalars['Address']['output']>>;
+  userCreatedAtBlockNumber: Maybe<Scalars['Int']['output']>;
+  userCreatedAtBlockTimestamp: Maybe<Scalars['Time']['output']>;
+  userHomeURL: Maybe<Scalars['String']['output']>;
+  userId: Maybe<Scalars['String']['output']>;
+  userLastUpdatedAtBlockNumber: Maybe<Scalars['Int']['output']>;
+  userLastUpdatedAtBlockTimestamp: Maybe<Scalars['Time']['output']>;
+  userRecoveryAddress: Maybe<Scalars['Address']['output']>;
+  website: Maybe<Scalars['String']['output']>;
 };
+
 
 export type SocialFollowersArgs = {
   input: InputMaybe<SocialFollowerNestedInput>;
 };
 
+
 export type SocialFollowingsArgs = {
   input: InputMaybe<SocialFollowingNestedInput>;
 };
 
+export type SocialCapitalValue = {
+  formattedValue: Maybe<Scalars['Float']['output']>;
+  hash: Maybe<Scalars['String']['output']>;
+  rawValue: Maybe<Scalars['String']['output']>;
+};
+
 export enum SocialDappName {
-  Farcaster = "farcaster",
-  Lens = "lens",
+  Farcaster = 'farcaster',
+  Lens = 'lens'
 }
 
 export type SocialDappName_Comparator_Exp = {
@@ -1122,11 +1227,11 @@ export type SocialDappName_Comparator_Exp = {
 };
 
 export enum SocialDappSlug {
-  FarcasterGoerli = "farcaster_goerli",
-  FarcasterOptimism = "farcaster_optimism",
-  FarcasterV2Optimism = "farcaster_v2_optimism",
-  LensPolygon = "lens_polygon",
-  LensV2Polygon = "lens_v2_polygon",
+  FarcasterGoerli = 'farcaster_goerli',
+  FarcasterOptimism = 'farcaster_optimism',
+  FarcasterV2Optimism = 'farcaster_v2_optimism',
+  LensPolygon = 'lens_polygon',
+  LensV2Polygon = 'lens_v2_polygon'
 }
 
 export type SocialDappSlug_Comparator_Exp = {
@@ -1135,9 +1240,6 @@ export type SocialDappSlug_Comparator_Exp = {
 };
 
 export type SocialFilter = {
-  _and: InputMaybe<Array<SocialFilter>>;
-  _nor: InputMaybe<Array<SocialFilter>>;
-  _or: InputMaybe<Array<SocialFilter>>;
   dappName: InputMaybe<SocialDappName_Comparator_Exp>;
   dappSlug: InputMaybe<SocialDappSlug_Comparator_Exp>;
   followerCount: InputMaybe<Int_Comparator_Exp>;
@@ -1152,23 +1254,20 @@ export type SocialFilter = {
 };
 
 export type SocialFollower = {
-  blockNumber: Maybe<Scalars["Int"]["output"]>;
+  blockNumber: Maybe<Scalars['Int']['output']>;
   blockchain: Maybe<EveryBlockchain>;
-  dappName: Maybe<Scalars["String"]["output"]>;
-  dappSlug: Maybe<Scalars["String"]["output"]>;
+  dappName: Maybe<Scalars['String']['output']>;
+  dappSlug: Maybe<Scalars['String']['output']>;
   followerAddress: Maybe<Wallet>;
-  followerProfileId: Maybe<Scalars["String"]["output"]>;
-  followerSince: Maybe<Scalars["Time"]["output"]>;
-  followerTokenId: Maybe<Scalars["String"]["output"]>;
+  followerProfileId: Maybe<Scalars['String']['output']>;
+  followerSince: Maybe<Scalars['Time']['output']>;
+  followerTokenId: Maybe<Scalars['String']['output']>;
   followingAddress: Maybe<Wallet>;
-  followingProfileId: Maybe<Scalars["String"]["output"]>;
-  id: Maybe<Scalars["ID"]["output"]>;
+  followingProfileId: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['ID']['output']>;
 };
 
 export type SocialFollowerFilter = {
-  _and: InputMaybe<Array<SocialFollowerFilter>>;
-  _nor: InputMaybe<Array<SocialFollowerFilter>>;
-  _or: InputMaybe<Array<SocialFollowerFilter>>;
   blockNumber: InputMaybe<Int_Comparator_Exp>;
   dappName: InputMaybe<SocialDappName_Comparator_Exp>;
   dappSlug: InputMaybe<SocialDappSlug_Comparator_Exp>;
@@ -1180,16 +1279,16 @@ export type SocialFollowerFilter = {
 
 export type SocialFollowerInput = {
   blockchain: EveryBlockchain;
-  cursor: InputMaybe<Scalars["String"]["input"]>;
+  cursor: InputMaybe<Scalars['String']['input']>;
   filter: SocialFollowerFilter;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   order: InputMaybe<Array<SocialFollowerOrderBy>>;
 };
 
 export type SocialFollowerNestedInput = {
   blockchain: InputMaybe<EveryBlockchain>;
   filter: InputMaybe<SocialFollowerFilter>;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   order: InputMaybe<Array<InputMaybe<SocialFollowerOrderBy>>>;
 };
 
@@ -1204,23 +1303,20 @@ export type SocialFollowerOutput = {
 };
 
 export type SocialFollowing = {
-  blockNumber: Maybe<Scalars["Int"]["output"]>;
+  blockNumber: Maybe<Scalars['Int']['output']>;
   blockchain: Maybe<EveryBlockchain>;
-  dappName: Maybe<Scalars["String"]["output"]>;
-  dappSlug: Maybe<Scalars["String"]["output"]>;
+  dappName: Maybe<Scalars['String']['output']>;
+  dappSlug: Maybe<Scalars['String']['output']>;
   followerAddress: Maybe<Wallet>;
-  followerProfileId: Maybe<Scalars["String"]["output"]>;
-  followerTokenId: Maybe<Scalars["String"]["output"]>;
+  followerProfileId: Maybe<Scalars['String']['output']>;
+  followerTokenId: Maybe<Scalars['String']['output']>;
   followingAddress: Maybe<Wallet>;
-  followingProfileId: Maybe<Scalars["String"]["output"]>;
-  followingSince: Maybe<Scalars["Time"]["output"]>;
-  id: Maybe<Scalars["ID"]["output"]>;
+  followingProfileId: Maybe<Scalars['String']['output']>;
+  followingSince: Maybe<Scalars['Time']['output']>;
+  id: Maybe<Scalars['ID']['output']>;
 };
 
 export type SocialFollowingFilter = {
-  _and: InputMaybe<Array<SocialFollowingFilter>>;
-  _nor: InputMaybe<Array<SocialFollowingFilter>>;
-  _or: InputMaybe<Array<SocialFollowingFilter>>;
   blockNumber: InputMaybe<Int_Comparator_Exp>;
   dappName: InputMaybe<SocialDappName_Comparator_Exp>;
   dappSlug: InputMaybe<SocialDappSlug_Comparator_Exp>;
@@ -1232,16 +1328,16 @@ export type SocialFollowingFilter = {
 
 export type SocialFollowingInput = {
   blockchain: EveryBlockchain;
-  cursor: InputMaybe<Scalars["String"]["input"]>;
+  cursor: InputMaybe<Scalars['String']['input']>;
   filter: SocialFollowingFilter;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   order: InputMaybe<Array<SocialFollowingOrderBy>>;
 };
 
 export type SocialFollowingNestedInput = {
   blockchain: InputMaybe<EveryBlockchain>;
   filter: InputMaybe<SocialFollowingFilter>;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   order: InputMaybe<Array<InputMaybe<SocialFollowingOrderBy>>>;
 };
 
@@ -1264,16 +1360,16 @@ export type SocialOrderBy = {
 
 export type SocialsInput = {
   blockchain: Blockchain;
-  cursor: InputMaybe<Scalars["String"]["input"]>;
+  cursor: InputMaybe<Scalars['String']['input']>;
   filter: SocialFilter;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   order: InputMaybe<Array<SocialOrderBy>>;
 };
 
 export type SocialsNestedInput = {
   blockchain: InputMaybe<Blockchain>;
   filter: InputMaybe<SocialFilter>;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type SocialsOutput = {
@@ -1282,96 +1378,98 @@ export type SocialsOutput = {
 };
 
 export type String_Comparator_Exp = {
-  _eq: InputMaybe<Scalars["String"]["input"]>;
-  _gt: InputMaybe<Scalars["String"]["input"]>;
-  _gte: InputMaybe<Scalars["String"]["input"]>;
-  _in: InputMaybe<Array<Scalars["String"]["input"]>>;
-  _lt: InputMaybe<Scalars["String"]["input"]>;
-  _lte: InputMaybe<Scalars["String"]["input"]>;
-  _ne: InputMaybe<Scalars["String"]["input"]>;
-  _nin: InputMaybe<Array<Scalars["String"]["input"]>>;
+  _eq: InputMaybe<Scalars['String']['input']>;
+  _gt: InputMaybe<Scalars['String']['input']>;
+  _gte: InputMaybe<Scalars['String']['input']>;
+  _in: InputMaybe<Array<Scalars['String']['input']>>;
+  _lt: InputMaybe<Scalars['String']['input']>;
+  _lte: InputMaybe<Scalars['String']['input']>;
+  _ne: InputMaybe<Scalars['String']['input']>;
+  _nin: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type String_Eq_Comparator_Exp = {
-  _eq: InputMaybe<Scalars["String"]["input"]>;
+  _eq: InputMaybe<Scalars['String']['input']>;
 };
 
 export enum TimeFrame {
-  EightHours = "eight_hours",
-  OneDay = "one_day",
-  OneHour = "one_hour",
-  SevenDays = "seven_days",
-  TwoDays = "two_days",
-  TwoHours = "two_hours",
+  EightHours = 'eight_hours',
+  OneDay = 'one_day',
+  OneHour = 'one_hour',
+  SevenDays = 'seven_days',
+  TwoDays = 'two_days',
+  TwoHours = 'two_hours'
 }
 
 export type Time_Comparator_Exp = {
-  _eq: InputMaybe<Scalars["Time"]["input"]>;
-  _gt: InputMaybe<Scalars["Time"]["input"]>;
-  _gte: InputMaybe<Scalars["Time"]["input"]>;
-  _in: InputMaybe<Array<Scalars["Time"]["input"]>>;
-  _lt: InputMaybe<Scalars["Time"]["input"]>;
-  _lte: InputMaybe<Scalars["Time"]["input"]>;
-  _ne: InputMaybe<Scalars["Time"]["input"]>;
-  _nin: InputMaybe<Array<Scalars["Time"]["input"]>>;
+  _eq: InputMaybe<Scalars['Time']['input']>;
+  _gt: InputMaybe<Scalars['Time']['input']>;
+  _gte: InputMaybe<Scalars['Time']['input']>;
+  _in: InputMaybe<Array<Scalars['Time']['input']>>;
+  _lt: InputMaybe<Scalars['Time']['input']>;
+  _lte: InputMaybe<Scalars['Time']['input']>;
+  _ne: InputMaybe<Scalars['Time']['input']>;
+  _nin: InputMaybe<Array<Scalars['Time']['input']>>;
 };
 
 export type Time_Range_Comparator_Exp = {
-  _eq: InputMaybe<Scalars["Int"]["input"]>;
+  _eq: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type Token = {
   /** Smart contract address of the token */
-  address: Scalars["Address"]["output"];
+  address: Scalars['Address']['output'];
   /** Base URI of the token contract */
-  baseURI: Maybe<Scalars["String"]["output"]>;
+  baseURI: Maybe<Scalars['String']['output']>;
   /** Blockchain where the token smart contract is deployed */
   blockchain: Maybe<TokenBlockchain>;
   /** Unique identifier for the blockchain */
-  chainId: Maybe<Scalars["String"]["output"]>;
+  chainId: Maybe<Scalars['String']['output']>;
   /** Token contract metadata object */
   contractMetaData: Maybe<ContractMetadata>;
   /** URI for the token's contract metadata */
-  contractMetaDataURI: Maybe<Scalars["String"]["output"]>;
+  contractMetaDataURI: Maybe<Scalars['String']['output']>;
   /** The number of decimal places this token uses, default to 18 */
-  decimals: Maybe<Scalars["Int"]["output"]>;
+  decimals: Maybe<Scalars['Int']['output']>;
   /** Airstack unique identifier for the contract */
-  id: Maybe<Scalars["ID"]["output"]>;
+  id: Maybe<Scalars['ID']['output']>;
   /** Indicates if the token is set to be spam - true or false */
-  isSpam: Maybe<Scalars["Boolean"]["output"]>;
+  isSpam: Maybe<Scalars['Boolean']['output']>;
   /** Block number of the token's most recent transfer */
-  lastTransferBlock: Maybe<Scalars["Int"]["output"]>;
+  lastTransferBlock: Maybe<Scalars['Int']['output']>;
   /** Transaction hash of the token's most recent transfer */
-  lastTransferHash: Maybe<Scalars["String"]["output"]>;
+  lastTransferHash: Maybe<Scalars['String']['output']>;
   /** Timestamp of the token's most recent transfer */
-  lastTransferTimestamp: Maybe<Scalars["Time"]["output"]>;
+  lastTransferTimestamp: Maybe<Scalars['Time']['output']>;
   /** Logo image for the contract in various sizes (if available) */
   logo: Maybe<LogoSizes>;
   /** Name of the token, mirrored from the smart contract */
-  name: Maybe<Scalars["String"]["output"]>;
+  name: Maybe<Scalars['String']['output']>;
   /** The owner of the token contract */
   owner: Maybe<Wallet>;
   /** off-chain data for the token project */
   projectDetails: Maybe<ProjectDetails>;
   /** Token contract metadata as it appears inside the contract */
-  rawContractMetaData: Maybe<Scalars["Map"]["output"]>;
+  rawContractMetaData: Maybe<Scalars['Map']['output']>;
   /** Symbol of the token, mirrored from the smart contract */
-  symbol: Maybe<Scalars["String"]["output"]>;
+  symbol: Maybe<Scalars['String']['output']>;
   /** Nested Query - allows querying the tokenBalance information */
   tokenBalances: Maybe<Array<TokenBalance>>;
   /** Nested Query - allows querying the tokenNFTs information */
   tokenNfts: Maybe<Array<TokenNft>>;
   /** Returns count of all NFT token attribute types and values for the given smart contract */
-  tokenTraits: Maybe<Scalars["Map"]["output"]>;
+  tokenTraits: Maybe<Scalars['Map']['output']>;
   /** Amount of tokens in the protocol */
-  totalSupply: Maybe<Scalars["String"]["output"]>;
+  totalSupply: Maybe<Scalars['String']['output']>;
   /** Token type: ERC20, ERC721, or ERC1155 */
   type: Maybe<TokenType>;
 };
 
+
 export type TokenTokenBalancesArgs = {
   input: InputMaybe<TokenBalancesNestedInput>;
 };
+
 
 export type TokenTokenNftsArgs = {
   input: InputMaybe<TokenNftsNestedInput>;
@@ -1379,27 +1477,27 @@ export type TokenTokenNftsArgs = {
 
 export type TokenBalance = {
   /** Token amount the address currently holds */
-  amount: Scalars["String"]["output"];
+  amount: Scalars['String']['output'];
   /** Blockchain where the token smart contract is deployed */
   blockchain: Maybe<TokenBlockchain>;
   /** Unique identifier for the blockchain */
-  chainId: Scalars["String"]["output"];
+  chainId: Scalars['String']['output'];
   /** Formatted token balance in decimals */
-  formattedAmount: Maybe<Scalars["Float"]["output"]>;
+  formattedAmount: Maybe<Scalars['Float']['output']>;
   /** Airstack unique identifier for the data point */
-  id: Scalars["ID"]["output"];
+  id: Scalars['ID']['output'];
   /** Block number of the latest token balance change happened */
-  lastUpdatedBlock: Scalars["Int"]["output"];
+  lastUpdatedBlock: Scalars['Int']['output'];
   /** Timestamp of the latest token balance change happened */
-  lastUpdatedTimestamp: Maybe<Scalars["Time"]["output"]>;
+  lastUpdatedTimestamp: Maybe<Scalars['Time']['output']>;
   /** Nested Query allowing to retrieve address, domain names, social profiles of the owner */
   owner: Wallet;
   /** Nested Query - allows retrieving token contract level data */
   token: Maybe<Token>;
   /** Smart contract address of the token */
-  tokenAddress: Scalars["Address"]["output"];
+  tokenAddress: Scalars['Address']['output'];
   /** Unique NFT token ID */
-  tokenId: Maybe<Scalars["String"]["output"]>;
+  tokenId: Maybe<Scalars['String']['output']>;
   /** Nested Query - allows retrieving token NFT contract level data, such as images, traits, and so on */
   tokenNfts: Maybe<TokenNft>;
   /** Nested Query - allows retrieving token transfer history */
@@ -1408,14 +1506,12 @@ export type TokenBalance = {
   tokenType: Maybe<TokenType>;
 };
 
+
 export type TokenBalanceTokenTransfersArgs = {
   input: InputMaybe<TokenTransfersNestedInput>;
 };
 
 export type TokenBalanceFilter = {
-  _and: InputMaybe<Array<TokenBalanceFilter>>;
-  _nor: InputMaybe<Array<TokenBalanceFilter>>;
-  _or: InputMaybe<Array<TokenBalanceFilter>>;
   formattedAmount: InputMaybe<Float_Comparator_Exp>;
   lastUpdatedTimestamp: InputMaybe<Time_Comparator_Exp>;
   owner: InputMaybe<Identity_Comparator_Exp>;
@@ -1430,16 +1526,16 @@ export type TokenBalanceOrderBy = {
 
 export type TokenBalancesInput = {
   blockchain: TokenBlockchain;
-  cursor: InputMaybe<Scalars["String"]["input"]>;
+  cursor: InputMaybe<Scalars['String']['input']>;
   filter: TokenBalanceFilter;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   order: InputMaybe<Array<TokenBalanceOrderBy>>;
 };
 
 export type TokenBalancesNestedInput = {
   blockchain: InputMaybe<TokenBlockchain>;
   filter: InputMaybe<TokenBalanceFilter>;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   order: InputMaybe<Array<InputMaybe<TokenBalanceOrderBy>>>;
 };
 
@@ -1449,17 +1545,14 @@ export type TokenBalancesOutput = {
 };
 
 export enum TokenBlockchain {
-  Base = "base",
-  Ethereum = "ethereum",
-  Gold = "gold",
-  Polygon = "polygon",
-  Zora = "zora",
+  Base = 'base',
+  Degen = 'degen',
+  Ethereum = 'ethereum',
+  Gold = 'gold',
+  Zora = 'zora'
 }
 
 export type TokenFilter = {
-  _and: InputMaybe<Array<TokenFilter>>;
-  _nor: InputMaybe<Array<TokenFilter>>;
-  _or: InputMaybe<Array<TokenFilter>>;
   address: InputMaybe<Address_Comparator_Exp>;
   isSpam: InputMaybe<Boolean_Comparator_Exp>;
   name: InputMaybe<String_Comparator_Exp>;
@@ -1470,61 +1563,61 @@ export type TokenFilter = {
 
 export type TokenNft = {
   /** Smart contract address of the token */
-  address: Scalars["Address"]["output"];
+  address: Scalars['Address']['output'];
   /** Blockchain where the token smart contract is deployed */
   blockchain: Maybe<TokenBlockchain>;
   /** Unique identifier for the blockchain */
-  chainId: Scalars["String"]["output"];
+  chainId: Scalars['String']['output'];
   /** Content type of the NFT token (image, video, audio, etc.) */
-  contentType: Maybe<Scalars["String"]["output"]>;
+  contentType: Maybe<Scalars['String']['output']>;
   /** NFT Media - resized images, animation, videos, etc. */
   contentValue: Maybe<Media>;
   /** Nested Query - allows querying the erc6551 account */
   erc6551Accounts: Maybe<Array<Account>>;
   /** Airstack unique identifier for the NFT token */
-  id: Scalars["ID"]["output"];
+  id: Scalars['ID']['output'];
   /** Block number of the NFT token most recent transfer */
-  lastTransferBlock: Maybe<Scalars["Int"]["output"]>;
+  lastTransferBlock: Maybe<Scalars['Int']['output']>;
   /** Transaction hash of the NFT token most recent transfer */
-  lastTransferHash: Maybe<Scalars["String"]["output"]>;
+  lastTransferHash: Maybe<Scalars['String']['output']>;
   /** Timestamp of the NFT token most recent transfer */
-  lastTransferTimestamp: Maybe<Scalars["Time"]["output"]>;
+  lastTransferTimestamp: Maybe<Scalars['Time']['output']>;
   /** NFT token metadata and attributes */
   metaData: Maybe<NftMetadata>;
   /** NFT token metadata, mirrored from the smart contract */
-  rawMetaData: Maybe<Scalars["Map"]["output"]>;
+  rawMetaData: Maybe<Scalars['Map']['output']>;
   /** Nested Query - allows retrieving token contract level data */
   token: Maybe<Token>;
   /** Nested Query - allows querying the tokenBalance information */
   tokenBalances: Maybe<Array<TokenBalance>>;
   /** Unique NFT token ID */
-  tokenId: Scalars["String"]["output"];
+  tokenId: Scalars['String']['output'];
   /** Nested Query - allows querying the tokenTransfer information */
   tokenTransfers: Maybe<Array<TokenTransfer>>;
   /** NFT token URI */
-  tokenURI: Maybe<Scalars["String"]["output"]>;
+  tokenURI: Maybe<Scalars['String']['output']>;
   /** Amount of NFT tokens in the protocol */
-  totalSupply: Maybe<Scalars["String"]["output"]>;
+  totalSupply: Maybe<Scalars['String']['output']>;
   /** NFT Token type: ERC721, or ERC1155 */
   type: Maybe<TokenType>;
 };
+
 
 export type TokenNftErc6551AccountsArgs = {
   input: InputMaybe<AccountsNestedInput>;
 };
 
+
 export type TokenNftTokenBalancesArgs = {
   input: InputMaybe<TokenBalancesNestedInput>;
 };
+
 
 export type TokenNftTokenTransfersArgs = {
   input: InputMaybe<TokenTransfersNestedInput>;
 };
 
 export type TokenNftFilter = {
-  _and: InputMaybe<Array<TokenNftFilter>>;
-  _nor: InputMaybe<Array<TokenNftFilter>>;
-  _or: InputMaybe<Array<TokenNftFilter>>;
   address: InputMaybe<Address_Comparator_Exp>;
   metaData: InputMaybe<NftMetadataFilter>;
   tokenId: InputMaybe<String_Comparator_Exp>;
@@ -1536,17 +1629,17 @@ export type TokenNftOrderBy = {
 
 export type TokenNftsInput = {
   blockchain: TokenBlockchain;
-  cursor: InputMaybe<Scalars["String"]["input"]>;
+  cursor: InputMaybe<Scalars['String']['input']>;
   filter: TokenNftFilter;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   order: InputMaybe<Array<TokenNftOrderBy>>;
 };
 
 export type TokenNftsNestedInput = {
   blockchain: InputMaybe<TokenBlockchain>;
   filter: InputMaybe<TokenNftFilter>;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
-  order: InputMaybe<Array<InputMaybe<TokenNftOrderBy>>>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  order: InputMaybe<Array<TokenNftOrderBy>>;
 };
 
 export type TokenNftsOutput = {
@@ -1554,31 +1647,25 @@ export type TokenNftsOutput = {
   pageInfo: Maybe<PageInfo>;
 };
 
-export type TokenOrderBy = {
-  name: InputMaybe<OrderBy>;
-  symbol: InputMaybe<OrderBy>;
-  type: InputMaybe<OrderBy>;
-};
-
 export type TokenTransfer = {
   /** Token amount in the transfer */
-  amount: Maybe<Scalars["String"]["output"]>;
+  amount: Maybe<Scalars['String']['output']>;
   /** Token amounts in the transfer, if applicable. This mostly occurs in ERC1155 batch transfers */
-  amounts: Maybe<Array<Scalars["String"]["output"]>>;
+  amounts: Maybe<Array<Scalars['String']['output']>>;
   /** Block number of the token transfer */
-  blockNumber: Maybe<Scalars["Int"]["output"]>;
+  blockNumber: Maybe<Scalars['Int']['output']>;
   /** Block timestamp of the token transfer */
-  blockTimestamp: Maybe<Scalars["Time"]["output"]>;
+  blockTimestamp: Maybe<Scalars['Time']['output']>;
   /** Blockchain where the token transfer took place */
   blockchain: Maybe<TokenBlockchain>;
   /** Unique identifier for the blockchain */
-  chainId: Maybe<Scalars["String"]["output"]>;
+  chainId: Maybe<Scalars['String']['output']>;
   /** Formatted transfer amount in decimals */
-  formattedAmount: Maybe<Scalars["Float"]["output"]>;
+  formattedAmount: Maybe<Scalars['Float']['output']>;
   /** Nested query - sender wallet related information, including address, domains, social profile, other token balances, and transfer history */
   from: Maybe<Wallet>;
   /** Airstack unique identifier for the data point */
-  id: Maybe<Scalars["ID"]["output"]>;
+  id: Maybe<Scalars['ID']['output']>;
   /** Nested query - operator wallet (if the transaction was facilitated via smart contract) related information, including address, domains, social profile, other token balances, and transfer history */
   operator: Maybe<Wallet>;
   /** Nested query - recipient wallet related information, including address, domains, social profile, other token balances, and transfer history */
@@ -1586,25 +1673,22 @@ export type TokenTransfer = {
   /** Nested Query - allows retrieving token contract level data */
   token: Maybe<Token>;
   /** Transferred token smart contract address */
-  tokenAddress: Maybe<Scalars["Address"]["output"]>;
+  tokenAddress: Maybe<Scalars['Address']['output']>;
   /** Unique NFT token ID */
-  tokenId: Maybe<Scalars["String"]["output"]>;
+  tokenId: Maybe<Scalars['String']['output']>;
   /** Unique NFT token IDs if multiple NFTs were a part of the transfer */
-  tokenIds: Maybe<Array<Scalars["String"]["output"]>>;
+  tokenIds: Maybe<Array<Scalars['String']['output']>>;
   /** Nested Query - allows retrieving token Token NFT level data, such as images, traits, and so on for each unique NFT in the transfer */
   tokenNft: Maybe<TokenNft>;
   /** Token type: ERC20, ERC721, or ERC1155 */
   tokenType: Maybe<TokenType>;
   /** Token transfer transction hash */
-  transactionHash: Scalars["String"]["output"];
+  transactionHash: Scalars['String']['output'];
   /** Type of the token transfer */
-  type: Maybe<Scalars["String"]["output"]>;
+  type: Maybe<TokenTransferType>;
 };
 
 export type TokenTransferFilter = {
-  _and: InputMaybe<Array<TokenTransferFilter>>;
-  _nor: InputMaybe<Array<TokenTransferFilter>>;
-  _or: InputMaybe<Array<TokenTransferFilter>>;
   blockTimestamp: InputMaybe<Time_Comparator_Exp>;
   formattedAmount: InputMaybe<Float_Comparator_Exp>;
   from: InputMaybe<Identity_Comparator_Exp>;
@@ -1614,24 +1698,36 @@ export type TokenTransferFilter = {
   tokenId: InputMaybe<String_Comparator_Exp>;
   tokenType: InputMaybe<TokenType_Comparator_Exp>;
   transactionHash: InputMaybe<String_Comparator_Exp>;
+  type: InputMaybe<TokenTransferType_Comparator_Exp>;
 };
 
 export type TokenTransferOrderBy = {
   blockTimestamp: InputMaybe<OrderBy>;
 };
 
+export enum TokenTransferType {
+  Burn = 'BURN',
+  Mint = 'MINT',
+  Transfer = 'TRANSFER'
+}
+
+export type TokenTransferType_Comparator_Exp = {
+  _eq: InputMaybe<TokenTransferType>;
+  _in: InputMaybe<Array<TokenTransferType>>;
+};
+
 export type TokenTransfersInput = {
   blockchain: TokenBlockchain;
-  cursor: InputMaybe<Scalars["String"]["input"]>;
+  cursor: InputMaybe<Scalars['String']['input']>;
   filter: TokenTransferFilter;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   order: InputMaybe<Array<TokenTransferOrderBy>>;
 };
 
 export type TokenTransfersNestedInput = {
   blockchain: InputMaybe<TokenBlockchain>;
   filter: InputMaybe<TokenTransferFilter>;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   order: InputMaybe<Array<InputMaybe<TokenTransferOrderBy>>>;
 };
 
@@ -1641,9 +1737,9 @@ export type TokenTransfersOutput = {
 };
 
 export enum TokenType {
-  Erc20 = "ERC20",
-  Erc721 = "ERC721",
-  Erc1155 = "ERC1155",
+  Erc20 = 'ERC20',
+  Erc721 = 'ERC721',
+  Erc1155 = 'ERC1155'
 }
 
 export type TokenType_Comparator_Exp = {
@@ -1653,10 +1749,9 @@ export type TokenType_Comparator_Exp = {
 
 export type TokensInput = {
   blockchain: TokenBlockchain;
-  cursor: InputMaybe<Scalars["String"]["input"]>;
+  cursor: InputMaybe<Scalars['String']['input']>;
   filter: TokenFilter;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
-  order: InputMaybe<Array<TokenOrderBy>>;
+  limit: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type TokensOutput = {
@@ -1665,39 +1760,83 @@ export type TokensOutput = {
 };
 
 export enum TrendingBlockchain {
-  Base = "base",
+  Base = 'base'
 }
+
+export type TrendingCast = {
+  cast: Maybe<FarcasterCast>;
+  criteria: Maybe<Scalars['String']['output']>;
+  criteriaCount: Maybe<Scalars['Float']['output']>;
+  hash: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  socialCapitalValueFormatted: Maybe<Scalars['Float']['output']>;
+  socialCapitalValueRaw: Maybe<Scalars['String']['output']>;
+  timeFrom: Maybe<Scalars['Time']['output']>;
+  timeTo: Maybe<Scalars['Time']['output']>;
+};
+
+export enum TrendingCastTimeFrame {
+  EightHours = 'eight_hours',
+  FourHours = 'four_hours',
+  OneDay = 'one_day',
+  OneHour = 'one_hour',
+  SevenDays = 'seven_days',
+  TwelveHours = 'twelve_hours',
+  TwoDays = 'two_days',
+  TwoHours = 'two_hours'
+}
+
+export enum TrendingCastsCriteria {
+  Likes = 'likes',
+  LikesRecastsReplies = 'likes_recasts_replies',
+  Recasts = 'recasts',
+  Replies = 'replies',
+  SocialCapitalValue = 'social_capital_value'
+}
+
+export type TrendingCastsInput = {
+  blockchain: EveryBlockchain;
+  criteria: TrendingCastsCriteria;
+  cursor: InputMaybe<Scalars['String']['input']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  timeFrame: TrendingCastTimeFrame;
+};
+
+export type TrendingCastsOutput = {
+  TrendingCast: Maybe<Array<TrendingCast>>;
+  pageInfo: Maybe<PageInfo>;
+};
 
 export type TrendingFilter = {
   address: InputMaybe<Trending_Comparator_Exp>;
 };
 
 export type TrendingMint = {
-  address: Maybe<Scalars["String"]["output"]>;
-  audience: Maybe<Scalars["String"]["output"]>;
-  blockchain: Maybe<Scalars["String"]["output"]>;
-  chainId: Maybe<Scalars["String"]["output"]>;
-  criteria: Maybe<Scalars["String"]["output"]>;
-  criteriaCount: Maybe<Scalars["Int"]["output"]>;
-  erc1155TokenID: Maybe<Scalars["String"]["output"]>;
-  id: Maybe<Scalars["String"]["output"]>;
-  timeFrom: Maybe<Scalars["Time"]["output"]>;
-  timeTo: Maybe<Scalars["Time"]["output"]>;
+  address: Maybe<Scalars['String']['output']>;
+  audience: Maybe<Scalars['String']['output']>;
+  blockchain: Maybe<Scalars['String']['output']>;
+  chainId: Maybe<Scalars['String']['output']>;
+  criteria: Maybe<Scalars['String']['output']>;
+  criteriaCount: Maybe<Scalars['Int']['output']>;
+  erc1155TokenID: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  timeFrom: Maybe<Scalars['Time']['output']>;
+  timeTo: Maybe<Scalars['Time']['output']>;
   token: Maybe<Token>;
 };
 
 export enum TrendingMintsCriteria {
-  TotalMints = "total_mints",
-  UniqueWallets = "unique_wallets",
+  TotalMints = 'total_mints',
+  UniqueWallets = 'unique_wallets'
 }
 
 export type TrendingMintsInput = {
   audience: Audience;
   blockchain: TrendingBlockchain;
   criteria: TrendingMintsCriteria;
-  cursor: InputMaybe<Scalars["String"]["input"]>;
+  cursor: InputMaybe<Scalars['String']['input']>;
   filter: InputMaybe<TrendingFilter>;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   timeFrame: TimeFrame;
 };
 
@@ -1706,24 +1845,79 @@ export type TrendingMintsOutput = {
   pageInfo: Maybe<PageInfo>;
 };
 
-export type TrendingToken = {
-  address: Maybe<Scalars["String"]["output"]>;
-  audience: Maybe<Scalars["String"]["output"]>;
-  blockchain: Maybe<Scalars["String"]["output"]>;
-  chainId: Maybe<Scalars["String"]["output"]>;
-  criteria: Maybe<Scalars["String"]["output"]>;
-  criteriaCount: Maybe<Scalars["Int"]["output"]>;
-  id: Maybe<Scalars["String"]["output"]>;
-  timeFrom: Maybe<Scalars["Time"]["output"]>;
-  timeTo: Maybe<Scalars["Time"]["output"]>;
+export type TrendingSwap = {
+  address: Maybe<Scalars['String']['output']>;
+  blockchain: Maybe<Scalars['String']['output']>;
+  buyTransactionCount: Maybe<Scalars['Int']['output']>;
+  buyVolume: Maybe<Scalars['Float']['output']>;
+  chainId: Maybe<Scalars['String']['output']>;
+  criteria: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  sellTransactionCount: Maybe<Scalars['Int']['output']>;
+  sellVolume: Maybe<Scalars['Float']['output']>;
+  timeFrom: Maybe<Scalars['Time']['output']>;
+  timeTo: Maybe<Scalars['Time']['output']>;
   token: Maybe<Token>;
-  uniqueHolders: Maybe<Scalars["Int"]["output"]>;
+  totalTransactionCount: Maybe<Scalars['Int']['output']>;
+  totalUniqueWallets: Maybe<Scalars['Int']['output']>;
+  totalVolume: Maybe<Scalars['Float']['output']>;
+  uniqueBuyWallets: Maybe<Scalars['Int']['output']>;
+  uniqueSellWallets: Maybe<Scalars['Int']['output']>;
+};
+
+export enum TrendingSwapsBlockchain {
+  Base = 'base',
+  Ethereum = 'ethereum'
+}
+
+export enum TrendingSwapsCriteria {
+  BuyTransactionCount = 'buy_transaction_count',
+  BuyVolume = 'buy_volume',
+  SellTransactionCount = 'sell_transaction_count',
+  SellVolume = 'sell_volume',
+  TotalTransactionCount = 'total_transaction_count',
+  TotalUniqueWallets = 'total_unique_wallets',
+  TotalVolume = 'total_volume',
+  UniqueBuyWallets = 'unique_buy_wallets',
+  UniqueSellWallets = 'unique_sell_wallets'
+}
+
+export type TrendingSwapsFilter = {
+  address: InputMaybe<Trending_Comparator_Exp>;
+};
+
+export type TrendingSwapsInput = {
+  blockchain: TrendingSwapsBlockchain;
+  criteria: TrendingSwapsCriteria;
+  cursor: InputMaybe<Scalars['String']['input']>;
+  filter: InputMaybe<TrendingSwapsFilter>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  timeFrame: TimeFrame;
+};
+
+export type TrendingSwapsOutput = {
+  TrendingSwap: Maybe<Array<TrendingSwap>>;
+  pageInfo: Maybe<PageInfo>;
+};
+
+export type TrendingToken = {
+  address: Maybe<Scalars['String']['output']>;
+  audience: Maybe<Scalars['String']['output']>;
+  blockchain: Maybe<Scalars['String']['output']>;
+  chainId: Maybe<Scalars['String']['output']>;
+  criteria: Maybe<Scalars['String']['output']>;
+  criteriaCount: Maybe<Scalars['Int']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  timeFrom: Maybe<Scalars['Time']['output']>;
+  timeTo: Maybe<Scalars['Time']['output']>;
+  token: Maybe<Token>;
+  uniqueHolders: Maybe<Scalars['Int']['output']>;
 };
 
 export enum TrendingTokensCriteria {
-  TotalTransfers = "total_transfers",
-  UniqueHolders = "unique_holders",
-  UniqueWallets = "unique_wallets",
+  TotalTransfers = 'total_transfers',
+  UniqueHolders = 'unique_holders',
+  UniqueWallets = 'unique_wallets'
 }
 
 export type TrendingTokensFilter = {
@@ -1734,9 +1928,10 @@ export type TrendingTokensInput = {
   audience: Audience;
   blockchain: TrendingBlockchain;
   criteria: TrendingTokensCriteria;
-  cursor: InputMaybe<Scalars["String"]["input"]>;
+  cursor: InputMaybe<Scalars['String']['input']>;
   filter: InputMaybe<TrendingTokensFilter>;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  swappable: InputMaybe<Boolean_Comparator_Exp>;
   timeFrame: TimeFrame;
   transferType: TrendingTokensTransferType;
 };
@@ -1747,30 +1942,30 @@ export type TrendingTokensOutput = {
 };
 
 export enum TrendingTokensTransferType {
-  All = "all",
-  SelfInitiated = "self_initiated",
+  All = 'all',
+  SelfInitiated = 'self_initiated'
 }
 
 export type Trending_Comparator_Exp = {
-  _eq: InputMaybe<Scalars["Address"]["input"]>;
-  _in: InputMaybe<Array<Scalars["Address"]["input"]>>;
+  _eq: InputMaybe<Scalars['Address']['input']>;
+  _in: InputMaybe<Array<Scalars['Address']['input']>>;
 };
 
 export type VideoVariants = {
-  original: Maybe<Scalars["String"]["output"]>;
+  original: Maybe<Scalars['String']['output']>;
 };
 
 export type Wallet = {
   /** Represent On-chain smart-contract accounts */
   accounts: Maybe<Array<Account>>;
   /** Returns addresses associated with the identity input */
-  addresses: Maybe<Array<Scalars["Address"]["output"]>>;
+  addresses: Maybe<Array<Scalars['Address']['output']>>;
   /** Blockchain associated with the provided identity */
   blockchain: Maybe<TokenBlockchain>;
   /** Nested query - allows querying domains owned by the address */
   domains: Maybe<Array<Domain>>;
   /** Blockchain address, ENS domain name, social identity such as Farcaster (for Farcaster use 'fc_fid:' prefix followed by the Farcaster user ID like fc_fid:5650, or use 'fc_fname:' prefix followed by the Farcaster user ID like 'fc_fname:vbuterin') or Lens (e.g. 'stani.lens) */
-  identity: Scalars["Identity"]["output"];
+  identity: Scalars['Identity']['output'];
   /** Returns Poaps owned by the address */
   poaps: Maybe<Array<Poap>>;
   /** Nested query - allows returning primary domains, if applicable */
@@ -1787,37 +1982,46 @@ export type Wallet = {
   xmtp: Maybe<Array<Xmtp>>;
 };
 
+
 export type WalletAccountsArgs = {
   input: InputMaybe<AccountsNestedInput>;
 };
+
 
 export type WalletDomainsArgs = {
   input: InputMaybe<DomainsNestedInput>;
 };
 
+
 export type WalletPoapsArgs = {
   input: InputMaybe<PoapsNestedInput>;
 };
+
 
 export type WalletSocialFollowersArgs = {
   input: InputMaybe<SocialFollowerNestedInput>;
 };
 
+
 export type WalletSocialFollowingsArgs = {
   input: InputMaybe<SocialFollowingNestedInput>;
 };
+
 
 export type WalletSocialsArgs = {
   input: InputMaybe<SocialsNestedInput>;
 };
 
+
 export type WalletTokenBalancesArgs = {
   input: InputMaybe<TokenBalancesNestedInput>;
 };
 
+
 export type WalletTokenTransfersArgs = {
   input: InputMaybe<TokenTransfersNestedInput>;
 };
+
 
 export type WalletXmtpArgs = {
   input: InputMaybe<XmtPsNestedInput>;
@@ -1825,35 +2029,32 @@ export type WalletXmtpArgs = {
 
 export type WalletInput = {
   blockchain: TokenBlockchain;
-  identity: Scalars["Identity"]["input"];
+  identity: Scalars['Identity']['input'];
 };
 
 export type Xmtp = {
   blockchain: Maybe<EveryBlockchain>;
   /** Airstack unique identifier for the data point */
-  id: Maybe<Scalars["ID"]["output"]>;
-  isXMTPEnabled: Maybe<Scalars["Boolean"]["output"]>;
+  id: Maybe<Scalars['ID']['output']>;
+  isXMTPEnabled: Maybe<Scalars['Boolean']['output']>;
   owner: Maybe<Wallet>;
 };
 
 export type XmtpFilter = {
-  _and: InputMaybe<Array<XmtpFilter>>;
-  _nor: InputMaybe<Array<XmtpFilter>>;
-  _or: InputMaybe<Array<XmtpFilter>>;
   owner: InputMaybe<Identity_Comparator_Exp>;
 };
 
 export type XmtPsInput = {
   blockchain: EveryBlockchain;
-  cursor: InputMaybe<Scalars["String"]["input"]>;
+  cursor: InputMaybe<Scalars['String']['input']>;
   filter: XmtpFilter;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type XmtPsNestedInput = {
   blockchain: InputMaybe<EveryBlockchain>;
   filter: InputMaybe<XmtpFilter>;
-  limit: InputMaybe<Scalars["Int"]["input"]>;
+  limit: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type XmtPsOutput = {
@@ -1866,46 +2067,5 @@ export type TrendingsMintsQueryVariables = Exact<{
   criteria: TrendingMintsCriteria;
 }>;
 
-export type TrendingsMintsQuery = {
-  TrendingMints: {
-    TrendingMint: Array<{
-      address: string | null;
-      erc1155TokenID: string | null;
-      criteriaCount: number | null;
-      timeFrom: any | null;
-      timeTo: any | null;
-      token: {
-        name: string | null;
-        symbol: string | null;
-        type: TokenType | null;
-        tokenNfts: Array<{
-          contentValue: {
-            image: {
-              original: string | null;
-              medium: string | null;
-              large: string | null;
-              extraSmall: string | null;
-              small: string | null;
-            } | null;
-          } | null;
-        }> | null;
-      } | null;
-    }> | null;
-  } | null;
-};
 
-export type NftDetailQueryVariables = Exact<{
-  address: Scalars["Address"]["input"];
-}>;
-
-export type NftDetailQuery = {
-  TokenNfts: {
-    TokenNft: Array<{
-      tokenURI: string | null;
-      contentValue: {
-        image: { small: string | null; medium: string | null } | null;
-      } | null;
-      metaData: { name: string | null; description: string | null } | null;
-    }> | null;
-  } | null;
-};
+export type TrendingsMintsQuery = { TrendingMints: { TrendingMint: Array<{ address: string | null, erc1155TokenID: string | null, criteriaCount: number | null, timeFrom: any | null, timeTo: any | null, token: { name: string | null, symbol: string | null, type: TokenType | null, tokenNfts: Array<{ tokenURI: string | null, contentValue: { image: { original: string | null, extraSmall: string | null, small: string | null, medium: string | null, large: string | null } | null } | null, metaData: { name: string | null, description: string | null } | null }> | null } | null }> | null } | null };
