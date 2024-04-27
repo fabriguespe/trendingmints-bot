@@ -1,67 +1,66 @@
-# XMTP Trending Mints Bot
+# Trendingmints Bot 🚀
 
-This is a PoC for an XMTP bot sending Base trending mints alert to subscribed users
+> 💬 **Try it:** Message `trendingmints.eth`
 
-## How does it work
+Go to [BotKit](https://github.com/xmtp/botkit) to learn more
 
-### Subscribing
+This bot uses [Mint Frame](https://github.com/fabriguespe/mint-frame/)
 
-1. A user can message the trendingmints.eth bot from any XMTP client.
-2. The bot will respond with a pre-defined message (e.g. "Welcome to the trendingmints bot where you get instant alerts when mints start trending.")
-3. The bot will then ask for the users preferences on how frequent they would like to receive mint alerts with a message including different options to choose.
-4. Once the users replies with their choice, they are subscribed to trendingmints.eth bot (their preference is stored on a Redis DB)
-5. The bot will send back to the user a message to confirm the successfull subscription.
+## Development
 
-### Distribution
-
-- Every hour, every two hours and every day at 6pm UTC, a cronjob is running to check the latest trending mints and notify the users accordingly to theri preference
-- The bot send the current top 2 trending mints, ensuring they have not been sent already in a previous message
-- For each trending mint we include a link to a Frame supporting XMTP that shows the NFT image, the name of the collection and the number of total mints. In addition, the frame will have a button that redirects to Zora for minting purposes.
-
-### Unsubscribing
-
-If the user sends "stop" or "unsubscribe", they are removed from the list and will no more receive any mint.
-
-## Getting started
-
-To install dependencies:
+To kickstart the tutorial, you'll need to clone the repository containing the bot code. Follow these steps:
 
 ```bash
-yarn
+git clone https://github.com/fabriguespe/trendingmints-bot.git
+cd trendingmints-bot
+# copy env variables template
+cp .env.example .env
 ```
 
-To run:
+**Set the variables**
 
 ```bash
+KEY= # The private key for the bot
+XMTP_ENV= # XMTP environment (production or dev)
+LEARN_WEB3_API_KEY= # Your LearnWeb3 API key
+REDIS_CONNECTION_STRING= # Redis connection string for caching
+FRAME_BASE_URL= # Base URL for the frame application
+MIX_PANEL= # 034d959e29055215a083a6b7d8497b37
+```
+
+> ⚠️ Bot kit is not compatible with `bun` yet. Use `npm` or `yarn`
+
+```bash
+# install dependencies
+yarn install
+
+# running the bot
 yarn build
 yarn start
-```
 
-To run with hot-reload:
-
-```bash
+# to run with hot-reload
 yarn build:watch
 yarn start:watch
 ```
 
-### Environment
+## Messaging apps 💬
 
-```bash
-cp .env.example .env
-```
+Test the bots in messaging apps
 
-then populate the environment variables accordingly
+- [Converse](https://getconverse.app/): Own your conversations. Works with Frames (Transactions TBA)
+- [Coinbase Wallet](https://www.coinbase.com/wallet): Your key to the world of crypto. (Frame support TBA)
+- [dev-inbox](https://dev-dev-inbox.vercel.app/): Dev focused messaging client that renders Frames (Transactions TBA) (dev network)
 
-```bash
-AIRSTACK_API_KEY= # your Airstack API key
-KEY= # the private key of the bot
-XMTP_ENV=production #the xmtp network / or dev
-REDIS_CONNECTION_STRING= # redis connection string for caching
-PUBLIC_FRAME_URL= # deployed vercel frame url
-MIX_PANEL= # mixpanel project token
-DEBUG= # true if debug mode
-```
+## Identities
+
+![](https://github.com/xmtp/awesome-xmtp/assets/1447073/9bb4f8c2-321e-4b6d-b52e-2105d69c4d47)
+
+Learn about the almost 2 million identities that are already part of XMTP by visiting the [Dune dashboard](https://dune.com/xmtp_team/dash).
+
+## Documentation 📚
+
+To learn more about XMTP, to go the [docs](https://docs.xmtp.org/).
 
 ---
 
-Powered by [Airstack](https://www.airstack.xyz/trending-mints)
+Powered by <a href="https://learnweb3.io/faucets">Learnweb3</a>
