@@ -12,52 +12,40 @@ import {
 
 const mixpanel = Mixpanel.init(process.env.MIX_PANEL as string);
 
-const inMemoryCache = new Map<
-  string,
-  { step: number; lastInteraction: number }
->();
+//Tracks conversation steps
+const inMemoryCacheStep = new Map<string, number>();
 
 run(async (context: HandlerContext) => {
   const { message } = context;
   const { content, senderAddress } = message;
 
+  const redisClient = await getRedisClient();
   mixpanel.track("Page Viewed", {
     distinct_id: senderAddress,
   });
 
-  const redisClient = await getRedisClient();
-  const oneHour = 3600000; // Milliseconds in one hour.
-  const now = Date.now(); // Current timestamp.
-  const cacheEntry = inMemoryCache.get(senderAddress); // Retrieve the current cache entry for the sender.
-  let reset = false; // Flag to indicate if the interaction step has been reset.
-  const defaultStopWords = ["stop", "unsubscribe", "cancel"];
+  const defaultStopWords = ["stop", "unsubscribe", "cancel", "list"];
   if (defaultStopWords.some((word) => content.toLowerCase().includes(word))) {
     // If its a stop word
     // unsubscribe the user
     const deleteResult = await redisClient.del("pref-" + senderAddress);
+    console.log("Delete result: ", deleteResult);
     if (deleteResult) {
       await context.reply(
         "You unsubscribed successfully. You can always subscribe again by sending a message."
       );
     } else {
       await context.reply(
-        "You are now subscribed to the bot yet. You can subscribe by sending a message and selecting the correct option."
+        "You are not subscribed to the bot yet. You can subscribe by sending a message and selecting the correct option."
       );
     }
-
-    reset = true;
+    inMemoryCacheStep.set(senderAddress, 0);
+    return;
   }
 
-  if (reset) inMemoryCache.delete(senderAddress);
-  // Update the cache entry with either reset step or existing step, and the current timestamp.
-  inMemoryCache.set(senderAddress, {
-    step: reset ? 0 : cacheEntry?.step ?? 0,
-    lastInteraction: now,
-  });
-
-  const step = inMemoryCache.get(senderAddress)?.step;
-
-  if (step === 0) {
+  const cacheStep = inMemoryCacheStep.get(senderAddress) || 0;
+  console.log("Step: ", cacheStep);
+  if (cacheStep === 0) {
     // send the first message
 
     const existingSubscription = await redisClient.get(`pref-${senderAddress}`);
@@ -76,11 +64,10 @@ run(async (context: HandlerContext) => {
       "How often would you like me to send you new mints?\n\n1️⃣ Right away - let me know once it starts trending;\n2️⃣ Once a day - send me the top 2 of the day.\n\n✍️ (reply with 1 or 2)"
     );
 
-    inMemoryCache.set(senderAddress, { step: 1, lastInteraction: now });
-  } else if (step === 1) {
+    inMemoryCacheStep.set(senderAddress, 1);
+  } else if (cacheStep === 1) {
     if (
       content !== Preference.RIGHT_AWAY &&
-      /*content !== Preference.EVERY_FEW_HOURS &&*/
       content !== Preference.ONCE_A_DAY
     ) {
       await context.reply(
@@ -94,10 +81,7 @@ run(async (context: HandlerContext) => {
       await context.reply(
         "I'll grab you the top 2 trending today, and send them your way. Give me a few minutes."
       );
-      inMemoryCache.set(senderAddress, {
-        step: 0,
-        lastInteraction: Date.now(),
-      });
+      inMemoryCacheStep.set(senderAddress, 0);
     } else if (content === Preference.ONCE_A_DAY) {
       // store the user's preference
       await redisClient.set(`pref-${senderAddress}`, content);
@@ -113,14 +97,11 @@ run(async (context: HandlerContext) => {
         distinct_id: senderAddress,
         preference: content,
       });
-      inMemoryCache.set(senderAddress, {
-        step: 0,
-        lastInteraction: Date.now(),
-      });
+      inMemoryCacheStep.set(senderAddress, 0);
     }
 
     await fetchAndSendTrendingMintsInContext(
-      TimeFrame.OneHour,
+      TimeFrame.OneDay,
       context,
       redisClient
     );
@@ -128,11 +109,7 @@ run(async (context: HandlerContext) => {
 });
 
 // Run the cron job every day
-cron.schedule(
-  "0 18 * * *",
-  () => fetchAndSendTrendingMints(TimeFrame.OneHour),
-  {
-    runOnInit: false,
-    timezone: "Europe/Rome",
-  }
-);
+cron.schedule("0 18 * * *", () => fetchAndSendTrendingMints(TimeFrame.OneDay), {
+  runOnInit: false,
+  timezone: "Europe/Rome",
+});

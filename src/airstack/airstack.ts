@@ -6,7 +6,7 @@ import {
 } from "./airstack-types";
 import { getRedisClient } from "../lib/redis.js";
 
-init(process.env.AIRSTACK_API_KEY as string);
+//init(process.env.AIRSTACK_API_KEY as string);
 
 export const TRENDING_MINTS_QUERY_BASE =
   /* GraphQL */
@@ -198,11 +198,12 @@ export const fetchTrendingMints = async (
 
   const expireInOneDayInSeconds = 60 * 60 * 24;
 
+  /*
   await redis.setEx(
     REDIS_KEY_TRENDING_MINTS,
     expireInOneDayInSeconds,
     JSON.stringify(trendingMints)
-  );
-
+  );*/
+  await redis.set(REDIS_KEY_TRENDING_MINTS, JSON.stringify(trendingMints));
   return data.TrendingMints.TrendingMint;
 };

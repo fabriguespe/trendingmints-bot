@@ -15,10 +15,6 @@ const mapTimeFrameToPreference = (timeFrame: TimeFrame) => {
   switch (timeFrame) {
     case TimeFrame.OneDay:
       return Preference.ONCE_A_DAY;
-    case TimeFrame.TwoHours:
-      return Preference.EVERY_FEW_HOURS;
-    case TimeFrame.OneHour:
-      return Preference.RIGHT_AWAY;
   }
 };
 
