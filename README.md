@@ -63,4 +63,4 @@ To learn more about XMTP, to go the [docs](https://docs.xmtp.org/).
 
 ---
 
-Powered by <a href="https://learnweb3.io/faucets">Learnweb3</a>
+Powered by <a href="https://www.airstack.xyz/">Airstack</a>
