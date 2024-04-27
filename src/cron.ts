@@ -35,13 +35,12 @@ export const fetchAndSendTrendingMintsInContext = async (
     return;
   }
 
-  // New code to select 2 random mints from the entire list
-  console.log("Trending mints found", trendingMints.length);
   const mintsToSend = trendingMints
     .filter((mint) => mint.address) // Ensure we only consider mints with an address
     .sort(() => 0.5 - Math.random()) // Shuffle the array
     .slice(0, 2); // Take the first 2 items from the shuffled array
   // Store the last mints for the user
+
   const mintsToSendAddresses = mintsToSend.map((mint) => mint.address!);
   await redisClient.set(
     `last-mints-${context.message.conversation.peerAddress}`,
@@ -52,6 +51,9 @@ export const fetchAndSendTrendingMintsInContext = async (
     "🚀 Here some trending mints to give you a taste of what I can do! Check them out now."
   );
 
+  if (process.env.DEBUG === "true") {
+    console.log("mints to send", mintsToSend);
+  }
   await Promise.all(
     mintsToSend.map((mint) =>
       context.reply(

@@ -59,7 +59,7 @@ Learn about the almost 2 million identities that are already part of XMTP by vis
 
 ## Documentation 📚
 
-To learn more about XMTP, to go the [docs](https://docs.xmtp.org/).
+To learn more about XMTP, to go the [docs](https://docs.xmtp.org/)
 
 ---
 

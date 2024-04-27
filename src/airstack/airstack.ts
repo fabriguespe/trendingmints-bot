@@ -74,7 +74,11 @@ export const fetchTrendingMints = async (
 
   if (cachedTrendingMints) {
     if (process.env.DEBUG == "true") {
-      console.log("Using cached trending mints");
+      const nfts = JSON.parse(cachedTrendingMints);
+      console.log(
+        "Using cached trending mints",
+        nfts[0].token?.tokenNfts?.[0].contentValue
+      );
     }
     return JSON.parse(cachedTrendingMints);
   }
