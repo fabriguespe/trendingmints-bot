@@ -20,7 +20,7 @@ run(async (context: HandlerContext) => {
   const { content, senderAddress } = message;
 
   const redisClient = await getRedisClient();
-  mixpanel.track("Page Viewed", {
+  mixpanel.track("TrendingMints-Visit", {
     distinct_id: senderAddress,
   });
 
@@ -91,9 +91,8 @@ run(async (context: HandlerContext) => {
         "Also, if you'd like to unsubscribe, you can do so at any time by saying 'stop'."
       );
 
-      mixpanel.track("Subscribed", {
+      mixpanel.track("TrendingMints-Subscribed", {
         distinct_id: senderAddress,
-        preference: content,
       });
       inMemoryCacheStep.set(senderAddress, 0);
     }
