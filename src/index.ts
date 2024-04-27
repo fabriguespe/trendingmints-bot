@@ -43,7 +43,6 @@ run(async (context: HandlerContext) => {
   }
 
   const cacheStep = inMemoryCacheStep.get(senderAddress) || 0;
-  console.log("Step: ", cacheStep);
   if (cacheStep === 0) {
     // send the first message
 

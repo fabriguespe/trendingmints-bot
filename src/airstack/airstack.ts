@@ -73,7 +73,9 @@ export const fetchTrendingMints = async (
   const cachedTrendingMints = await redis.get(REDIS_KEY_TRENDING_MINTS);
 
   if (cachedTrendingMints) {
-    console.log("Using cached trending mints");
+    if (process.env.DEBUG == "true") {
+      console.log("Using cached trending mints");
+    }
     return JSON.parse(cachedTrendingMints);
   }
 
@@ -129,12 +131,11 @@ export const fetchTrendingMints = async (
 
   const expireInOneDayInSeconds = 60 * 60 * 24;
 
-  /*
   await redis.setEx(
     REDIS_KEY_TRENDING_MINTS,
     expireInOneDayInSeconds,
     JSON.stringify(trendingMints)
-  );*/
-  await redis.set(REDIS_KEY_TRENDING_MINTS, JSON.stringify(trendingMints));
+  );
+  //await redis.set(REDIS_KEY_TRENDING_MINTS, JSON.stringify(trendingMints));
   return data.TrendingMints.TrendingMint;
 };
