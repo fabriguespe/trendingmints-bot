@@ -29,7 +29,6 @@ run(async (context: HandlerContext) => {
     // If its a stop word
     // unsubscribe the user
     const deleteResult = await redisClient.del("pref-" + senderAddress);
-    console.log("Delete result: ", deleteResult);
     if (deleteResult) {
       await context.reply(
         "You unsubscribed successfully. You can always subscribe again by sending a message."
