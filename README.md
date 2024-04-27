@@ -20,12 +20,12 @@ cp .env.example .env
 **Set the variables**
 
 ```bash
-KEY= # The private key for the bot
-XMTP_ENV= # XMTP environment (production or dev)
-LEARN_WEB3_API_KEY= # Your LearnWeb3 API key
-REDIS_CONNECTION_STRING= # Redis connection string for caching
-FRAME_BASE_URL= # Base URL for the frame application
-MIX_PANEL= # 034d959e29055215a083a6b7d8497b37
+KEY= # the private key of the bot
+XMTP_ENV= #the xmtp network production or dev
+AIRSTACK_API_KEY= # your Airstack API key
+REDIS_CONNECTION_STRING= # redis connection string for caching
+PUBLIC_FRAME_URL= # deployed vercel frame url
+MIX_PANEL= # mixpanel key
 ```
 
 > ⚠️ Bot kit is not compatible with `bun` yet. Use `npm` or `yarn`

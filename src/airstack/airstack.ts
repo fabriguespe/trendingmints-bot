@@ -6,7 +6,7 @@ import {
 } from "./airstack-types";
 import { getRedisClient } from "../lib/redis.js";
 
-//init(process.env.AIRSTACK_API_KEY as string);
+init(process.env.AIRSTACK_API_KEY as string);
 
 export const TRENDING_MINTS_QUERY_BASE =
   /* GraphQL */
@@ -142,6 +142,7 @@ export const fetchTrendingMints = async (
   const cachedTrendingMints = await redis.get(REDIS_KEY_TRENDING_MINTS);
 
   if (cachedTrendingMints) {
+    console.log("Using cached trending mints");
     return JSON.parse(cachedTrendingMints);
   }
 
@@ -172,8 +173,8 @@ export const fetchTrendingMints = async (
   // Cache the data of the first NFT for each mint
   await Promise.all(
     trendingMints
-      .filter((mint) => mint.address)
-      .map(async (mint) => {
+      .filter((mint: any) => mint.address)
+      .map(async (mint: any) => {
         const nft = mint.token?.tokenNfts?.[0];
         if (!nft) {
           console.error("No nft found for mint:", mint.address);

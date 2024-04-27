@@ -1,16 +1,15 @@
 import "dotenv/config";
-import HandlerContext from "./lib/handler-context";
-import run from "./lib/runner.js";
+import { run, HandlerContext } from "@xmtp/botkit";
 import { getRedisClient } from "./lib/redis.js";
-import { Preference } from "./types.js";
 import { TimeFrame } from "./airstack/airstack-types.js";
+import cron from "node-cron";
+import { Preference } from "./types.js";
+import Mixpanel from "mixpanel";
 import {
   fetchAndSendTrendingMints,
   fetchAndSendTrendingMintsInContext,
 } from "./cron.js";
 
-import cron from "node-cron";
-import Mixpanel from "mixpanel";
 const mixpanel = Mixpanel.init(process.env.MIX_PANEL as string);
 
 const inMemoryCache = new Map<
@@ -25,8 +24,8 @@ run(async (context: HandlerContext) => {
   mixpanel.track("Page Viewed", {
     distinct_id: senderAddress,
   });
-  const redisClient = await getRedisClient();
 
+  const redisClient = await getRedisClient();
   const oneHour = 3600000; // Milliseconds in one hour.
   const now = Date.now(); // Current timestamp.
   const cacheEntry = inMemoryCache.get(senderAddress); // Retrieve the current cache entry for the sender.
@@ -48,11 +47,8 @@ run(async (context: HandlerContext) => {
 
     reset = true;
   }
-  if (!cacheEntry || now - cacheEntry.lastInteraction > oneHour) {
-    // If there's no cache entry or the last interaction was more than an hour ago, reset the step.
-    // reset = true;
-  }
-  inMemoryCache.delete(senderAddress);
+
+  if (reset) inMemoryCache.delete(senderAddress);
   // Update the cache entry with either reset step or existing step, and the current timestamp.
   inMemoryCache.set(senderAddress, {
     step: reset ? 0 : cacheEntry?.step ?? 0,
@@ -61,8 +57,7 @@ run(async (context: HandlerContext) => {
 
   const step = inMemoryCache.get(senderAddress)?.step;
 
-  if (reset) return;
-  if (!step) {
+  if (step === 0) {
     // send the first message
 
     const existingSubscription = await redisClient.get(`pref-${senderAddress}`);
@@ -131,33 +126,6 @@ run(async (context: HandlerContext) => {
     );
   }
 });
-
-if (process.env.DEBUG === "true") {
-  console.log("Running in debug mode");
-  // Run the cron job every 5 seconds
-  // Run the cron job every hour
-  cron.schedule(
-    "*/10 * * * * *",
-    () => fetchAndSendTrendingMints(TimeFrame.OneHour),
-    {
-      runOnInit: false,
-    }
-  );
-}
-
-// Run the cron job every hour
-cron.schedule("0 * * * *", () => fetchAndSendTrendingMints(TimeFrame.OneHour), {
-  runOnInit: false,
-});
-
-// Run the cron job every 2 hours
-cron.schedule(
-  "0 */2 * * *",
-  () => fetchAndSendTrendingMints(TimeFrame.OneHour),
-  {
-    runOnInit: false,
-  }
-);
 
 // Run the cron job every day
 cron.schedule(
