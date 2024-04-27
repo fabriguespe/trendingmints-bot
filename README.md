@@ -58,6 +58,8 @@ KEY= # the private key of the bot
 XMTP_ENV=production #the xmtp network / or dev
 REDIS_CONNECTION_STRING= # redis connection string for caching
 PUBLIC_FRAME_URL= # deployed vercel frame url
+MIX_PANEL= # mixpanel project token
+DEBUG= # true if debug mode
 ```
 
 ---

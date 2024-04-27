@@ -1,4 +1,4 @@
-import { cacheNft, fetchTrendingMints } from "./airstack/airstack.js";
+import { fetchTrendingMints } from "./airstack/airstack.js";
 import createClient from "./lib/client.js";
 import { TimeFrame, TrendingMintsCriteria } from "./airstack/airstack-types.js";
 import { getRedisClient } from "./lib/redis.js";
@@ -39,12 +39,6 @@ export const fetchAndSendTrendingMintsInContext = async (
     return;
   }
 
-  // Cache the trending mints
-  await Promise.all(
-    trendingMints
-      .filter((mint) => mint.address)
-      .map(async (mint) => await cacheNft(mint.address!))
-  );
   // New code to select 2 random mints from the entire list
   const mintsToSend = trendingMints
     .filter((mint) => mint.address) // Ensure we only consider mints with an address
@@ -86,13 +80,6 @@ export const fetchAndSendTrendingMints = async (timeFrame: TimeFrame) => {
     console.log("No trending mints found");
     return;
   }
-
-  // Cache the trending mints
-  await Promise.all(
-    trendingMints
-      .filter((mint) => mint.address)
-      .map(async (mint) => await cacheNft(mint.address!))
-  );
 
   // Fetch open conversations aka all the addresses that have interacted with the bot
   const conversations = await xmtpClient.conversations.list();
