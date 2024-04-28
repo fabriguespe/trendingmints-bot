@@ -1,5 +1,5 @@
 {
-  "name": "xmtp-trendingmints-bot",
+  "name": "trendingmints-bot",
   "type": "module",
   "scripts": {
     "build": "tsc",
@@ -14,27 +14,16 @@
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/typescript": "^4.0.6",
     "@graphql-codegen/typescript-operations": "^4.2.0",
-    "@parcel/watcher": "^2.4.1",
     "@types/node-cron": "^3",
-    "bun-types": "latest",
-    "nodemon": "^3.1.0"
-  },
-  "peerDependencies": {
+    "nodemon": "^3.1.0",
     "typescript": "^5.0.0"
   },
   "dependencies": {
     "@airstack/node": "^0.0.5",
     "@redis/client": "^1.5.14",
-    "@xmtp/grpc-api-client": "^0.2.4",
+    "@xmtp/botkit": "^1.0.8",
     "@xmtp/redis-persistence": "^0.0.4",
-    "@xmtp/xmtp-js": "^11.2.1",
-    "croner": "^8.0.1",
-    "dotenv": "^16.4.5",
-    "ethers": "^5.7.2",
     "mixpanel": "^0.18.0",
-    "node-cron": "^3.0.3",
-    "typescript": "^5.4.3",
-    "viem": "^2.8.16"
-  },
-  "packageManager": "yarn@4.1.1"
+    "node-cron": "^3.0.3"
+  }
 }

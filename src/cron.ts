@@ -1,9 +1,9 @@
 import { fetchTrendingMints } from "./airstack/airstack.js";
-import createClient from "./lib/client.js";
 import { TimeFrame, TrendingMintsCriteria } from "./airstack/airstack-types.js";
 import { getRedisClient } from "./lib/redis.js";
 import { Preference } from "./types.js";
-import HandlerContext from "./lib/handler-context.js";
+import { run, xmtpClient, HandlerContext } from "@xmtp/botkit";
+
 import {
   RedisClientType,
   RedisFunctions,
@@ -15,10 +15,6 @@ const mapTimeFrameToPreference = (timeFrame: TimeFrame) => {
   switch (timeFrame) {
     case TimeFrame.OneDay:
       return Preference.ONCE_A_DAY;
-    case TimeFrame.TwoHours:
-      return Preference.EVERY_FEW_HOURS;
-    case TimeFrame.OneHour:
-      return Preference.RIGHT_AWAY;
   }
 };
 
@@ -39,12 +35,12 @@ export const fetchAndSendTrendingMintsInContext = async (
     return;
   }
 
-  // New code to select 2 random mints from the entire list
   const mintsToSend = trendingMints
     .filter((mint) => mint.address) // Ensure we only consider mints with an address
     .sort(() => 0.5 - Math.random()) // Shuffle the array
     .slice(0, 2); // Take the first 2 items from the shuffled array
   // Store the last mints for the user
+
   const mintsToSendAddresses = mintsToSend.map((mint) => mint.address!);
   await redisClient.set(
     `last-mints-${context.message.conversation.peerAddress}`,
@@ -55,6 +51,9 @@ export const fetchAndSendTrendingMintsInContext = async (
     "🚀 Here some trending mints to give you a taste of what I can do! Check them out now."
   );
 
+  if (process.env.DEBUG === "true") {
+    console.log("mints to send", mintsToSend);
+  }
   await Promise.all(
     mintsToSend.map((mint) =>
       context.reply(
@@ -66,7 +65,7 @@ export const fetchAndSendTrendingMintsInContext = async (
 
 export const fetchAndSendTrendingMints = async (timeFrame: TimeFrame) => {
   // Instantiate clients
-  const xmtpClient = await createClient();
+  const client = await xmtpClient();
   const redisClient = await getRedisClient();
 
   // Fetch trending mints from Airstack
@@ -82,7 +81,7 @@ export const fetchAndSendTrendingMints = async (timeFrame: TimeFrame) => {
   }
 
   // Fetch open conversations aka all the addresses that have interacted with the bot
-  const conversations = await xmtpClient.conversations.list();
+  const conversations = await client.conversations.list();
 
   // Iterate over each conversation
   for await (const conversation of conversations) {
