@@ -1497,7 +1497,7 @@
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
 
-"@redis/client@^1.5.14":
+"@redis/client@^1.5.14", "@redis/client@^1.5.9":
   version "1.5.14"
   resolved "https://registry.yarnpkg.com/@redis/client/-/client-1.5.14.tgz#1107893464d092f140d77c468b018a6ed306a180"
   integrity sha512-YGn0GqsRBFUQxklhY7v562VMOP0DcmlrHHs3IV1mFE3cbxe31IITUkqhBcIhVSI/2JqtWAJXg5mjV4aU+zD0HA==
@@ -1655,6 +1655,13 @@
     protobufjs "^7.0.0"
     rxjs "^7.8.0"
     undici "^5.8.1"
+
+"@xmtp/redis-persistence@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@xmtp/redis-persistence/-/redis-persistence-0.0.4.tgz#81c3788e8cb7d236aea0b652d51266dd20dc4f97"
+  integrity sha512-IB/GqpReCJjwqrVhiBerIXPS6i2eja3NMFVcia0huZGUY+T/4Zvv6oOPcbxI3o9keENSnYSfd9kLRhxpDqUe6A==
+  dependencies:
+    "@redis/client" "^1.5.9"
 
 "@xmtp/user-preferences-bindings-wasm@^0.3.6":
   version "0.3.6"
