@@ -4,12 +4,12 @@ import { getRedisClient, getRedisConfig } from "./lib/redis.js";
 import { TimeFrame } from "./airstack/airstack-types.js";
 import cron from "node-cron";
 import { Preference } from "./types.js";
-import Mixpanel from "mixpanel";
 import {
   fetchAndSendTrendingMints,
   fetchAndSendTrendingMintsInContext,
 } from "./cron.js";
 
+import Mixpanel from "mixpanel";
 const mixpanel = Mixpanel.init(process.env.MIX_PANEL as string);
 
 //Tracks conversation steps
