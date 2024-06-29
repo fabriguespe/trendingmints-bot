@@ -1,13 +1,12 @@
-import "dotenv/config";
 import { run, HandlerContext } from "@xmtp/botkit";
-import { getRedisClient, getRedisConfig } from "./lib/redis.js";
+import { getRedisClient } from "./lib/redis.js";
 import { TimeFrame } from "./airstack/airstack-types.js";
 import cron from "node-cron";
-import { Preference } from "./types.js";
+import { Preference } from "./lib/types.js";
 import {
   fetchAndSendTrendingMints,
   fetchAndSendTrendingMintsInContext,
-} from "./cron.js";
+} from "./lib/cron.js";
 
 import Mixpanel from "mixpanel";
 const mixpanel = Mixpanel.init(process.env.MIX_PANEL as string);
@@ -16,7 +15,6 @@ const mixpanel = Mixpanel.init(process.env.MIX_PANEL as string);
 const inMemoryCacheStep = new Map<string, number>();
 async function start() {
   const redisClient = await getRedisClient();
-  const newBotConfig = await getRedisConfig(redisClient);
   run(async (context: HandlerContext) => {
     const { message } = context;
     const { content, senderAddress } = message;
@@ -106,7 +104,7 @@ async function start() {
         redisClient
       );
     }
-  }, newBotConfig);
+  });
 
   // Run the cron job every day
   cron.schedule(

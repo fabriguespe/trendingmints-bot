@@ -1,6 +1,9 @@
-import { fetchTrendingMints } from "./airstack/airstack.js";
-import { TimeFrame, TrendingMintsCriteria } from "./airstack/airstack-types.js";
-import { getRedisClient } from "./lib/redis.js";
+import { fetchTrendingMints } from "../airstack/airstack.js";
+import {
+  TimeFrame,
+  TrendingMintsCriteria,
+} from "../airstack/airstack-types.js";
+import { getRedisClient } from "./redis.js";
 import { Preference } from "./types.js";
 import { run, xmtpClient, HandlerContext } from "@xmtp/botkit";
 
