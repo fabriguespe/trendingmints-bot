@@ -24,7 +24,7 @@ PUBLIC_FRAME_URL= # deployed vercel frame url
 MIX_PANEL= # mixpanel key
 ```
 
-> This bot uses [Mint Frame](https://github.com/fabriguespe/mint-frame/)
+**Run the bot**
 
 ```bash
 # install dependencies
