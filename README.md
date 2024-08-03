@@ -17,7 +17,6 @@ cp .env.example .env
 
 ```bash
 KEY= # the private key of the bot
-XMTP_ENV= #the xmtp network production or dev
 AIRSTACK_API_KEY= # your Airstack API key
 REDIS_CONNECTION_STRING= # redis connection string for caching
 PUBLIC_FRAME_URL= # deployed vercel frame url
@@ -31,8 +30,7 @@ MIX_PANEL= # mixpanel key
 yarn install
 
 # to run with hot-reload
-yarn build:watch
-yarn start:watch
+yarn dev
 ```
 
 ## Messaging apps 💬
