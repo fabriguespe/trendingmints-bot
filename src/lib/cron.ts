@@ -5,7 +5,7 @@ import {
 } from "../airstack/airstack-types.js";
 import { getRedisClient } from "./redis.js";
 import { Preference } from "./types.js";
-import { run, xmtpClient, HandlerContext } from "@xmtp/botkit";
+import { xmtpClient, HandlerContext } from "@xmtp/message-kit";
 
 import {
   RedisClientType,
@@ -24,6 +24,7 @@ const mapTimeFrameToPreference = (timeFrame: TimeFrame) => {
 export const fetchAndSendTrendingMintsInContext = async (
   timeFrame: TimeFrame,
   context: HandlerContext,
+  senderAddress: string,
   redisClient: RedisClientType<RedisModules, RedisFunctions, RedisScripts>
 ) => {
   // Fetch trending mints from Airstack
@@ -39,18 +40,18 @@ export const fetchAndSendTrendingMintsInContext = async (
   }
 
   const mintsToSend = trendingMints
-    .filter((mint) => mint.address) // Ensure we only consider mints with an address
+    .filter((mint: any) => mint.address) // Ensure we only consider mints with an address
     .sort(() => 0.5 - Math.random()) // Shuffle the array
     .slice(0, 2); // Take the first 2 items from the shuffled array
   // Store the last mints for the user
 
-  const mintsToSendAddresses = mintsToSend.map((mint) => mint.address!);
+  const mintsToSendAddresses = mintsToSend.map((mint: any) => mint.address!);
   await redisClient.set(
-    `last-mints-${context.message.conversation.peerAddress}`,
+    `last-mints-${senderAddress}`,
     JSON.stringify(Array.from(new Set([...mintsToSendAddresses])))
   );
 
-  await context.reply(
+  await context.send(
     "🚀 Here some trending mints to give you a taste of what I can do! Check them out now."
   );
 
@@ -58,8 +59,8 @@ export const fetchAndSendTrendingMintsInContext = async (
     console.log("mints to send", mintsToSend);
   }
   await Promise.all(
-    mintsToSend.map((mint) =>
-      context.reply(
+    mintsToSend.map((mint: any) =>
+      context.send(
         `${process.env.PUBLIC_FRAME_URL}?chain=base&a=${mint.address}&c=${mint.criteriaCount}`
       )
     )
@@ -68,7 +69,7 @@ export const fetchAndSendTrendingMintsInContext = async (
 
 export const fetchAndSendTrendingMints = async (timeFrame: TimeFrame) => {
   // Instantiate clients
-  const client = await xmtpClient();
+  const { v2client: client } = await xmtpClient();
   const redisClient = await getRedisClient();
 
   // Fetch trending mints from Airstack
@@ -125,7 +126,7 @@ export const fetchAndSendTrendingMints = async (timeFrame: TimeFrame) => {
       : [];
 
     // Filter the mints to send to the user
-    const mintsToSend = trendingMints.filter((mint) => {
+    const mintsToSend = trendingMints.filter((mint: any) => {
       if (!lastMintsSent || lastMintsSent.length === 0) return true;
       return !parsedLastMints.includes(mint.address!);
     });
@@ -139,7 +140,9 @@ export const fetchAndSendTrendingMints = async (timeFrame: TimeFrame) => {
     const mintsToSendSlice = mintsToSend.slice(0, amount);
 
     // Store the last mints for the user
-    const mintsToSendAddresses = mintsToSendSlice.map((mint) => mint.address!);
+    const mintsToSendAddresses = mintsToSendSlice.map(
+      (mint: any) => mint.address!
+    );
     await redisClient.set(
       `last-mints-${conversation.peerAddress}`,
       JSON.stringify(
@@ -147,7 +150,7 @@ export const fetchAndSendTrendingMints = async (timeFrame: TimeFrame) => {
       )
     );
     await Promise.all(
-      mintsToSendSlice.map((mint) =>
+      mintsToSendSlice.map((mint: any) =>
         conversation.send(
           `${process.env.PUBLIC_FRAME_URL}?chain=base&a=${mint.address}&c=${mint.criteriaCount}`
         )
