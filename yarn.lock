@@ -1275,7 +1275,7 @@
   dependencies:
     "@xmtp/content-type-primitives" "^1.0.1"
 
-"@xmtp/message-kit@^2.3.2":
+"@xmtp/message-kit@^0.0.6":
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/@xmtp/message-kit/-/message-kit-0.0.6.tgz#e607ebb64ac7c2e048aec46b7fc04504b39b382f"
   integrity sha512-1lN/JzPBSglLFk1LjmTkkX5aRUKveoZjKqcdyU+O/3HZGh5faVcHJ3sXems9dMypCNxKoqEhXxgcCHQ7aCl6mg==

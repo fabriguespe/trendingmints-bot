@@ -21,7 +21,7 @@
   "dependencies": {
     "@airstack/node": "^0.0.5",
     "@redis/client": "^1.5.14",
-    "@xmtp/message-kit": "^2.3.2",
+    "@xmtp/message-kit": "^0.0.6",
     "@xmtp/redis-persistence": "^0.0.4",
     "mixpanel": "^0.18.0",
     "node-cron": "^3.0.3"
